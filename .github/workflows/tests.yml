@@ -1,0 +1,11 @@
+name: Tests
+on: [push, pull_request]
+
+jobs:
+  code_sniffer:
+    name: Run Code Quality Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: make install
+      - run: make CQtests
