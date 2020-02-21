@@ -32,6 +32,10 @@ CQtests:
 	vendor/bin/phpcs --ignore=src/Kernel.php src
 	vendor/bin/phpstan analyse --level 6 src
 
+.PHONY: UNITtests ## Test unit
+UNITtests:
+	php bin/phpunit tests
+
 .PHONY: tests-fix ## Fix code
 tests-fix:
 	vendor/bin/phpcbf src
