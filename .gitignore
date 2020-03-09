@@ -54,3 +54,4 @@
 /.symfony.lock
 /.idea
 /.DS_Store
+/.env
