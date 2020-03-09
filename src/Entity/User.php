@@ -24,11 +24,6 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $lastname;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $description;
 
     /**
@@ -69,18 +64,6 @@ class User
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getLastname(): ?string
-    {
-        return $this->lastname;
-    }
-
-    public function setLastname(string $lastname): self
-    {
-        $this->lastname = $lastname;
 
         return $this;
     }
