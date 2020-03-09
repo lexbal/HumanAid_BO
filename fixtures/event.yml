@@ -1,0 +1,8 @@
+App\Entity\Event:
+  event{1..10}:
+    title: "<realText(80)>"
+    description: "<realText(240)>"
+    start_date: "<dateTimeBetween('2019-12-01', '2019-12-31')>"
+    end_date: "<dateTimeBetween('2020-01-01', '2020-01-31')>"
+    publish_date: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
+    rating: "<numberBetween(0,5)>"
