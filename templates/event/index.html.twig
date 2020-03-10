@@ -1,45 +1,67 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Event index{% endblock %}
+{% block title %}Event Manager{% endblock %}
 
 {% block body %}
-    <h1>Event</h1>
+    <div class="row-fluid">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: right">
+            <a class="btn btn-success" href="{{ path('event_new') }}">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Ajouter
+            </a>
+        </div>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Start_date</th>
-                <th>End_date</th>
-                <th>Publish_date</th>
-                <th>Rating</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for event in events %}
-            <tr>
-                <td>{{ event.id }}</td>
-                <td>{{ event.title }}</td>
-                <td>{{ event.description }}</td>
-                <td>{{ event.startDate ? event.startDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ event.publishDate ? event.publishDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ event.rating }}</td>
-                <td>
-                    <a href="{{ path('event_show', {'id': event.id}) }}">show</a>
-                    <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="row-fluid">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Date de publication</th>
+                    <th>Association</th>
+                    <th>Note</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for event in events %}
+                    <tr>
+                        <td>{{ event.id }}</td>
+                        <td>{{ event.title }}</td>
+                        <td>{{ event.description }}</td>
+                        <td>{{ event.startDate ? event.startDate|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ event.publishDate ? event.publishDate|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ event.owner ? event.owner.name : '' }}</td>
+                        <td>{{ event.rating }}</td>
+                        <td>
+                            <a class="btn btn-info" href="{{ path('event_show', {'id': event.id}) }}" style="width: 100%">
+                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Voir
+                            </a>
+                            <a class="btn btn-primary" href="{{ path('event_edit', {'id': event.id}) }}" style="width: 100%">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Modifier
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">Aucun événements trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    <a href="{{ path('event_new') }}">Create new</a>
+    <div class="row-fluid">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: right">
+            <a class="btn btn-success" href="{{ path('event_new') }}">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Ajouter
+            </a>
+        </div>
+    </div>
 {% endblock %}

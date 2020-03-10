@@ -3,44 +3,51 @@
 {% block title %}Event{% endblock %}
 
 {% block body %}
-    <h1>Event</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ event.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ event.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ event.description }}</td>
-            </tr>
-            <tr>
-                <th>Start_date</th>
-                <td>{{ event.startDate ? event.startDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>End_date</th>
-                <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Publish_date</th>
-                <td>{{ event.publishDate ? event.publishDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Rating</th>
-                <td>{{ event.rating }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('event_index') }}">back to list</a>
-
-    <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
-
-    {{ include('event/_delete_form.html.twig') }}
+    <div class="row">
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+            <a class="btn btn-light" href="{{ path('event_index') }}">Retour</a>
+        </div>
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="text-align: right">
+            <a class="btn btn-primary" href="{{ path('event_edit', {'id': event.id}) }}">Modifier</a>
+        </div>
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="text-align: right">
+            {{ include('event/_delete_form.html.twig') }}
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>ID</th>
+                    <td>{{ event.id }}</td>
+                </tr>
+                <tr>
+                    <th>Titre</th>
+                    <td>{{ event.title }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ event.description }}</td>
+                </tr>
+                <tr>
+                    <th>Date de début</th>
+                    <td>{{ event.startDate ? event.startDate|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Date de fin</th>
+                    <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Date de publication</th>
+                    <td>{{ event.publishDate ? event.publishDate|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Note</th>
+                    <td>{{ event.rating }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
