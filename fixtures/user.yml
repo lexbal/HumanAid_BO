@@ -1,0 +1,21 @@
+App\Entity\User:
+  user-{1..10}:
+    name: <company()>
+    description: <firstname()>
+    status: <lastname()>
+    location: <city()>
+    website: <url()>
+    email: <email()>
+    roles: ['ROLE_USER']
+    password: <passwordGenerator(user)>
+
+  admin-1:
+    name: <company()>
+    description: <firstname()>
+    status: <lastname()>
+    location: <city()>
+    website: <url()>
+    email: <email()>
+    roles: ['ROLE_ADMIN']
+    password: <passwordGenerator(admin)>
+    
