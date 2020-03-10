@@ -1,6 +1,7 @@
 App\Entity\User:
   user-{1..10}:
     name: <company()>
+    username: <userName()>
     description: <firstname()>
     status: <lastname()>
     location: <city()>
@@ -11,6 +12,7 @@ App\Entity\User:
 
   admin-1:
     name: <company()>
+    username: <userName()>
     description: <firstname()>
     status: <lastname()>
     location: <city()>
