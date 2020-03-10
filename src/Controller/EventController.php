@@ -31,15 +31,17 @@ class EventController extends AbstractController
      * @Route("/new", name="event_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
+     * @throws \Exception
      */
     public function new(Request $request): Response
     {
         $event = new Event();
-        $form = $this->createForm(EventType::class, $event);
+        $form  = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $event->setPublishDate(new \DateTime());
             $entityManager->persist($event);
             $entityManager->flush();
 

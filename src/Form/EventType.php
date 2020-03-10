@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use App\Entity\User;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\{
     DateTimeType, IntegerType,
@@ -10,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\{
 };
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 
@@ -56,11 +60,21 @@ class EventType extends AbstractType
                 'label'       => 'Note :',
                 'required'    => true,
                 'attr'        => [
-                    'class'   => 'form-control'
+                    'class'   => 'form-control',
+                    'min'     => '0',
+                    'max'     => '5',
                 ],
-                'constraints' => [
-                    new NotBlank(),
+            ])->add('owner', EntityType ::class, [
+                'label'        => 'Association :',
+                'class'        => User::class,
+                'choice_label' => 'name',
+                'attr'         => [
+                    'class'    => 'form-control'
                 ],
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                              ->where("'ROLE_ASSOC' = u.roles");
+                },
             ])
         ;
     }

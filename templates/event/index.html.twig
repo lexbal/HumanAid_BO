@@ -13,7 +13,7 @@
 
     <div class="row-fluid">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <table class="table">
+            <table class="table table-global">
                 <thead>
                 <tr>
                     <th>ID</th>
@@ -38,11 +38,11 @@
                         <td>{{ event.publishDate ? event.publishDate|date('Y-m-d H:i:s') : '' }}</td>
                         <td>{{ event.owner ? event.owner.name : '' }}</td>
                         <td>{{ event.rating }}</td>
-                        <td>
-                            <a class="btn btn-info" href="{{ path('event_show', {'id': event.id}) }}" style="width: 100%">
+                        <td class="actions">
+                            <a class="btn btn-info" href="{{ path('event_show', {'id': event.id}) }}" style="width: 50%;display:inline;">
                                 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Voir
                             </a>
-                            <a class="btn btn-primary" href="{{ path('event_edit', {'id': event.id}) }}" style="width: 100%">
+                            <a class="btn btn-primary" href="{{ path('event_edit', {'id': event.id}) }}" style="width: 50%;display:inline">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Modifier
                             </a>
                         </td>

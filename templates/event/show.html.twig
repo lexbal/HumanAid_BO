@@ -46,6 +46,10 @@
                     <th>Note</th>
                     <td>{{ event.rating }}</td>
                 </tr>
+                <tr>
+                    <th>Association</th>
+                    <td>{{ event.owner ? event.owner.name : '' }}</td>
+                </tr>
                 </tbody>
             </table>
         </div>
