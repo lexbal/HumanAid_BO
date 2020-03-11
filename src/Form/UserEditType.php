@@ -11,11 +11,10 @@ use Symfony\Component\Validator\Constraints\{
 };
 use Symfony\Component\Form\Extension\Core\Type\{
     ChoiceType, TextType,
-    RepeatedType, EmailType,
-    PasswordType
+    EmailType
 };
 
-class UserType extends AbstractType
+class UserEditType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -102,21 +101,6 @@ class UserType extends AbstractType
                     'Entreprise' => 'ROLE_COMP'
                 ]
             ])
-            ->add('password', RepeatedType::class, array(
-                'type' => PasswordType:: class,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'You have to write an password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Votre mot de passe doit contenir {{ limit }} caractères',
-                        'max' => 4096,
-                    ]),
-                ],
-                'first_options' => array('label' => 'Mot de passe* : '),
-                'second_options' => array('label' => 'Confirmation Mot de passe* : '),)
-            )
             ;
     }
 

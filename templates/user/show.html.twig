@@ -28,6 +28,10 @@
                 <td>{{ user.status }}</td>
             </tr>
             <tr>
+                <th>Siret</th>
+                <td>{{ user.siret }}</td>
+            </tr>
+            <tr>
                 <th>Location</th>
                 <td>{{ user.location }}</td>
             </tr>
@@ -40,8 +44,10 @@
                 <td>{{ user.email }}</td>
             </tr>
             <tr>
-            {% if 'ROLE_USER' in user.roles %}
-                {% set roles = 'User' %}
+            {% if 'ROLE_ASSOC' in user.roles %}
+                {% set roles = 'Association' %}
+            {% elseif 'ROLE_COMP' in user.roles %}
+                {% set roles = 'Entreprise' %}
             {% elseif 'ROLE_ADMIN' in user.roles %}
                 {% set roles = 'Admin' %}
             {% endif %}

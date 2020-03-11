@@ -3,6 +3,7 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
+ {% set roles = '' %}
     <h1>User index</h1>
 
     <table class="table table-global">
@@ -13,6 +14,7 @@
                 <th>Username</th>
                 <th>Description</th>
                 <th>Status</th>
+                <th>Siret</th>
                 <th>Location</th>
                 <th>Website</th>
                 <th>Email</th>
@@ -22,8 +24,10 @@
         </thead>
         <tbody>
         {% for user in users %}
-        {% if 'ROLE_USER' in user.roles %}
-            {% set roles = 'User' %}
+        {% if 'ROLE_ASSOC' in user.roles %}
+            {% set roles = 'Association' %}
+        {% elseif 'ROLE_COMP' in user.roles %}
+            {% set roles = 'Entreprise' %}
         {% elseif 'ROLE_ADMIN' in user.roles %}
             {% set roles = 'Admin' %}
         {% endif %}
@@ -33,6 +37,7 @@
                 <td>{{ user.username }}</td>
                 <td>{{ user.description }}</td>
                 <td>{{ user.status }}</td>
+                <td>{{ user.siret }}</td>
                 <td>{{ user.location }}</td>
                 <td>{{ user.website }}</td>
                 <td>{{ user.email }}</td>

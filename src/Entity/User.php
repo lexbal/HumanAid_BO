@@ -38,6 +38,11 @@ class User implements UserInterface
     private $status;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $siret;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $location;
@@ -61,6 +66,8 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $password;
+
+    
 
     public function getId(): ?int
     {
@@ -187,6 +194,18 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getSiret(): ?int
+    {
+        return $this->siret;
+    }
+
+    public function setSiret(int $siret): self
+    {
+        $this->siret = $siret;
 
         return $this;
     }
