@@ -1,5 +1,5 @@
 App\Entity\User:
-  user-{1..10}:
+  assoc-{1..5}:
     name: <company()>
     username: <userName()>
     description: <firstname()>
@@ -7,8 +7,21 @@ App\Entity\User:
     location: <city()>
     website: <url()>
     email: <email()>
-    roles: ['ROLE_USER']
-    password: <passwordGenerator(user)>
+    roles: ['ROLE_ASSOC']
+    password: <passwordGenerator(assoc)>
+    siret: <numberBetween(10000000000000, 99999999999999)>
+
+  comp-{1..5}:
+    name: <company()>
+    username: <userName()>
+    description: <firstname()>
+    status: <lastname()>
+    location: <city()>
+    website: <url()>
+    email: <email()>
+    roles: ['ROLE_COMP']
+    password: <passwordGenerator(comp)>
+    siret: <numberBetween(10000000000000, 99999999999999)>
 
   admin-1:
     name: <company()>
