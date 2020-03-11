@@ -3,6 +3,8 @@
 /**
  * UserType class file
  *
+ * PHP Version 7.1
+ *
  * @category UserType
  * @package  UserType
  * @author   HumanAid <contact.humanaid@gmail.com>
@@ -26,8 +28,15 @@ use Symfony\Component\Form\Extension\Core\Type\{
 };
 
 /**
- * Class UserType
- * @package App\Form
+ * UserType class
+ *
+ * The class holding the root UserType class definition
+ *
+ * @category UserType
+ * @package  UserType
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  */
 class UserType extends AbstractType
 {

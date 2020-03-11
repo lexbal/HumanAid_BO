@@ -3,6 +3,8 @@
 /**
  * EventType class file
  *
+ * PHP Version 7.1
+ *
  * @category EventType
  * @package  EventType
  * @author   HumanAid <contact.humanaid@gmail.com>
@@ -27,9 +29,15 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 
 /**
- * Class EventType
- * @package App\Form
+ * EventType class
  *
+ * The class holding the root EventType class definition
+ *
+ * @category EventType
+ * @package  EventType
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  */
 class EventType extends AbstractType
 {

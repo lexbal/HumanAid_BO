@@ -3,6 +3,8 @@
 /**
  * UserEditType class file
  *
+ * PHP Version 7.1
+ *
  * @category UserEditType
  * @package  UserEditType
  * @author   HumanAid <contact.humanaid@gmail.com>
@@ -25,8 +27,15 @@ use Symfony\Component\Form\Extension\Core\Type\{
 };
 
 /**
- * Class UserEditType
- * @package App\Form
+ * UserEditType class
+ *
+ * The class holding the root UserEditType class definition
+ *
+ * @category UserEditType
+ * @package  UserEditType
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  */
 class UserEditType extends AbstractType
 {

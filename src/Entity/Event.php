@@ -3,6 +3,8 @@
 /**
  * Event class file
  *
+ * PHP Version 7.1
+ *
  * @category Event
  * @package  Event
  * @author   HumanAid <contact.humanaid@gmail.com>
@@ -17,7 +19,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
+ * Event class
+ *
+ * The class holding the root Event class definition
+ *
+ * @category Event
+ * @package  Event
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  */
 class Event
 {

@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * PasswordProvider class file
+ *
+ * PHP Version 7.1
+ *
+ * @category PasswordProvider
+ * @package  PasswordProvider
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
+ */
+
 namespace App\Faker\Provider;
 
 use App\Entity\User;
@@ -8,8 +20,15 @@ use Faker\Provider\Base as BaseProvider;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * Class PasswordProvider
- * @package App\Faker\Provider
+ * PasswordProvider class
+ *
+ * The class holding the root PasswordProvider class definition
+ *
+ * @category PasswordProvider
+ * @package  PasswordProvider
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  */
 final class PasswordProvider extends BaseProvider
 {

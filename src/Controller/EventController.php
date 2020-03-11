@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * EventController class file
+ *
+ * PHP Version 7.1
+ *
+ * @category EventController
+ * @package  EventController
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
+ */
+
 namespace App\Controller;
 
 use App\Entity\Event;
@@ -11,6 +23,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * EventController class
+ *
+ * The class holding the root EventController class definition
+ *
+ * @category EventController
+ * @package  EventController
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  * @Route("/event")
  */
 class EventController extends AbstractController

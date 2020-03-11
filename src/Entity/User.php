@@ -3,6 +3,8 @@
 /**
  * User class file
  *
+ * PHP Version 7.1
+ *
  * @category User
  * @package  User
  * @author   HumanAid <contact.humanaid@gmail.com>
@@ -16,8 +18,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Class User
- * @package App\Entity
+ * User class
+ *
+ * The class holding the root User class definition
+ *
+ * @category User
+ * @package  User
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  */
 class User implements UserInterface
 {

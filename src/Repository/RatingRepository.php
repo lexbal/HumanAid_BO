@@ -3,6 +3,8 @@
 /**
  * RatingRepository class file
  *
+ * PHP Version 7.1
+ *
  * @category RatingRepository
  * @package  RatingRepository
  * @author   HumanAid <contact.humanaid@gmail.com>
@@ -17,10 +19,15 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Rating|null find($id, $lockMode = null, $lockVersion = null)
- * @method Rating|null findOneBy(array $criteria, array $orderBy = null)
- * @method Rating[]    findAll()
- * @method Rating[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * RatingRepository class
+ *
+ * The class holding the root RatingRepository class definition
+ *
+ * @category RatingRepository
+ * @package  RatingRepository
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  */
 class RatingRepository extends ServiceEntityRepository
 {

@@ -3,6 +3,8 @@
 /**
  * RatingType class file
  *
+ * PHP Version 7.1
+ *
  * @category RatingType
  * @package  RatingType
  * @author   HumanAid <contact.humanaid@gmail.com>
@@ -25,8 +27,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Class RatingType
- * @package App\Form
+ * RatingType class
+ *
+ * The class holding the root RatingType class definition
+ *
+ * @category RatingType
+ * @package  RatingType
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  */
 class RatingType extends AbstractType
 {
