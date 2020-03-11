@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Rating index{% endblock %}
+{% block title %}Commentaires{% endblock %}
 
 {% block body %}
     <div class="row-fluid">
@@ -19,6 +19,7 @@
                         <th>ID</th>
                         <th>Note</th>
                         <th>Commentaire</th>
+                        <th>Date de publication</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -28,11 +29,12 @@
                         <td>{{ rating.id }}</td>
                         <td>{{ rating.rating }}</td>
                         <td>{{ rating.comment }}</td>
+                        <td>{{ rating.publishDate ? rating.publishDate|date('Y-m-d H:i:s') : '' }}</td>
                         <td class="actions">
-                            <a class="btn btn-info" href="{{ path('rating_show', {'id': event.id}) }}" style="width: 50%;display:inline;">
+                            <a class="btn btn-info" href="{{ path('rating_show', {'id': rating.id}) }}" style="width: 50%;display:inline;">
                                 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Voir
                             </a>
-                            <a class="btn btn-primary" href="{{ path('rating_edit', {'id': event.id}) }}" style="width: 50%;display:inline">
+                            <a class="btn btn-primary" href="{{ path('rating_edit', {'id': rating.id}) }}" style="width: 50%;display:inline">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Modifier
                             </a>
                         </td>

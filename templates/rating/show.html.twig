@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Rating{% endblock %}
+{% block title %}Commentaire{% endblock %}
 
 {% block body %}
     <div class="row">
@@ -30,6 +30,18 @@
                     <tr>
                         <th>Commentaire</th>
                         <td>{{ rating.comment }}</td>
+                    </tr>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <td>{{ rating.user.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>Evenement</th>
+                        <td>{{ rating.event.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date de publication</th>
+                        <td>{{ rating.publishDate ? rating.publishDate|date('Y-m-d H:i:s') : '' }}</td>
                     </tr>
                 </tbody>
             </table>

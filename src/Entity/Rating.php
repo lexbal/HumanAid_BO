@@ -36,6 +36,11 @@ class Rating
      */
     private $comment;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $publish_date;
+
 
     public function getId(): ?int
     {
@@ -93,4 +98,21 @@ class Rating
     {
         $this->comment = $comment;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPublishDate()
+    {
+        return $this->publish_date;
+    }
+
+    /**
+     * @param mixed $publish_date
+     */
+    public function setPublishDate($publish_date): void
+    {
+        $this->publish_date = $publish_date;
+    }
+
 }
