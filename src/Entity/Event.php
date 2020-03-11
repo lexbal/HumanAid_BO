@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Event class file
+ *
+ * @category Event
+ * @package  Event
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
+ */
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -59,12 +69,17 @@ class Event
      */
     private $rating;
 
-
+    /**
+     * Event constructor.
+     */
     public function __construct()
     {
         $this->ratings = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -79,7 +94,7 @@ class Event
     }
 
     /**
-     * @param mixed $title
+     * @param $title
      */
     public function setTitle($title): void
     {
@@ -95,7 +110,7 @@ class Event
     }
 
     /**
-     * @param mixed $description
+     * @param $description
      */
     public function setDescription($description): void
     {
@@ -111,7 +126,7 @@ class Event
     }
 
     /**
-     * @param mixed $owner
+     * @param $owner
      */
     public function setOwner($owner): void
     {
@@ -127,7 +142,7 @@ class Event
     }
 
     /**
-     * @param mixed $start_date
+     * @param $start_date
      */
     public function setStartDate($start_date): void
     {
@@ -143,7 +158,7 @@ class Event
     }
 
     /**
-     * @param mixed $end_date
+     * @param $end_date
      */
     public function setEndDate($end_date): void
     {
@@ -159,7 +174,7 @@ class Event
     }
 
     /**
-     * @param mixed $publish_date
+     * @param $publish_date
      */
     public function setPublishDate($publish_date): void
     {
@@ -167,13 +182,17 @@ class Event
     }
 
     /**
-     * @return Collection|Rating[]
+     * @return Collection
      */
     public function getRatings(): Collection
     {
         return $this->ratings;
     }
 
+    /**
+     * @param Rating $rating
+     * @return $this
+     */
     public function addRating(Rating $rating): self
     {
         if (!$this->ratings->contains($rating)) {
@@ -184,6 +203,10 @@ class Event
         return $this;
     }
 
+    /**
+     * @param Rating $rating
+     * @return $this
+     */
     public function removeRating(Rating $rating): self
     {
         if ($this->ratings->contains($rating)) {
@@ -206,7 +229,7 @@ class Event
     }
 
     /**
-     * @param mixed $rating
+     * @param $rating
      */
     public function setRating($rating): void
     {

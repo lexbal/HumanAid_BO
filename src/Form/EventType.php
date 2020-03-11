@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * EventType class file
+ *
+ * @category EventType
+ * @package  EventType
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
+ */
+
 namespace App\Form;
 
 use App\Entity\Event;
@@ -13,13 +23,13 @@ use Symfony\Component\Form\Extension\Core\Type\{
 };
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 
 /**
  * Class EventType
  * @package App\Form
+ *
  */
 class EventType extends AbstractType
 {

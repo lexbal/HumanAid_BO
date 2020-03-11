@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * RatingRepository class file
+ *
+ * @category RatingRepository
+ * @package  RatingRepository
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
+ */
+
 namespace App\Repository;
 
 use App\Entity\Rating;
@@ -14,6 +24,10 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class RatingRepository extends ServiceEntityRepository
 {
+    /**
+     * RatingRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Rating::class);

@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * EventRepository class file
+ *
+ * @category EventRepository
+ * @package  EventRepository
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
+ */
+
 namespace App\Repository;
 
 use App\Entity\Event;
@@ -14,6 +24,10 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class EventRepository extends ServiceEntityRepository
 {
+    /**
+     * EventRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Event::class);

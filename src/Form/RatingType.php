@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * RatingType class file
+ *
+ * @category RatingType
+ * @package  RatingType
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
+ */
+
 namespace App\Form;
 
 use App\Entity\Event;
@@ -14,12 +24,19 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Class RatingType
+ * @package App\Form
+ */
 class RatingType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('rating', IntegerType::class, [
+        $builder->add('rating', IntegerType::class, [
                 'label'       => 'Note :',
                 'required'    => true,
                 'attr'        => [
@@ -43,8 +60,7 @@ class RatingType extends AbstractType
                 'attr'         => [
                     'class'    => 'form-control'
                 ],
-            ])
-            ->add('event', EntityType ::class, [
+            ])->add('event', EntityType ::class, [
                 'label'        => 'Evenement :',
                 'class'        => Event::class,
                 'choice_label' => 'title',
@@ -55,6 +71,9 @@ class RatingType extends AbstractType
         ;
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

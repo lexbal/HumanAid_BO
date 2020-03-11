@@ -1,12 +1,23 @@
 <?php
 
+/**
+ * User class file
+ *
+ * @category User
+ * @package  User
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
+ */
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * Class User
+ * @package App\Entity
  */
 class User implements UserInterface
 {
@@ -80,16 +91,26 @@ class User implements UserInterface
     private $password;
 
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -97,11 +118,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getUserName(): ?string
     {
         return $this->username;
     }
 
+    /**
+     * @param string $username
+     * @return $this
+     */
     public function setUserName(string $username): self
     {
         $this->username = $username;
@@ -109,11 +137,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @param string $description
+     * @return $this
+     */
     public function setDescription(string $description): self
     {
         $this->description = $description;
@@ -121,11 +156,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getStatus(): ?string
     {
         return $this->status;
     }
 
+    /**
+     * @param string $status
+     * @return $this
+     */
     public function setStatus(string $status): self
     {
         $this->status = $status;
@@ -133,11 +175,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLocation(): ?string
     {
         return $this->location;
     }
 
+    /**
+     * @param string $location
+     * @return $this
+     */
     public function setLocation(string $location): self
     {
         $this->location = $location;
@@ -145,11 +194,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getWebsite(): ?string
     {
         return $this->website;
     }
 
+    /**
+     * @param string $website
+     * @return $this
+     */
     public function setWebsite(string $website): self
     {
         $this->website = $website;
@@ -157,11 +213,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     * @return $this
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -169,11 +232,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return array|null
+     */
     public function getRoles(): ?array
     {
         return $this->roles;
     }
 
+    /**
+     * @param array $roles
+     * @return $this
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -181,6 +251,9 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|void|null
+     */
     public function getSalt()
     {
         // TODO: Implement getSalt() method.
@@ -196,12 +269,19 @@ class User implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getPassword(): ?string
     {
         return $this->password;
     }
 
+    /**
+     * @param string $password
+     * @return $this
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -209,11 +289,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getSiret(): ?int
     {
         return $this->siret;
     }
 
+    /**
+     * @param int $siret
+     * @return $this
+     */
     public function setSiret(int $siret): self
     {
         $this->siret = $siret;

@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * UserRepository class file
+ *
+ * @category UserRepository
+ * @package  UserRepository
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
+ */
+
 namespace App\Repository;
 
 use App\Entity\User;
@@ -14,6 +24,10 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class UserRepository extends ServiceEntityRepository
 {
+    /**
+     * UserRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
