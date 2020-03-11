@@ -23,10 +23,18 @@ start:
 	php bin/console doctrine:database:create --if-not-exists
 	php bin/console doctrine:migration:migrate
 
-.PHONY: tests ## Test the validity of your code
-tests:
-	vendor/bin/phpcs src
+.PHONY: install ## Install dependencies
+install:
+	composer install
+
+.PHONY: CQtests ## Test the validity of your code
+CQtests:
+	vendor/bin/phpcs --ignore=src/Kernel.php src
 	vendor/bin/phpstan analyse --level 6 src
+
+.PHONY: UNITtests ## Test unit
+UNITtests:
+	php bin/phpunit tests
 
 .PHONY: tests-fix ## Fix code
 tests-fix:
