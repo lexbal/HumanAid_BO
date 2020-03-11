@@ -40,6 +40,10 @@ class EventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if(!$this->isCsrfTokenValid('registration_item', $request->request->get('registration_form')['_token'])) {
+                throw new AccessDeniedException('Formulaire invalide');
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $event->setPublishDate(new \DateTime());
             $entityManager->persist($event);
@@ -78,6 +82,10 @@ class EventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if(!$this->isCsrfTokenValid('registration_item', $request->request->get('registration_form')['_token'])) {
+                throw new AccessDeniedException('Formulaire invalide');
+            }
+            
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('event_index');

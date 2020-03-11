@@ -94,6 +94,10 @@
     </div>
 {{ form_end(form) }}
 
+<input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+
     <a href="{{ path('user_index') }}">back to list</a>
 
     {{ include('user/_delete_form.html.twig') }}

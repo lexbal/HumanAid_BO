@@ -13,5 +13,8 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             {{ include('event/_form.html.twig') }}
         </div>
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
     </div>
 {% endblock %}

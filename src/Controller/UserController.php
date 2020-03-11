@@ -37,6 +37,10 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if(!$this->isCsrfTokenValid('registration_item', $request->request->get('registration_form')['_token'])) {
+                throw new AccessDeniedException('Formulaire invalide');
+            }
+            
             $user->setPassword(
                 $encoder->encodePassword(
                     $user,
@@ -75,6 +79,10 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if(!$this->isCsrfTokenValid('registration_item', $request->request->get('registration_form')['_token'])) {
+                throw new AccessDeniedException('Formulaire invalide');
+            }
+
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('user_index');
         }
