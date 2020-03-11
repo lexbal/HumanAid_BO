@@ -17,10 +17,35 @@
         {% endblock %}
     </head>
     <body>
-        {% include "partials/header.html.twig" %}
-        <div class="container" style="margin-top: 70px">
-            {% block body %}{% endblock %}
-        </div>
+        <form method="post" style="margin-top: 13%">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            <div class="card" style="width: 30%;margin: auto;">
+                <div class="card-header">
+                    Authentification
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="inputEmail">Email</label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Mot de passe</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control" required>
+                    </div>
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
+                </div>
+                <div class="card-footer text-right">
+                    <button class="btn btn-primary" type="submit">
+                        Valider
+                    </button>
+                </div>
+            </div>
+        </form>
         {% block javascripts %}
             <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
                     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

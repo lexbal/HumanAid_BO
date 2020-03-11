@@ -1,0 +1,96 @@
+{{ form_start(form) }}
+    {{ form_row(form._token) }}
+    {{ form_errors(form) }}
+    <div class="form-group">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+        {% if form_errors(form.name) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.name) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.username) }}
+        {{ form_widget(form.username) }}
+        {% if form_errors(form.username) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.username) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+        {% if form_errors(form.description) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.description) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.status) }}
+        {{ form_widget(form.status) }}
+        {% if form_errors(form.status) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.status) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.siret) }}
+        {{ form_widget(form.siret) }}
+        {% if form_errors(form.siret) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.siret) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.location) }}
+        {{ form_widget(form.location) }}
+        {% if form_errors(form.location) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.location) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.website) }}
+        {{ form_widget(form.website) }}
+        {% if form_errors(form.website) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.website) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email) }}
+        {% if form_errors(form.email) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.email) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.roles) }}
+        {{ form_widget(form.roles) }}
+        {% if form_errors(form.roles) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.roles) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form_widget(form.password) }}
+        {% if form_errors(form.password) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.password) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+    </div>
+{{ form_end(form, {'render_rest': false}) }}

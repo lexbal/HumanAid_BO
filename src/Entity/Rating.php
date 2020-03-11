@@ -18,11 +18,13 @@ class Rating
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ratings")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="ratings")
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $event;
 
