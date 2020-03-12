@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * UserController class
@@ -74,11 +75,24 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$this->isCsrfTokenValid(
+                'user_item',
+                $request->request->get('user')['_token']
+            )
+            ) {
+                throw new AccessDeniedException('Formulaire invalide');
+            }
+
             $user->setPassword(
                 $encoder->encodePassword(
                     $user,
                     $form->get('password')->getData()
                 )
+            );
+            $user->setRoles(
+                [
+                    $form->get('roles')->getData()['__name__']
+                ]
             );
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -132,6 +146,14 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$this->isCsrfTokenValid(
+                'user_edit_item',
+                $request->request->get('user_edit')['_token']
+            )
+            ) {
+                throw new AccessDeniedException('Formulaire invalide');
+            }
+
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('user_index');
         }

@@ -22,8 +22,12 @@ use Symfony\Component\Validator\Constraints\{
     NotBlank, Length
 };
 use Symfony\Component\Form\Extension\Core\Type\{
-    ChoiceType, TextType,
-    RepeatedType, EmailType,
+    ChoiceType,
+    CollectionType,
+    TextareaType,
+    TextType,
+    RepeatedType,
+    EmailType,
     PasswordType
 };
 
@@ -73,7 +77,7 @@ class UserType extends AbstractType
                 ]
             ]
         )->add(
-            'description', TextType::class, [
+            'description', TextareaType::class, [
                 'label'     =>  'Description :',
                 'required'  =>  false,
                 'attr'      =>  [
@@ -134,14 +138,21 @@ class UserType extends AbstractType
                 ]
             ]
         )->add(
-            'roles', ChoiceType::class, [
-                'label'      => 'Role :',
-                'required'   => true,
-                'attr'       => [
-                    'class'  => 'form-control'
-                ],
-                'choices'    => $this->getChoices(),
-                'data'       => User::ROLE_USER
+            'roles', CollectionType::class, [
+                'label'          => "Roles :",
+                'allow_add'      => true,
+                'prototype'      => true,
+                'entry_type'     => ChoiceType::class,
+                'entry_options'  => [
+                    'label'      => false,
+                    'required'   => true,
+                    'multiple'   => false,
+                    'attr'       => [
+                        'class'  => 'form-control'
+                    ],
+                    'choices'    => $this->getChoices(),
+                    'data'       => User::ROLE_USER
+                ]
             ]
         )->add(
             'password', RepeatedType::class, [
@@ -204,7 +215,10 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => User::class,
+                'data_class'      => User::class,
+                'csrf_protection' => true,
+                'csrf_field_name' => '_token',
+                'csrf_token_id'   => 'user_item',
             ]
         );
     }

@@ -21,6 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * RatingController class
@@ -70,6 +71,14 @@ class RatingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$this->isCsrfTokenValid(
+                'rating_item',
+                $request->request->get('rating')['_token']
+            )
+            ) {
+                throw new AccessDeniedException('Formulaire invalide');
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($rating);
             $entityManager->flush();
@@ -119,6 +128,14 @@ class RatingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$this->isCsrfTokenValid(
+                'rating_item',
+                $request->request->get('rating')['_token']
+            )
+            ) {
+                throw new AccessDeniedException('Formulaire invalide');
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('rating_index');

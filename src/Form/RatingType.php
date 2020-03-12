@@ -102,7 +102,10 @@ class RatingType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => Rating::class,
+                'data_class'      => Rating::class,
+                'csrf_protection' => true,
+                'csrf_field_name' => '_token',
+                'csrf_token_id'   => 'rating_item',
             ]
         );
     }

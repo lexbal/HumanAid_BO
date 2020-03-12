@@ -105,7 +105,7 @@ class EventType extends AbstractType
                 ],
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
-                        ->where("'ROLE_ASSOC' = u.roles");
+                        ->where("'[\"ROLE_ASSOC\"]' = u.roles");
                 },
             ]
         );
@@ -122,7 +122,10 @@ class EventType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => Event::class,
+                'data_class'      => Event::class,
+                'csrf_protection' => true,
+                'csrf_field_name' => '_token',
+                'csrf_token_id'   => 'event_item',
             ]
         );
     }

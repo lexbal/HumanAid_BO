@@ -20,7 +20,7 @@ App\Entity\User:
     email: <email()>
     roles: ['ROLE_ASSOC']
     password: <passwordGenerator(assoc)>
-    siret: <numberBetween(100000000, 999999999)>
+    siret: <numberBetween(10000000000000, 99999999999999)>
 
   comp-{1..5}:
     name: <company()>
@@ -32,7 +32,7 @@ App\Entity\User:
     email: <email()>
     roles: ['ROLE_COMP']
     password: <passwordGenerator(comp)>
-    siret: <numberBetween(100000000, 999999999)>
+    siret: <numberBetween(10000000000000, 99999999999999)>
 
   admin-1:
     name: <company()>

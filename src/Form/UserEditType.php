@@ -22,8 +22,8 @@ use Symfony\Component\Validator\Constraints\{
     NotBlank, Length
 };
 use Symfony\Component\Form\Extension\Core\Type\{
-    ChoiceType, TextType,
-    EmailType
+    ChoiceType, CollectionType, TextareaType,
+    TextType, EmailType
 };
 
 /**
@@ -72,7 +72,7 @@ class UserEditType extends AbstractType
                 ]
             ]
         )->add(
-            'description', TextType::class, [
+            'description', TextareaType::class, [
                 'label' =>  'Description :',
                 'required'  =>  false,
                 'attr'  =>  [
@@ -133,14 +133,19 @@ class UserEditType extends AbstractType
                 ]
             ]
         )->add(
-            'roles', ChoiceType::class, [
-                'label'      => 'Role :',
-                'required'   => true,
-                'attr'       => [
-                    'class'  => 'form-control'
-                ],
-                'choices'    => $this->getChoices(),
-                'data'       => $options["data"]->getRoles()[0]
+            'roles', CollectionType::class, [
+                'label'          => "Roles :",
+                'entry_type'     => ChoiceType::class,
+                'entry_options'  => [
+                    'label'      => false,
+                    'required'   => true,
+                    'multiple'   => false,
+                    'attr'       => [
+                        'class'  => 'form-control'
+                    ],
+                    'choices'    => $this->getChoices(),
+                    'data'       => $options["data"]->getRoles()[0]
+                ]
             ]
         );
     }
@@ -172,7 +177,10 @@ class UserEditType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => User::class,
+                'data_class'      => User::class,
+                'csrf_protection' => true,
+                'csrf_field_name' => '_token',
+                'csrf_token_id'   => 'user_edit_item',
             ]
         );
     }

@@ -75,10 +75,10 @@
     </div>
     <div class="form-group">
         {{ form_label(form.roles) }}
-        {{ form_widget(form.roles) }}
-        {% if form_errors(form.roles) %}
+        {{ form_widget(form.roles.vars.prototype) }}
+        {% if form_errors(form.roles.vars.prototype) %}
             <div class="alert alert-danger" role="alert">
-                {{ form_errors(form.roles) }}
+                {{ form_errors(form.roles.vars.prototype) }}
             </div>
         {% endif %}
     </div>

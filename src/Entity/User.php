@@ -84,7 +84,7 @@ class User implements UserInterface
     /**
      * Siret attribute
      *
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $siret;
 
