@@ -4,56 +4,69 @@
 
 {% block body %}
  {% set roles = '' %}
-    <h1>User index</h1>
-
-    <table class="table table-global">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Username</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Siret</th>
-                <th>Location</th>
-                <th>Website</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-        {% if 'ROLE_ASSOC' in user.roles %}
-            {% set roles = 'Association' %}
-        {% elseif 'ROLE_COMP' in user.roles %}
-            {% set roles = 'Entreprise' %}
-        {% elseif 'ROLE_ADMIN' in user.roles %}
-            {% set roles = 'Admin' %}
-        {% endif %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.description }}</td>
-                <td>{{ user.status }}</td>
-                <td>{{ user.siret }}</td>
-                <td>{{ user.location }}</td>
-                <td>{{ user.website }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ roles }}</td>
-                <td class="action">
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="11">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('user_new') }}">Create new</a>
+    <div class="row-fluid">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: right">
+            <a class="btn btn-success" href="{{ path('user_new') }}">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Ajouter
+            </a>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <table class="table table-global">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Siret</th>
+                        <th>Location</th>
+                        <th>Website</th>
+                        <th>Email</th>
+                        <th>Roles</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                {% if 'ROLE_ASSOC' in user.roles %}
+                    {% set roles = 'Association' %}
+                {% elseif 'ROLE_COMP' in user.roles %}
+                    {% set roles = 'Entreprise' %}
+                {% elseif 'ROLE_ADMIN' in user.roles %}
+                    {% set roles = 'Admin' %}
+                {% elseif 'ROLE_USER' in user.roles %}
+                    {% set roles = 'Utilisateur' %}
+                {% endif %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.description }}</td>
+                        <td>{{ user.status }}</td>
+                        <td>{{ user.siret }}</td>
+                        <td>{{ user.location }}</td>
+                        <td>{{ user.website }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ roles }}</td>
+                        <td class="actions">
+                            <a class="btn btn-info" href="{{ path('user_show', {'id': user.id}) }}" style="width: 50%;display:inline;">
+                                Voir
+                            </a>
+                            <a class="btn btn-primary" href="{{ path('user_edit', {'id': user.id}) }}" style="width: 50%;display:inline">
+                                Modifier
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="11">Aucun utilisateurs trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
