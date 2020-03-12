@@ -40,12 +40,17 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class RatingType extends AbstractType
 {
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * Build a form for rating/comment
+     *
+     * @param FormBuilderInterface $builder build the form
+     * @param array                $options got options
+     *
+     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('rating', IntegerType::class, [
+        $builder->add(
+            'rating', IntegerType::class, [
                 'label'       => 'Note :',
                 'required'    => true,
                 'attr'        => [
@@ -53,7 +58,9 @@ class RatingType extends AbstractType
                     'min'     => '0',
                     'max'     => '5',
                 ],
-            ])->add('comment', TextareaType::class, [
+            ]
+        )->add(
+            'comment', TextareaType::class, [
                 'label'       => 'Commentaire :',
                 'required'    => true,
                 'attr'        => [
@@ -62,31 +69,41 @@ class RatingType extends AbstractType
                 'constraints' => [
                     new NotBlank()
                 ]
-            ])->add('user', EntityType ::class, [
+            ]
+        )->add(
+            'user', EntityType ::class, [
                 'label'        => 'Utilisateur :',
                 'class'        => User::class,
                 'choice_label' => 'username',
                 'attr'         => [
                     'class'    => 'form-control'
                 ],
-            ])->add('event', EntityType ::class, [
+            ]
+        )->add(
+            'event', EntityType ::class, [
                 'label'        => 'Evenement :',
                 'class'        => Event::class,
                 'choice_label' => 'title',
                 'attr'         => [
                     'class'    => 'form-control'
                 ],
-            ])
-        ;
+            ]
+        );
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * Configure form
+     *
+     * @param OptionsResolver $resolver set default parameters
+     *
+     * @return void
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => Rating::class,
-        ]);
+            ]
+        );
     }
 }

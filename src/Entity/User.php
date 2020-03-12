@@ -22,11 +22,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * The class holding the root User class definition
  *
- * @category User
- * @package  User
- * @author   HumanAid <contact.humanaid@gmail.com>
- * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     http://example.com/
+ * @category                                                    User
+ * @package                                                     User
+ * @author                                                      HumanAid <contact.humanaid@gmail.com>
+ * @license                                                     http://opensource.org/licenses/gpl-license.php GPL
+ * @link                                                        http://example.com/
+ * @ORM\Table(name="user")
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User implements UserInterface
 {
@@ -43,6 +45,8 @@ class User implements UserInterface
     ];
 
     /**
+     * ID attribute
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -50,57 +54,79 @@ class User implements UserInterface
     private $id;
 
     /**
+     * Name attribute
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * Username attribute
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $username;
 
     /**
+     * Description attribute
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $description;
 
     /**
+     * Status attribute
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $status;
 
     /**
+     * Siret attribute
+     *
      * @ORM\Column(type="integer", nullable=true)
      */
     private $siret;
 
     /**
+     * Location attribute
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $location;
 
     /**
+     * Website attribute
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $website;
 
     /**
+     * Email attribute
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $email;
 
     /**
+     * Roles attribute
+     *
      * @ORM\Column(type="json")
      */
     private $roles = [];
 
     /**
+     * Password attribute
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $password;
 
 
     /**
+     * ID Getter
+     *
      * @return int|null
      */
     public function getId(): ?int
@@ -109,6 +135,8 @@ class User implements UserInterface
     }
 
     /**
+     * Name Getter
+     *
      * @return string|null
      */
     public function getName(): ?string
@@ -117,7 +145,10 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $name
+     * Name Setter
+     *
+     * @param string $name Name
+     *
      * @return $this
      */
     public function setName(string $name): self
@@ -128,6 +159,8 @@ class User implements UserInterface
     }
 
     /**
+     * Username Getter
+     *
      * @return string|null
      */
     public function getUserName(): ?string
@@ -136,7 +169,10 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $username
+     * Username Setter
+     *
+     * @param string $username Username
+     *
      * @return $this
      */
     public function setUserName(string $username): self
@@ -147,6 +183,8 @@ class User implements UserInterface
     }
 
     /**
+     * Description Getter
+     *
      * @return string|null
      */
     public function getDescription(): ?string
@@ -155,7 +193,10 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $description
+     * Description Setter
+     *
+     * @param string $description Description
+     *
      * @return $this
      */
     public function setDescription(string $description): self
@@ -166,6 +207,8 @@ class User implements UserInterface
     }
 
     /**
+     * Status Getter
+     *
      * @return string|null
      */
     public function getStatus(): ?string
@@ -174,7 +217,10 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $status
+     * Status Setter
+     *
+     * @param string $status Status
+     *
      * @return $this
      */
     public function setStatus(string $status): self
@@ -185,6 +231,8 @@ class User implements UserInterface
     }
 
     /**
+     * Location Getter
+     *
      * @return string|null
      */
     public function getLocation(): ?string
@@ -193,7 +241,10 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $location
+     * Location Setter
+     *
+     * @param string $location Location
+     *
      * @return $this
      */
     public function setLocation(string $location): self
@@ -204,6 +255,8 @@ class User implements UserInterface
     }
 
     /**
+     * Website Getter
+     *
      * @return string|null
      */
     public function getWebsite(): ?string
@@ -212,7 +265,10 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $website
+     * Website Setter
+     *
+     * @param string $website Website
+     *
      * @return $this
      */
     public function setWebsite(string $website): self
@@ -223,6 +279,8 @@ class User implements UserInterface
     }
 
     /**
+     * Email Getter
+     *
      * @return string|null
      */
     public function getEmail(): ?string
@@ -231,7 +289,10 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $email
+     * Email Setter
+     *
+     * @param string $email Email
+     *
      * @return $this
      */
     public function setEmail(string $email): self
@@ -242,6 +303,8 @@ class User implements UserInterface
     }
 
     /**
+     * Roles Getter
+     *
      * @return array|null
      */
     public function getRoles(): ?array
@@ -250,7 +313,10 @@ class User implements UserInterface
     }
 
     /**
-     * @param array $roles
+     * Roles Setter
+     *
+     * @param array $roles Roles
+     *
      * @return $this
      */
     public function setRoles(array $roles): self
@@ -261,6 +327,8 @@ class User implements UserInterface
     }
 
     /**
+     * Salt Getter
+     *
      * @return string|void|null
      */
     public function getSalt()
@@ -273,6 +341,8 @@ class User implements UserInterface
      *
      * This is important if, at any given point, sensitive information like
      * the plain-text password is stored on this object.
+     *
+     * @return void
      */
     public function eraseCredentials()
     {
@@ -280,6 +350,8 @@ class User implements UserInterface
     }
 
     /**
+     * Password Getter
+     *
      * @return string|null
      */
     public function getPassword(): ?string
@@ -288,7 +360,10 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $password
+     * Password Setter
+     *
+     * @param string $password Password
+     *
      * @return $this
      */
     public function setPassword(string $password): self
@@ -299,6 +374,8 @@ class User implements UserInterface
     }
 
     /**
+     * Siret Getter
+     *
      * @return int|null
      */
     public function getSiret(): ?int
@@ -307,7 +384,10 @@ class User implements UserInterface
     }
 
     /**
-     * @param int $siret
+     * Siret Setter
+     *
+     * @param int $siret Siret
+     *
      * @return $this
      */
     public function setSiret(int $siret): self

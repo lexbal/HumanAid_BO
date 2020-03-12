@@ -42,13 +42,17 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class EventType extends AbstractType
 {
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * Build a form for rating/comment
+     *
+     * @param FormBuilderInterface $builder build the form
+     * @param array                $options got options
+     *
+     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('title', TextType::class, [
+        $builder->add(
+            'title', TextType::class, [
                 'label'       => 'Titre :',
                 'required'    => true,
                 'attr'        => [
@@ -57,7 +61,9 @@ class EventType extends AbstractType
                 'constraints' => [
                     new NotBlank()
                 ]
-            ])->add('description', TextareaType::class, [
+            ]
+        )->add(
+            'description', TextareaType::class, [
                 'label'       => 'Description :',
                 'required'    => true,
                 'attr'        => [
@@ -66,15 +72,21 @@ class EventType extends AbstractType
                 'constraints' => [
                     new NotBlank()
                 ]
-            ])->add('start_date', DateTimeType::class, [
+            ]
+        )->add(
+            'start_date', DateTimeType::class, [
                 'label'       => 'Date de début :',
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text'
-            ])->add('end_date', DateTimeType::class, [
+            ]
+        )->add(
+            'end_date', DateTimeType::class, [
                 'label'       => 'Date de fin :',
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text'
-            ])->add('rating', IntegerType::class, [
+            ]
+        )->add(
+            'rating', IntegerType::class, [
                 'label'       => 'Note :',
                 'required'    => true,
                 'attr'        => [
@@ -82,7 +94,9 @@ class EventType extends AbstractType
                     'min'     => '0',
                     'max'     => '5',
                 ],
-            ])->add('owner', EntityType ::class, [
+            ]
+        )->add(
+            'owner', EntityType ::class, [
                 'label'        => 'Association :',
                 'class'        => User::class,
                 'choice_label' => 'name',
@@ -91,19 +105,25 @@ class EventType extends AbstractType
                 ],
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
-                              ->where("'ROLE_ASSOC' = u.roles");
+                        ->where("'ROLE_ASSOC' = u.roles");
                 },
-            ])
-        ;
+            ]
+        );
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * Configure form
+     *
+     * @param OptionsResolver $resolver set default parameters
+     *
+     * @return void
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => Event::class,
-        ]);
+            ]
+        );
     }
 }

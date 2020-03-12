@@ -14,6 +14,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,15 +22,19 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * The class holding the root Rating class definition
  *
- * @category Rating
- * @package  Rating
- * @author   HumanAid <contact.humanaid@gmail.com>
- * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     http://example.com/
+ * @category                                                      Rating
+ * @package                                                       Rating
+ * @author                                                        HumanAid <contact.humanaid@gmail.com>
+ * @license                                                       http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link                                                          http://example.com/
+ * @ORM\Table(name="rating")
+ * @ORM\Entity(repositoryClass="App\Repository\RatingRepository")
  */
 class Rating
 {
     /**
+     * ID attribute
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -37,34 +42,60 @@ class Rating
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ratings")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
+     * User attribute
+     *
+     * @ORM\ManyToOne(
+     *     targetEntity="App\Entity\User",
+     *     inversedBy="ratings"
+     * )
+     * @ORM\JoinColumn(
+     *     name="user_id",
+     *     referencedColumnName="id",
+     *     onDelete="CASCADE"
+     * )
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="ratings")
-     * @ORM\JoinColumn(name="event_id", referencedColumnName="id", onDelete="CASCADE")
+     * Event attribute
+     *
+     * @ORM\ManyToOne(
+     *     targetEntity="App\Entity\Event",
+     *     inversedBy="ratings"
+     * )
+     * @ORM\JoinColumn(
+     *     name="event_id",
+     *     referencedColumnName="id",
+     *     onDelete="CASCADE"
+     * )
      */
     private $event;
 
     /**
+     * Rating attribute
+     *
      * @ORM\Column(type="integer")
      */
     private $rating;
 
     /**
+     * Comment attribute
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $comment;
 
     /**
+     * Publish date attribute
+     *
      * @ORM\Column(type="datetime")
      */
     private $publish_date;
 
 
     /**
+     * ID Getter
+     *
      * @return int|null
      */
     public function getId(): ?int
@@ -73,6 +104,8 @@ class Rating
     }
 
     /**
+     * User Getter
+     *
      * @return User|null
      */
     public function getUser(): ?User
@@ -81,7 +114,10 @@ class Rating
     }
 
     /**
-     * @param User|null $user
+     * User Setter
+     *
+     * @param User|null $user User
+     *
      * @return $this
      */
     public function setUser(?User $user): self
@@ -92,6 +128,8 @@ class Rating
     }
 
     /**
+     * Event Getter
+     *
      * @return Event|null
      */
     public function getEvent(): ?Event
@@ -100,7 +138,10 @@ class Rating
     }
 
     /**
-     * @param Event|null $event
+     * Event Setter
+     *
+     * @param Event|null $event Event
+     *
      * @return $this
      */
     public function setEvent(?Event $event): self
@@ -111,6 +152,8 @@ class Rating
     }
 
     /**
+     * Rating Getter
+     *
      * @return int|null
      */
     public function getRating(): ?int
@@ -119,7 +162,10 @@ class Rating
     }
 
     /**
-     * @param int $rating
+     * Rating Setter
+     *
+     * @param int $rating Rating
+     *
      * @return $this
      */
     public function setRating(int $rating): self
@@ -130,6 +176,8 @@ class Rating
     }
 
     /**
+     * Comment Getter
+     *
      * @return mixed
      */
     public function getComment()
@@ -138,14 +186,22 @@ class Rating
     }
 
     /**
-     * @param $comment
+     * Comment Setter
+     *
+     * @param string $comment Comment
+     *
+     * @return $this
      */
-    public function setComment($comment): void
+    public function setComment($comment): self
     {
         $this->comment = $comment;
+
+        return $this;
     }
 
     /**
+     * Publish date Getter
+     *
      * @return mixed
      */
     public function getPublishDate()
@@ -154,10 +210,16 @@ class Rating
     }
 
     /**
-     * @param $publish_date
+     * Publish date Setter
+     *
+     * @param Datetime $publish_date Publish date
+     *
+     * @return $this
      */
-    public function setPublishDate($publish_date): void
+    public function setPublishDate($publish_date): self
     {
         $this->publish_date = $publish_date;
+
+        return $this;
     }
 }

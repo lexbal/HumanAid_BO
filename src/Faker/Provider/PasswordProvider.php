@@ -37,17 +37,22 @@ final class PasswordProvider extends BaseProvider
 
     /**
      * PasswordProvider constructor.
-     * @param Generator $generator
-     * @param UserPasswordEncoderInterface $passwordEncoder
+     *
+     * @param Generator                    $generator       class Generator
+     * @param UserPasswordEncoderInterface $passwordEncoder class PasswordEncoder
      */
-    public function __construct(Generator $generator, UserPasswordEncoderInterface $passwordEncoder)
-    {
+    public function __construct(
+        Generator $generator, UserPasswordEncoderInterface $passwordEncoder
+    ) {
         parent::__construct($generator);
         $this->_passwordEncoder = $passwordEncoder;
     }
 
     /**
-     * @param string $password
+     * PasswordProvider generator.
+     *
+     * @param string $password password not hashed
+     *
      * @return string
      */
     public function passwordGenerator(string $password)

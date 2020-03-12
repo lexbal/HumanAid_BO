@@ -22,18 +22,24 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * The class holding the root HomeController class definition
  *
- * @category HomeController
- * @package  HomeController
- * @author   HumanAid <contact.humanaid@gmail.com>
- * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     http://example.com/
+ * @category   HomeController
+ * @package    HomeController
+ * @author     HumanAid <contact.humanaid@gmail.com>
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link       http://example.com/
  * @Route("/")
  */
 class HomeController
 {
     /**
-     * @Route("/", name="home")
+     * Index Function
+     *
+     * @Route(
+     *     "/",
+     *     name="home"
+     * )
      * @Template("base.html.twig")
+     *
      * @return array
      */
     public function index()
