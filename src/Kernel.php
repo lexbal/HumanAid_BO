@@ -37,8 +37,7 @@ class Kernel extends BaseKernel
     protected function configureContainer(
         ContainerBuilder $container,
         LoaderInterface $loader
-    ): void
-    {
+    ): void {
         $container->addResource(
             new FileResource($this->getProjectDir().'/config/bundles.php')
         );

@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * EventRepository class file
+ *
+ * PHP Version 7.1
+ *
+ * @category EventRepository
+ * @package  EventRepository
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
+ */
+
 namespace App\Repository;
 
 use App\Entity\Event;
@@ -7,13 +19,23 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Event|null find($id, $lockMode = null, $lockVersion = null)
- * @method Event|null findOneBy(array $criteria, array $orderBy = null)
- * @method Event[]    findAll()
- * @method Event[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * EventRepository class
+ *
+ * The class holding the root EventRepository class definition
+ *
+ * @category EventRepository
+ * @package  EventRepository
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  */
 class EventRepository extends ServiceEntityRepository
 {
+    /**
+     * EventRepository constructor.
+     *
+     * @param ManagerRegistry $registry manage repository registration
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Event::class);

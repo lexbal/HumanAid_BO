@@ -1,12 +1,12 @@
 <?php
 
 /**
- * EventType class file
+ * RatingType class file
  *
  * PHP Version 7.1
  *
- * @category EventType
- * @package  EventType
+ * @category RatingType
+ * @package  RatingType
  * @author   HumanAid <contact.humanaid@gmail.com>
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     http://example.com/
@@ -15,31 +15,29 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use App\Entity\Rating;
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\{
-    DateTimeType, IntegerType,
-    TextareaType, TextType
-};
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-
 /**
- * EventType class
+ * RatingType class
  *
- * The class holding the root EventType class definition
+ * The class holding the root RatingType class definition
  *
- * @category EventType
- * @package  EventType
+ * @category RatingType
+ * @package  RatingType
  * @author   HumanAid <contact.humanaid@gmail.com>
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     http://example.com/
  */
-class EventType extends AbstractType
+class RatingType extends AbstractType
 {
     /**
      * Build a form for rating/comment
@@ -52,40 +50,6 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'title', TextType::class, [
-                'label'       => 'Titre :',
-                'required'    => true,
-                'attr'        => [
-                    'class'   => 'form-control'
-                ],
-                'constraints' => [
-                    new NotBlank()
-                ]
-            ]
-        )->add(
-            'description', TextareaType::class, [
-                'label'       => 'Description :',
-                'required'    => true,
-                'attr'        => [
-                    'class'   => 'form-control'
-                ],
-                'constraints' => [
-                    new NotBlank()
-                ]
-            ]
-        )->add(
-            'start_date', DateTimeType::class, [
-                'label'       => 'Date de début :',
-                'date_widget' => 'single_text',
-                'time_widget' => 'single_text'
-            ]
-        )->add(
-            'end_date', DateTimeType::class, [
-                'label'       => 'Date de fin :',
-                'date_widget' => 'single_text',
-                'time_widget' => 'single_text'
-            ]
-        )->add(
             'rating', IntegerType::class, [
                 'label'       => 'Note :',
                 'required'    => true,
@@ -96,17 +60,33 @@ class EventType extends AbstractType
                 ],
             ]
         )->add(
-            'owner', EntityType ::class, [
-                'label'        => 'Association :',
+            'comment', TextareaType::class, [
+                'label'       => 'Commentaire :',
+                'required'    => true,
+                'attr'        => [
+                    'class'   => 'form-control'
+                ],
+                'constraints' => [
+                    new NotBlank()
+                ]
+            ]
+        )->add(
+            'user', EntityType ::class, [
+                'label'        => 'Utilisateur :',
                 'class'        => User::class,
-                'choice_label' => 'name',
+                'choice_label' => 'username',
                 'attr'         => [
                     'class'    => 'form-control'
                 ],
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->where("'ROLE_ASSOC' = u.roles");
-                },
+            ]
+        )->add(
+            'event', EntityType ::class, [
+                'label'        => 'Evenement :',
+                'class'        => Event::class,
+                'choice_label' => 'title',
+                'attr'         => [
+                    'class'    => 'form-control'
+                ],
             ]
         );
     }
@@ -122,7 +102,7 @@ class EventType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => Event::class,
+            'data_class' => Rating::class,
             ]
         );
     }

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="{{ path('home') }}">HumanAid</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -12,8 +12,11 @@
                 <a class="nav-link" href="{{ path('event_index') }}">Evenements</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_login')}}">Login</a>
+                <a class="nav-link" href="{{ path('rating_index') }}">Commentaires</a>
             </li>
         </ul>
     </div>
+    <span class="navbar-text navbar-right">
+      Signed in as {{ app.user.username }} <a href="{{ path('app_logout') }}">Logout</a>
+    </span>
 </nav>
