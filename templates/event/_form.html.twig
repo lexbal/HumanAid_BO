@@ -58,7 +58,4 @@
     <div class="form-group">
         <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
     </div>
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
 {{ form_end(form) }}

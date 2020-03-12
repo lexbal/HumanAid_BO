@@ -17,7 +17,4 @@
             {{ include('event/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
         </div>
     </div>
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
 {% endblock %}
