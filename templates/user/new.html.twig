@@ -3,12 +3,18 @@
 {% block title %}New User{% endblock %}
 
 {% block body %}
-    <h1>Create new User</h1>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <a class="btn btn-light" href="{{ path('user_index') }}">Retour</a>
+        </div>
+    </div>
 
-    {{ include('user/_form.html.twig') }}
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    <a href="{{ path('user_index') }}">back to list</a>
+    <div class="row-fluid">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            {{ include('user/_form.html.twig') }}
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+        </div>
+    </div>
 {% endblock %}

@@ -6,4 +6,4 @@ App\Entity\Event:
     end_date: "<dateTimeBetween('2020-01-01', '2020-01-31')>"
     publish_date: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
     rating: "<numberBetween(0,5)>"
-    owner: "@user-<numberBetween(1,10)>"
+    owner: "@assoc-<numberBetween(1,5)>"

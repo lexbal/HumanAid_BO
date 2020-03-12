@@ -1,4 +1,15 @@
 App\Entity\User:
+  user-{1..10}:
+    name: <company()>
+    username: <userName()>
+    description: <firstname()>
+    status: <lastname()>
+    location: <city()>
+    website: <url()>
+    email: <email()>
+    roles: ['ROLE_USER']
+    password: <passwordGenerator(user)>
+
   assoc-{1..5}:
     name: <company()>
     username: <userName()>
@@ -25,12 +36,12 @@ App\Entity\User:
 
   admin-1:
     name: <company()>
-    username: <userName()>
+    username: "admin"
     description: <firstname()>
     status: <lastname()>
     location: <city()>
     website: <url()>
-    email: <email()>
+    email: "admin@admin.fr"
     roles: ['ROLE_ADMIN']
     password: <passwordGenerator(admin)>
     

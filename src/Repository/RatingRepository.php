@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * RatingRepository class file
+ *
+ * PHP Version 7.1
+ *
+ * @category RatingRepository
+ * @package  RatingRepository
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
+ */
+
 namespace App\Repository;
 
 use App\Entity\Rating;
@@ -7,13 +19,23 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Rating|null find($id, $lockMode = null, $lockVersion = null)
- * @method Rating|null findOneBy(array $criteria, array $orderBy = null)
- * @method Rating[]    findAll()
- * @method Rating[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * RatingRepository class
+ *
+ * The class holding the root RatingRepository class definition
+ *
+ * @category RatingRepository
+ * @package  RatingRepository
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  */
 class RatingRepository extends ServiceEntityRepository
 {
+    /**
+     * RatingRepository constructor.
+     *
+     * @param ManagerRegistry $registry manage repository registration
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Rating::class);

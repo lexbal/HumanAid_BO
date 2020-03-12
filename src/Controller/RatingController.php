@@ -1,12 +1,12 @@
 <?php
 
 /**
- * EventController class file
+ * RatingController class file
  *
  * PHP Version 7.1
  *
- * @category EventController
- * @package  EventController
+ * @category RatingController
+ * @package  RatingController
  * @author   HumanAid <contact.humanaid@gmail.com>
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     http://example.com/
@@ -14,9 +14,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Event;
-use App\Form\EventType;
-use App\Repository\EventRepository;
+use App\Entity\Rating;
+use App\Form\RatingType;
+use App\Repository\RatingRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,34 +24,33 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * EventController class
+ * RatingController class
  *
- * The class holding the root EventController class definition
+ * The class holding the root RatingController class definition
  *
- * @category EventController
- * @package  EventController
- * @author   HumanAid <contact.humanaid@gmail.com>
- * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     http://example.com/
- *
- * @Route("/event")
+ * @category         RatingController
+ * @package          RatingController
+ * @author           HumanAid <contact.humanaid@gmail.com>
+ * @license          http://opensource.org/licenses/gpl-license.php GPL
+ * @link             http://example.com/
+ * @Route("/rating")
  */
-class EventController extends AbstractController
+class RatingController extends AbstractController
 {
     /**
      * Index Function
      *
-     * @param EventRepository $eventRepository get event repository
+     * @param RatingRepository $ratingRepository get rating repository
      *
-     * @Route("/", name="event_index", methods={"GET"})
+     * @Route("/", name="rating_index", methods={"GET"})
      *
      * @return Response
      */
-    public function index(EventRepository $eventRepository): Response
+    public function index(RatingRepository $ratingRepository): Response
     {
         return $this->render(
-            'event/index.html.twig', [
-            'events' => $eventRepository->findAll(),
+            'rating/index.html.twig', [
+            'ratings' => $ratingRepository->findAll(),
             ]
         );
     }
@@ -61,37 +60,35 @@ class EventController extends AbstractController
      *
      * @param Request $request get request params
      *
-     * @Route("/new", name="event_new", methods={"GET","POST"})
+     * @Route("/new", name="rating_new", methods={"GET","POST"})
      *
      * @return Response
-     * @throws \Exception
      */
     public function new(Request $request): Response
     {
-        $event = new Event();
-        $form  = $this->createForm(EventType::class, $event);
+        $rating = new Rating();
+        $form = $this->createForm(RatingType::class, $rating);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$this->isCsrfTokenValid(
-                'event_item',
-                $request->request->get('event')['_token']
+                'rating_item',
+                $request->request->get('rating')['_token']
             )
             ) {
                 throw new AccessDeniedException('Formulaire invalide');
             }
 
             $entityManager = $this->getDoctrine()->getManager();
-            $event->setPublishDate(new \DateTime());
-            $entityManager->persist($event);
+            $entityManager->persist($rating);
             $entityManager->flush();
 
-            return $this->redirectToRoute('event_index');
+            return $this->redirectToRoute('rating_index');
         }
 
         return $this->render(
-            'event/new.html.twig', [
-            'event' => $event,
+            'rating/new.html.twig', [
+            'rating' => $rating,
             'form' => $form->createView(),
             ]
         );
@@ -100,17 +97,17 @@ class EventController extends AbstractController
     /**
      * Show Function
      *
-     * @param Event $event get event to show
+     * @param Rating $rating get rating to show
      *
-     * @Route("/{id}", name="event_show", methods={"GET"})
+     * @Route("/{id}", name="rating_show", methods={"GET"})
      *
      * @return Response
      */
-    public function show(Event $event): Response
+    public function show(Rating $rating): Response
     {
         return $this->render(
-            'event/show.html.twig', [
-            'event' => $event,
+            'rating/show.html.twig', [
+            'rating' => $rating,
             ]
         );
     }
@@ -119,34 +116,34 @@ class EventController extends AbstractController
      * Edit Function
      *
      * @param Request $request get request params
-     * @param Event   $event   get event to edit
+     * @param Rating  $rating  get rating to edit
      *
-     * @Route("/{id}/edit", name="event_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="rating_edit", methods={"GET","POST"})
      *
      * @return Response
      */
-    public function edit(Request $request, Event $event): Response
+    public function edit(Request $request, Rating $rating): Response
     {
-        $form = $this->createForm(EventType::class, $event);
+        $form = $this->createForm(RatingType::class, $rating);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$this->isCsrfTokenValid(
-                'event_item',
-                $request->request->get('event')['_token']
+                'rating_item',
+                $request->request->get('rating')['_token']
             )
             ) {
                 throw new AccessDeniedException('Formulaire invalide');
             }
-            
+
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('event_index');
+            return $this->redirectToRoute('rating_index');
         }
 
         return $this->render(
-            'event/edit.html.twig', [
-            'event' => $event,
+            'rating/edit.html.twig', [
+            'rating' => $rating,
             'form' => $form->createView(),
             ]
         );
@@ -156,24 +153,24 @@ class EventController extends AbstractController
      * Delete Function
      *
      * @param Request $request get request params
-     * @param Event   $event   get event to delete
+     * @param Rating  $rating  get rating to delete
      *
-     * @Route("/{id}", name="event_delete", methods={"DELETE"})
+     * @Route("/{id}", name="rating_delete", methods={"DELETE"})
      *
      * @return Response
      */
-    public function delete(Request $request, Event $event): Response
+    public function delete(Request $request, Rating $rating): Response
     {
         if ($this->isCsrfTokenValid(
-            'delete'.$event->getId(),
+            'delete'.$rating->getId(),
             $request->request->get('_token')
         )
         ) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($event);
+            $entityManager->remove($rating);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('event_index');
+        return $this->redirectToRoute('rating_index');
     }
 }

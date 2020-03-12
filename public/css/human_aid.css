@@ -15,3 +15,7 @@ table {
     text-overflow: initial;
     white-space: initial;
 }
+
+.table-global .actions {
+    width: 180px;
+}

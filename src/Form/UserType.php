@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * UserType class file
+ *
+ * PHP Version 7.1
+ *
+ * @category UserType
+ * @package  UserType
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
+ */
+
 namespace App\Form;
 
 use App\Entity\User;
@@ -10,120 +22,204 @@ use Symfony\Component\Validator\Constraints\{
     NotBlank, Length
 };
 use Symfony\Component\Form\Extension\Core\Type\{
-    ChoiceType, TextType,
-    RepeatedType, EmailType,
+    ChoiceType,
+    CollectionType,
+    TextareaType,
+    TextType,
+    RepeatedType,
+    EmailType,
     PasswordType
 };
 
+/**
+ * UserType class
+ *
+ * The class holding the root UserType class definition
+ *
+ * @category UserType
+ * @package  UserType
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
+ */
 class UserType extends AbstractType
 {
+    /**
+     * Build a form for rating/comment
+     *
+     * @param FormBuilderInterface $builder build the form
+     * @param array                $options got options
+     *
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name', TextType::class, [
-                'label' =>  'Nom :',
+        $builder->add(
+            'name', TextType::class, [
+                'label'     =>  'Nom :',
                 'required'  =>  true,
-                'attr'  =>  [
+                'attr'      =>  [
                     'class' =>  'form-control'
                 ],
-                'constraints'   =>  [
+                'constraints' =>  [
                     new NotBlank()
                 ]
-            ])
-            ->add('username', TextType::class, [
-                'label' =>  'Pseudo :',
+            ]
+        )->add(
+            'username', TextType::class, [
+                'label'     =>  'Pseudo :',
                 'required'  =>  true,
-                'attr'  =>  [
+                'attr'      =>  [
                     'class' =>  'form-control'
                 ],
-                'constraints'   =>  [
+                'constraints' =>  [
                     new NotBlank()
                 ]
-            ])
-            ->add('description', TextType::class, [
-                'label' =>  'Description :',
+            ]
+        )->add(
+            'description', TextareaType::class, [
+                'label'     =>  'Description :',
                 'required'  =>  false,
-                'attr'  =>  [
+                'attr'      =>  [
                     'class' =>  'form-control'
                 ],
-            ])
-            ->add('status', TextType::class, [
-                'label' =>  'Statut :',
+            ]
+        )->add(
+            'status', TextType::class, [
+                'label'     =>  'Statut :',
                 'required'  =>  false,
-                'attr'  =>  [
+                'attr'      =>  [
                     'class' =>  'form-control'
                 ],
-            ])
-            ->add('siret', TextType::class, [
-                'label' =>  'Numéro de SIRET :',
-                'required'  =>  false,
-                'constraints'   =>  [
-                    new Length([
-                        'min'   =>  14,
-                        'minMessage' => 'Votre numéro de SIRET doit contenir {{ 14 }} chiffres',
-                        'max'   =>  14
-
-                    ]),
-                    ],
-                'attr'  =>  [
-                    'class' =>  'form-control'
-                ],
-            ])
-            ->add('location', TextType::class, [
-                'label' =>  'Adresse :',
-                'required'  =>  false,
-                'attr'  =>  [
-                    'class' =>  'form-control'
-                ],
-            ])
-            ->add('website', TextType::class, [
-                'label' =>  'Site web :',
-                'required'  =>  false,
-                'attr'  =>  [
-                    'class' =>  'form-control'
-                ],
-            ])
-            ->add('email', EmailType::class, [
-                'label' =>  'Email :',
-                'required'  =>  true,
-                'attr'  =>  [
-                    'class' =>  'form-control'
-                ],
-                'constraints'   =>  [
-                    new NotBlank()
-                ]
-            ])
-            ->add('roles', ChoiceType::class, [
-                'label' => '',
-                'required'  =>  true,
-                'multiple' => true,
-                'choices' => [
-                    'Association' => 'ROLE_ASSOC',
-                    'Entreprise' => 'ROLE_COMP'
-                ]
-            ])
-            ->add('password', RepeatedType::class, array(
-                'type' => PasswordType:: class,
+            ]
+        )->add(
+            'siret', TextType::class, [
+                'label'       => 'Numéro de SIRET :',
+                'required'    => false,
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'You have to write an password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Votre mot de passe doit contenir {{ limit }} caractères',
-                        'max' => 4096,
-                    ]),
+                    new Length(
+                        [
+                            'min'        =>  14,
+                            'minMessage' => 'Votre numéro de SIRET doit'.
+                                'contenir {{ 14 }} chiffres',
+                            'max'        =>  14
+                        ]
+                    ),
                 ],
-                'first_options' => array('label' => 'Mot de passe* : '),
-                'second_options' => array('label' => 'Confirmation Mot de passe* : '),)
-            )
-            ;
+                'attr'  =>  [
+                'class' =>  'form-control'
+                ],
+            ]
+        )->add(
+            'location', TextType::class, [
+                'label'     =>  'Adresse :',
+                'required'  =>  false,
+                'attr'      =>  [
+                    'class' =>  'form-control'
+                ],
+            ]
+        )->add(
+            'website', TextType::class, [
+                'label'     =>  'Site web :',
+                'required'  =>  false,
+                'attr'      =>  [
+                    'class' =>  'form-control'
+                ],
+            ]
+        )->add(
+            'email', EmailType::class, [
+                'label'     =>  'Email :',
+                'required'  =>  true,
+                'attr'      =>  [
+                    'class' =>  'form-control'
+                ],
+                'constraints' =>  [
+                    new NotBlank()
+                ]
+            ]
+        )->add(
+            'roles', CollectionType::class, [
+                'label'          => "Roles :",
+                'allow_add'      => true,
+                'prototype'      => true,
+                'entry_type'     => ChoiceType::class,
+                'entry_options'  => [
+                    'label'      => false,
+                    'required'   => true,
+                    'multiple'   => false,
+                    'attr'       => [
+                        'class'  => 'form-control'
+                    ],
+                    'choices'    => $this->getChoices(),
+                    'data'       => User::ROLE_USER
+                ]
+            ]
+        )->add(
+            'password', RepeatedType::class, [
+                'type'        => PasswordType:: class,
+                'constraints' => [
+                    new NotBlank(
+                        [
+                            'message' => 'You have to write an password',
+                        ]
+                    ),
+                    new Length(
+                        [
+                            'min' => 6,
+                            'minMessage' => 'Votre mot de passe'.
+                                'doit contenir {{ limit }} caractères',
+                            'max' => 4096,
+                        ]
+                    ),
+                ],
+                'first_options' => [
+                    'label' => 'Mot de passe* : ',
+                    'attr'  => [
+                        'class' => 'form-control'
+                    ]
+                ],
+                'second_options' => [
+                    'label' => 'Confirmation Mot de passe* : ',
+                    'attr'  => [
+                        'class' => 'form-control'
+                    ]
+                ],
+            ]
+        );
     }
 
+    /**
+     * Create an array of roles
+     *
+     * @return array
+     */
+    public function getChoices()
+    {
+        $array = [];
+
+        foreach (User::$roleTypes as $type) {
+            $array[$type] = $type;
+        }
+
+        return $array;
+    }
+
+    /**
+     * Configure form
+     *
+     * @param OptionsResolver $resolver set default parameters
+     *
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class'      => User::class,
+                'csrf_protection' => true,
+                'csrf_field_name' => '_token',
+                'csrf_token_id'   => 'user_item',
+            ]
+        );
     }
 }

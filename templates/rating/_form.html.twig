@@ -1,0 +1,43 @@
+{{ form_start(form) }}
+    {{ form_row(form._token) }}
+    {{ form_errors(form) }}
+<div class="form-group">
+    {{ form_label(form.rating) }}
+    {{ form_widget(form.rating) }}
+    {% if form_errors(form.rating) %}
+        <div class="alert alert-danger" role="alert">
+            {{ form_errors(form.rating) }}
+        </div>
+    {% endif %}
+</div>
+<div class="form-group">
+    {{ form_label(form.comment) }}
+    {{ form_widget(form.comment) }}
+    {% if form_errors(form.comment) %}
+        <div class="alert alert-danger" role="alert">
+            {{ form_errors(form.comment) }}
+        </div>
+    {% endif %}
+</div>
+<div class="form-group">
+    {{ form_label(form.user) }}
+    {{ form_widget(form.user) }}
+    {% if form_errors(form.user) %}
+        <div class="alert alert-danger" role="alert">
+            {{ form_errors(form.user) }}
+        </div>
+    {% endif %}
+</div>
+<div class="form-group">
+    {{ form_label(form.event) }}
+    {{ form_widget(form.event) }}
+    {% if form_errors(form.event) %}
+        <div class="alert alert-danger" role="alert">
+            {{ form_errors(form.event) }}
+        </div>
+    {% endif %}
+</div>
+<div class="form-group">
+    <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+</div>
+{{ form_end(form) }}
