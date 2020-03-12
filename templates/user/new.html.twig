@@ -12,9 +12,6 @@
     <div class="row-fluid">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             {{ include('user/_form.html.twig') }}
-            <input type="hidden" name="_csrf_token"
-                   value="{{ csrf_token('authenticate') }}"
-            >
         </div>
     </div>
 {% endblock %}
