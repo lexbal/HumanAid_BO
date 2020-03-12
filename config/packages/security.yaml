@@ -45,7 +45,7 @@ security:
     access_control:
          - { path: ^/event, roles: ROLE_ADMIN }
          - { path: ^/user, roles: ROLE_ADMIN }
-         - { path: ^/login, roles: ROLE_ADMIN }
+
          - { path: ^/logout, roles: ROLE_ADMIN }
     
     role_hierarchy:
