@@ -15,7 +15,7 @@ const Assoc = function (assoc) {
 };
 
 Assoc.findById = (assocId, result) => {
-    connection.query(`SELECT * FROM user WHERE id = ${assocId}`, (err, res) => {
+    connection.query(`SELECT * FROM user WHERE id = ${assocId} AND roles LIKE '%ROLE_ASSOC%'`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -34,8 +34,8 @@ Assoc.findById = (assocId, result) => {
     });
 };
 
-Assoc.findAll = result => {
-    connection.query("SELECT * FROM user", (err, res) => {
+Assoc.getAll = result => {
+    connection.query("SELECT * FROM user WHERE roles LIKE '%ROLE_ASSOC%'", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
