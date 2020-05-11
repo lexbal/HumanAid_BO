@@ -8,6 +8,7 @@ import hpp from 'hpp';
 import morgan from 'morgan';
 import emoji from 'node-emoji';
 import responseTime from 'response-time';
+import ratingRouter from './routes/rating';
 import userRouter from './routes/user';
 import eventRouter from './routes/event';
 import rateLimit from 'express-rate-limit';
@@ -37,6 +38,7 @@ app.use(
 
 // routes
 app.use('/', userRouter);
+app.use('/rating', ratingRouter);
 app.use('/event', eventRouter);
 
 // setup ip address and port number
