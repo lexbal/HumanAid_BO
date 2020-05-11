@@ -23,7 +23,8 @@
     "morgan": "~1.10.0",
     "mysql": "^2.18.1",
     "node-emoji": "^1.10.0",
-    "response-time": "^2.3.2"
+    "response-time": "^2.3.2",
+    "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
