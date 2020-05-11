@@ -10,6 +10,7 @@ import emoji from 'node-emoji';
 import responseTime from 'response-time';
 import ratingRouter from './routes/rating';
 import userRouter from './routes/user';
+import assocRouter from './routes/assoc';
 import eventRouter from './routes/event';
 import rateLimit from 'express-rate-limit';
 
@@ -38,6 +39,7 @@ app.use(
 
 // routes
 app.use('/', userRouter);
+app.use('/assoc', assocRouter);
 app.use('/rating', ratingRouter);
 app.use('/event', eventRouter);
 
