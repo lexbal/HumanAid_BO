@@ -1,4 +1,5 @@
 import Assoc from '../models/assocModel';
+import Event from '../models/eventModel';
 
 // Retrieve all Assocs from the database.
 export const findAll = (req, res) => {
@@ -28,6 +29,20 @@ export const findOne = (req, res) => {
             });
         }
         
-        return res.status(200).send(data);
+        let response = {
+            "assoc": data
+        };
+        
+        Event.getAllByAssoc(req.params.id, (err, data) => {
+            if (err) {
+                return res.status(500).send({
+                    message: "Some error occurred while retrieving events."
+                });
+            }
+               
+            response["events"] = data;
+
+            return res.status(200).send(response);
+        });
     });
 };

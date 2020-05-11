@@ -1,5 +1,5 @@
-import bcrypt from 'bcryptjs';
 import Event from '../models/eventModel';
+import Rating from '../models/ratingModel';
 
 // Create and Save a new Event
 export const create = (req, res) => {
@@ -58,7 +58,34 @@ export const findOne = (req, res) => {
                 message: "Error retrieving Event with id " + req.params.id
             });
         }
+
+        let response = {
+            "event": data
+        };
         
+        Rating.getAllByEvent(req.params.id, (err, data) => {
+            if (err) {
+                return res.status(500).send({
+                    message: "Some error occurred while retrieving users."
+                });
+            }
+
+            response["ratings"] = data;
+                
+            return res.status(200).send(response);
+        });
+    });
+};
+
+// Retrieve all Events by Assoc from the database.
+export const findAllByAssoc = (req, res) => {
+    Event.getAllByAssoc(req.params.id, (err, data) => {
+        if (err) {
+            return res.status(500).send({
+                message: "Some error occurred while retrieving events."
+            });
+        }
+            
         return res.status(200).send(data);
     });
 };

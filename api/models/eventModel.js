@@ -65,6 +65,25 @@ Event.getAll = result => {
     });
 };
 
+Event.getAllByAssoc = (assocId, result) => {
+    connection.query(
+        `SELECT _e.id, _e.title, _e.description, _e.rating, _e.start_date, _e.end_date, _e.publish_date
+        FROM event _e 
+        INNER JOIN user _u ON _u.id = _e.owner_id 
+        WHERE _u.id = ${assocId}`, 
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+
+                return;
+            }
+
+            result(null, res);
+        }
+    );
+}
+
 Event.updateById = (id, event, result) => {
     connection.query(
         "UPDATE event SET ? WHERE id = ?",
