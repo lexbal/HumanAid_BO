@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HumanAid - Admin{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ events }}</h5>
+                    <p class="card-text">événement(s)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ users }}</h5>
+                    <p class="card-text">utilisateur(s)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div id="event_chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ past_events }}</h5>
+                    <p class="card-text">événement(s) passé(s)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ current_events }}</h5>
+                    <p class="card-text">événement(s) en cours</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ future_events }}</h5>
+                    <p class="card-text">événement(s) à venir</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div id="user_chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px; margin-bottom: 10px">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ user_detail.associations }}</h5>
+                    <p class="card-text">association(s) enregistrée(s)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ user_detail.companies }}</h5>
+                    <p class="card-text">entreprise(s) enregistrée(s)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ user_detail.users }}</h5>
+                    <p class="card-text">utilisateur(s) enregistrée(s)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        {{ gc_draw(event_chart, 'event_chart') }}
+        {{ gc_draw(user_chart, 'user_chart') }}
+    </script>
+{% endblock %}
