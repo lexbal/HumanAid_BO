@@ -11,6 +11,8 @@ App\Entity\User:
     landline: "<phoneNumber()>"
     facebook: "<url()>"
     twitter: "<url()>"
+    created_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
+    updated_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
 
   assoc-{1..5}:
     name: <company()>
@@ -27,6 +29,8 @@ App\Entity\User:
     siret: <numberBetween(10000000000000, 99999999999999)>
     facebook: "<url()>"
     twitter: "<url()>"
+    created_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
+    updated_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
 
   comp-{1..5}:
     name: <company()>
@@ -43,6 +47,8 @@ App\Entity\User:
     siret: <numberBetween(10000000000000, 99999999999999)>
     facebook: "<url()>"
     twitter: "<url()>"
+    created_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
+    updated_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
 
   admin-1:
     name: <company()>
@@ -55,4 +61,6 @@ App\Entity\User:
     password: <passwordGenerator(admin)>
     facebook: "<url()>"
     twitter: "<url()>"
+    created_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
+    updated_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
     

@@ -170,6 +170,20 @@ class User implements UserInterface
      */
     private $twitter;
 
+    /**
+     * Creation date attribute
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * Update date attribute
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
+
 
     /**
      * User constructor.
@@ -615,6 +629,54 @@ class User implements UserInterface
     public function setPhoto($photo): self
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Creation date Getter
+     *
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Creation date Setter
+     *
+     * @param mixed $created_at Creation date
+     *
+     * @return User
+     */
+    public function setCreatedAt($created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Update date Getter
+     *
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * Update date Setter
+     *
+     * @param mixed $updated_at Update date
+     *
+     * @return User
+     */
+    public function setUpdatedAt($updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

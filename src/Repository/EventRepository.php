@@ -41,6 +41,50 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
+    public function countEvents()
+    {
+        return $this->createQueryBuilder('e')
+            ->select('count(e.id) AS total')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findPastEvents()
+    {
+        return $this->createQueryBuilder('e')
+            ->select('count(e.id) AS total')
+            ->where('e.end_date < CURRENT_DATE()')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findCurrentEvents()
+    {
+        return $this->createQueryBuilder('e')
+            ->select('count(e.id) AS total')
+            ->where('CURRENT_DATE() BETWEEN e.start_date AND e.end_date')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findFutureEvents()
+    {
+        return $this->createQueryBuilder('e')
+            ->select('count(e.id) AS total')
+            ->where('e.start_date > CURRENT_DATE()')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function chart()
+    {
+        return $this->createQueryBuilder('e')
+            ->select('DATE_FORMAT(e.publish_date, \'%Y-%m-%d\') as date, count(e.id) AS total')
+            ->groupBy('date')
+            ->orderBy('date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Event[] Returns an array of Event objects
     //  */
