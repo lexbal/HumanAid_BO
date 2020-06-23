@@ -30,7 +30,7 @@ export const create = (req, res) => {
 };
 
 // Retrieve all Ratings from the database.
-export const findAll = (req, res) => {
+export const findAllByEvent = (req, res) => {
     Rating.getAllByEvent(req.params.id, (err, data) => {
         if (err) {
             return res.status(500).send({
