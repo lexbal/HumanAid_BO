@@ -1,6 +1,108 @@
 {{ form_start(form) }}
     {{ form_row(form._token) }}
     {{ form_errors(form) }}
+
+    <div class="form-group">
+        {{ form_label(form.roles) }}
+        {{ form_widget(form.roles) }}
+        {% if form_errors(form.roles) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.roles) }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div id="div-ajax">
+        {% if form.manager_first_name is defined %}
+            <div class="form-group">
+                {{ form_label(form.manager_first_name) }}
+                {{ form_widget(form.manager_first_name) }}
+                {% if form_errors(form.manager_first_name) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.manager_first_name) }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if form.manager_last_name is defined %}
+            <div class="form-group">
+                {{ form_label(form.manager_last_name) }}
+                {{ form_widget(form.manager_last_name) }}
+                {% if form_errors(form.manager_last_name) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.manager_last_name) }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if form.website is defined %}
+            <div class="form-group">
+                {{ form_label(form.website) }}
+                {{ form_widget(form.website) }}
+                {% if form_errors(form.website) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.website) }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if form.description is defined %}
+            <div class="form-group">
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description) }}
+                {% if form_errors(form.description) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.description) }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if form.siret is defined %}
+            <div class="form-group">
+                {{ form_label(form.siret) }}
+                {{ form_widget(form.siret) }}
+                {% if form_errors(form.siret) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.siret) }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if form.status is defined %}
+            <div class="form-group">
+                {{ form_label(form.status) }}
+                {{ form_widget(form.status) }}
+                {% if form_errors(form.status) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.status) }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if form.facebook is defined %}
+            <div class="form-group">
+                {{ form_label(form.facebook) }}
+                {{ form_widget(form.facebook) }}
+                {% if form_errors(form.facebook) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.facebook) }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if form.twitter is defined %}
+            <div class="form-group">
+                {{ form_label(form.twitter) }}
+                {{ form_widget(form.twitter) }}
+                {% if form_errors(form.twitter) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.twitter) }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
     <div class="form-group">
         {{ form_label(form.name) }}
         {{ form_widget(form.name) }}
@@ -10,57 +112,13 @@
             </div>
         {% endif %}
     </div>
+
     <div class="form-group">
         {{ form_label(form.username) }}
         {{ form_widget(form.username) }}
         {% if form_errors(form.username) %}
             <div class="alert alert-danger" role="alert">
                 {{ form_errors(form.username) }}
-            </div>
-        {% endif %}
-    </div>
-    <div class="form-group">
-        {{ form_label(form.description) }}
-        {{ form_widget(form.description) }}
-        {% if form_errors(form.description) %}
-            <div class="alert alert-danger" role="alert">
-                {{ form_errors(form.description) }}
-            </div>
-        {% endif %}
-    </div>
-    <div class="form-group">
-        {{ form_label(form.status) }}
-        {{ form_widget(form.status) }}
-        {% if form_errors(form.status) %}
-            <div class="alert alert-danger" role="alert">
-                {{ form_errors(form.status) }}
-            </div>
-        {% endif %}
-    </div>
-    <div class="form-group">
-        {{ form_label(form.siret) }}
-        {{ form_widget(form.siret) }}
-        {% if form_errors(form.siret) %}
-            <div class="alert alert-danger" role="alert">
-                {{ form_errors(form.siret) }}
-            </div>
-        {% endif %}
-    </div>
-    <div class="form-group">
-        {{ form_label(form.location) }}
-        {{ form_widget(form.location) }}
-        {% if form_errors(form.location) %}
-            <div class="alert alert-danger" role="alert">
-                {{ form_errors(form.location) }}
-            </div>
-        {% endif %}
-    </div>
-    <div class="form-group">
-        {{ form_label(form.website) }}
-        {{ form_widget(form.website) }}
-        {% if form_errors(form.website) %}
-            <div class="alert alert-danger" role="alert">
-                {{ form_errors(form.website) }}
             </div>
         {% endif %}
     </div>
@@ -74,11 +132,11 @@
         {% endif %}
     </div>
     <div class="form-group">
-        {{ form_label(form.roles) }}
-        {{ form_widget(form.roles.vars.prototype) }}
-        {% if form_errors(form.roles.vars.prototype) %}
+        {{ form_label(form.landline) }}
+        {{ form_widget(form.landline) }}
+        {% if form_errors(form.landline) %}
             <div class="alert alert-danger" role="alert">
-                {{ form_errors(form.roles.vars.prototype) }}
+                {{ form_errors(form.landline) }}
             </div>
         {% endif %}
     </div>
@@ -94,6 +152,7 @@
             {% endif %}
         </div>
     {% endfor %}
+
     <div class="form-group">
         <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
     </div>

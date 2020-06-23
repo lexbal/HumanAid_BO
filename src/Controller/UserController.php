@@ -70,9 +70,14 @@ class UserController extends AbstractController
     public function new(
         Request $request, UserPasswordEncoderInterface $encoder
     ): Response {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
+        $form = $this->createForm(
+            UserType::class, $user = new User(), [
+                'method' => 'POST',
+                'attr' => [
+                    'id'     => 'new_user'
+                ]
+            ]
+        )->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$this->isCsrfTokenValid(

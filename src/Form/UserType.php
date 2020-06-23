@@ -17,19 +17,21 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\{
     NotBlank, Length
 };
-use Symfony\Component\Form\Extension\Core\Type\{
-    ChoiceType,
+use Symfony\Component\Form\Extension\Core\Type\{ChoiceType,
     CollectionType,
+    IntegerType,
     TextareaType,
     TextType,
     RepeatedType,
     EmailType,
-    PasswordType
-};
+    PasswordType};
 
 /**
  * UserType class
@@ -77,50 +79,8 @@ class UserType extends AbstractType
                 ]
             ]
         )->add(
-            'description', TextareaType::class, [
-                'label'     =>  'Description :',
-                'required'  =>  false,
-                'attr'      =>  [
-                    'class' =>  'form-control'
-                ],
-            ]
-        )->add(
-            'status', TextType::class, [
-                'label'     =>  'Statut :',
-                'required'  =>  false,
-                'attr'      =>  [
-                    'class' =>  'form-control'
-                ],
-            ]
-        )->add(
-            'siret', TextType::class, [
-                'label'       => 'Numéro de SIRET :',
-                'required'    => false,
-                'constraints' => [
-                    new Length(
-                        [
-                            'min'        =>  14,
-                            'minMessage' => 'Votre numéro de SIRET doit'.
-                                'contenir {{ 14 }} chiffres',
-                            'max'        =>  14
-                        ]
-                    ),
-                ],
-                'attr'  =>  [
-                'class' =>  'form-control'
-                ],
-            ]
-        )->add(
-            'location', TextType::class, [
-                'label'     =>  'Adresse :',
-                'required'  =>  false,
-                'attr'      =>  [
-                    'class' =>  'form-control'
-                ],
-            ]
-        )->add(
-            'website', TextType::class, [
-                'label'     =>  'Site web :',
+            'landline', TextType::class, [
+                'label'     =>  'Telephone :',
                 'required'  =>  false,
                 'attr'      =>  [
                     'class' =>  'form-control'
@@ -138,22 +98,15 @@ class UserType extends AbstractType
                 ]
             ]
         )->add(
-            'roles', CollectionType::class, [
-                'label'          => "Roles :",
-                'allow_add'      => true,
-                'prototype'      => true,
-                'entry_type'     => ChoiceType::class,
-                'entry_options'  => [
-                    'label'      => false,
-                    'required'   => true,
-                    'multiple'   => false,
-                    'attr'       => [
-                        'class'  => 'form-control'
+            'roles', ChoiceType::class, [
+                    'choices' => $this->getChoices(),
+                    'attr'      =>  [
+                        'class' =>  'form-control'
                     ],
-                    'choices'    => $this->getChoices(),
-                    'data'       => User::ROLE_USER
+                    'expanded' => false,
+                    'multiple' => true,
+                    'label' => 'Rôles'
                 ]
-            ]
         )->add(
             'password', RepeatedType::class, [
                 'type'        => PasswordType:: class,
@@ -186,6 +139,112 @@ class UserType extends AbstractType
                 ],
             ]
         );
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) {
+                $this->checkRole(
+                    $event->getForm(),
+                    $event->getData()->getRoles()
+                );
+            }
+        );
+
+        $builder->get('roles')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) {
+                $this->checkRole(
+                    $event->getForm()->getParent(),
+                    $event->getForm()->getData()
+                );
+            }
+        );
+    }
+
+    /**
+     * @param FormInterface $form Form
+     * @param $role
+     */
+    public function checkRole(FormInterface $form, $role)
+    {
+        echo "<script>console.log('". var_dump($role) ."')</script>";
+        if ($role === User::ROLE_COMP || $role === User::ROLE_ASSOC) {
+            $form->add(
+                'manager_first_name', TextType::class, [
+                    'label'     => "Prénom du manager :",
+                    'required'  =>  false,
+                    'attr'      =>  [
+                        'class' =>  'form-control'
+                    ]
+                ]
+            )->add(
+                'manager_last_name', TextType::class, [
+                    'label'     => "Nom du manager :",
+                    'required'  =>  false,
+                    'attr'      =>  [
+                        'class' =>  'form-control'
+                    ]
+                ]
+            )->add(
+                'website', TextType::class, [
+                    'label'     =>  'Site web :',
+                    'required'  =>  false,
+                    'attr'      =>  [
+                        'class' =>  'form-control'
+                    ],
+                ]
+            )->add(
+                'siret', TextType::class, [
+                    'label'       => 'Numéro de SIRET :',
+                    'required'    => false,
+                    'constraints' => [
+                        new Length(
+                            [
+                                'min'        =>  14,
+                                'minMessage' => 'Votre numéro de SIRET doit'.
+                                    'contenir {{ 14 }} chiffres',
+                                'max'        =>  14
+                            ]
+                        ),
+                    ],
+                    'attr'  =>  [
+                        'class' =>  'form-control'
+                    ],
+                ]
+            )->add(
+                'description', TextareaType::class, [
+                    'label'     =>  'Description :',
+                    'required'  =>  false,
+                    'attr'      =>  [
+                        'class' =>  'form-control'
+                    ],
+                ]
+            )->add(
+                'status', TextType::class, [
+                    'label'     =>  'Statut :',
+                    'required'  =>  false,
+                    'attr'      =>  [
+                        'class' =>  'form-control'
+                    ],
+                ]
+            )->add(
+                'facebook', TextType::class, [
+                    'label'     =>  'Lien facebook :',
+                    'required'  =>  false,
+                    'attr'      =>  [
+                        'class' =>  'form-control'
+                    ],
+                ]
+            )->add(
+                'twitter', TextType::class, [
+                    'label'     =>  'Lien twitter :',
+                    'required'  =>  false,
+                    'attr'      =>  [
+                        'class' =>  'form-control'
+                    ],
+                ]
+            );
+        }
     }
 
     /**

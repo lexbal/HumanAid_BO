@@ -1,0 +1,27 @@
+App\Entity\Address:
+  address-{1..10}:
+    street: "<streetAddress()>"
+    zipcode: "<postcode()>"
+    city: "<city()>"
+    region: "<city()>"
+    department: "<city()>"
+    country: "@country-<current()>"
+    user: "@user-<current()>"
+
+  assoc-address-{1..5}:
+    street: "<streetAddress()>"
+    zipcode: "<postcode()>"
+    city: "<city()>"
+    region: "<city()>"
+    department: "<city()>"
+    country: "@country-<current()>"
+    user: "@assoc-<current()>"
+
+  comp-address-{1..5}:
+    street: "<streetAddress()>"
+    zipcode: "<postcode()>"
+    city: "<city()>"
+    region: "<city()>"
+    department: "<city()>"
+    country: "@country-<current()>"
+    user: "@comp-<current()>"

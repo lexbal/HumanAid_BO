@@ -1,17 +1,28 @@
 version: '3.6'
 services:
-  php:
-    image: 'chialab/php-dev:7.3-apache'
+  database:
+    image: 'mariadb'
     volumes:
-      - '.:/var/www/html:cached'
-      - './000-default.conf:/etc/apache2/sites-available/000-default.conf:cached'
+      - "./.data/db:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+  php:
+    build: .
+    volumes:
+      - '.:/app'
+    links:
+      - database
     depends_on:
       - database
       - mailhog
-  database:
-    image: 'mariadb'
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
+  nginx:
+    image: 'nginx'
+    links:
+      - php
+    volumes:
+      - './:/app'
+      - './humanaid_bo.conf:/etc/nginx/conf.d/default.conf'
+      - './logs/nginx/:/var/log/nginx'
   adminer:
     image: 'adminer'
     environment:
@@ -19,6 +30,3 @@ services:
       - ADMINER_DESIGN=brade
   mailhog:
     image: 'mailhog/mailhog'
-    ports:
-      - '8025:8025'
-      - '1025:1025'
