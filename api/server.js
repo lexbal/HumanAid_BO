@@ -14,6 +14,8 @@ import assocRouter from './routes/assoc';
 import eventRouter from './routes/event';
 import rateLimit from 'express-rate-limit';
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 dotenv.config();
 const app = express();
@@ -38,6 +40,7 @@ app.use(
 );
 
 // routes
+app.use('/api/v1/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', userRouter);
 app.use('/assoc', assocRouter);
 app.use('/rating', ratingRouter);
