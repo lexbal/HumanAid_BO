@@ -41,6 +41,32 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function countUsersTotal()
+    {
+        return $this->createQueryBuilder('u')
+            ->select('count(u.id) AS total')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countUsers()
+    {
+        return $this->createQueryBuilder('u')
+            ->select('sum(IF(u.roles LIKE \'%ASSOC%\', 1, 0)) AS associations, sum(IF(u.roles LIKE \'%COMP%\', 1, 0)) AS companies, sum(IF(u.roles LIKE \'%USER%\', 1, 0)) AS users')
+            ->getQuery()
+            ->getResult()[0];
+    }
+
+    public function chart()
+    {
+        return $this->createQueryBuilder('u')
+            ->select('DATE_FORMAT(u.created_at, \'%Y-%m-%d\') as date, sum(IF(u.roles LIKE \'%ASSOC%\', 1, 0)) AS assoc, sum(IF(u.roles LIKE \'%COMP%\', 1, 0)) AS company, sum(IF(u.roles LIKE \'%USER%\', 1, 0)) AS user')
+            ->groupBy('date')
+            ->orderBy('date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
