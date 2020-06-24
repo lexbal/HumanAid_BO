@@ -31,24 +31,27 @@
                     <td>{{ event.description }}</td>
                 </tr>
                 <tr>
-                    <th>Date de début</th>
-                    <td>{{ event.startDate ? event.startDate|date('Y-m-d H:i:s') : '' }}</td>
+                    <th>Déroulement</th>
+                    <td>
+                        {% if event.startDate|date('Y-m-d') == event.endDate|date('Y-m-d') %}
+                            le {{ event.startDate|date('d/m/Y') }} de {{ event.startDate|date('H:i') }} à {{ event.endDate|date('H:i') }}
+                        {% else %}
+                            du {{ event.startDate ? event.startDate|date('d/m/Y à H:i') : '' }} au {{ event.endDate ? event.endDate|date('d/m/Y à H:i') : '' }}
+                        {% endif %}
+                    </td>
                 </tr>
-                <tr>
-                    <th>Date de fin</th>
-                    <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
-                </tr>
-                <tr>
-                    <th>Date de publication</th>
-                    <td>{{ event.publishDate ? event.publishDate|date('Y-m-d H:i:s') : '' }}</td>
-                </tr>
+
                 <tr>
                     <th>Note</th>
                     <td>{{ event.rating }}</td>
                 </tr>
                 <tr>
                     <th>Association</th>
-                    <td>{{ event.owner ? event.owner.name : '' }}</td>
+                    <td><a href="{{ path('user_show', { 'id': event.owner.id }) }}">{{ event.owner ? event.owner.name : '' }}</a></td>
+                </tr>
+                <tr>
+                    <th>Date de publication</th>
+                    <td>{{ event.publishDate ? event.publishDate|date('d/m/Y à H:i') : '' }}</td>
                 </tr>
                 </tbody>
             </table>

@@ -11,6 +11,70 @@
             </div>
         {% endif %}
     </div>
+    <div class="form-group">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+        {% if form_errors(form.name) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.name) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.username) }}
+        {{ form_widget(form.username) }}
+        {% if form_errors(form.username) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.username) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email) }}
+        {% if form_errors(form.email) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.email) }}
+            </div>
+        {% endif %}
+    </div>
+
+    {% for passwordField in form.password %}
+        <div class="form-group">
+            {{ form_label(passwordField) }}
+            {{ form_widget(passwordField) }}
+            {% if form_errors(passwordField) %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form_errors(passwordField) }}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <div class="form-group">
+        {{ form_label(form.landline) }}
+        {{ form_widget(form.landline) }}
+        {% if form_errors(form.landline) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.landline) }}
+            </div>
+        {% endif %}
+    </div>
+
+    {{ form_label(form.addresses) }}
+    <div class="jumbotron">
+        {% for address in form.addresses.vars.prototype.vars.form.children %}
+            <div class="form-group">
+                {{ form_label(address) }}
+                {{ form_widget(address) }}
+                {% if form_errors(address) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(address) }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
 
     <div id="div-ajax">
         {% if form.manager_first_name is defined %}
@@ -102,56 +166,6 @@
             </div>
         {% endif %}
     </div>
-
-    <div class="form-group">
-        {{ form_label(form.name) }}
-        {{ form_widget(form.name) }}
-        {% if form_errors(form.name) %}
-            <div class="alert alert-danger" role="alert">
-                {{ form_errors(form.name) }}
-            </div>
-        {% endif %}
-    </div>
-
-    <div class="form-group">
-        {{ form_label(form.username) }}
-        {{ form_widget(form.username) }}
-        {% if form_errors(form.username) %}
-            <div class="alert alert-danger" role="alert">
-                {{ form_errors(form.username) }}
-            </div>
-        {% endif %}
-    </div>
-    <div class="form-group">
-        {{ form_label(form.email) }}
-        {{ form_widget(form.email) }}
-        {% if form_errors(form.email) %}
-            <div class="alert alert-danger" role="alert">
-                {{ form_errors(form.email) }}
-            </div>
-        {% endif %}
-    </div>
-    <div class="form-group">
-        {{ form_label(form.landline) }}
-        {{ form_widget(form.landline) }}
-        {% if form_errors(form.landline) %}
-            <div class="alert alert-danger" role="alert">
-                {{ form_errors(form.landline) }}
-            </div>
-        {% endif %}
-    </div>
-
-    {% for passwordField in form.password %}
-        <div class="form-group">
-            {{ form_label(passwordField) }}
-            {{ form_widget(passwordField) }}
-            {% if form_errors(passwordField) %}
-                <div class="alert alert-danger" role="alert">
-                    {{ form_errors(passwordField) }}
-                </div>
-            {% endif %}
-        </div>
-    {% endfor %}
 
     <div class="form-group">
         <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>

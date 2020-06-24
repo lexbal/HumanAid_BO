@@ -14,9 +14,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Event;
-use App\Entity\User;
+use App\Entity\{
+    Event, User
+};
+
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\LineChart;
+use DateTime;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,21 +48,25 @@ class HomeController extends AbstractController
      * )
      *
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function index()
     {
         $em = $this->getDoctrine()->getManager();
-        /** UserRepository $userRepo */
+        /**
+         * UserRepository $userRepo
+         */
         $userRepo = $em->getRepository(User::class);
-        /** EventRepository $eventRepo */
+        /**
+         * EventRepository $eventRepo
+         */
         $eventRepo = $em->getRepository(Event::class);
 
         $chart_data = [['Date de publication', 'Evenements']];
 
         foreach ($eventRepo->chart() as $row) {
             $chart_data[] = [
-                new \DateTime($row['date']), intval($row['total'])
+                new DateTime($row['date']), intval($row['total'])
             ];
         }
 
@@ -67,11 +75,13 @@ class HomeController extends AbstractController
             $chart_data
         );
 
-        $chart_data = [['Date de publication', 'Associations', 'Entreprises', 'Utilisateurs']];
+        $chart_data = [
+            ['Date de publication', 'Associations', 'Entreprises', 'Utilisateurs']
+        ];
 
         foreach ($userRepo->chart() as $row) {
             $chart_data[] = [
-                new \DateTime($row['date']),
+                new DateTime($row['date']),
                 intval($row['assoc']),
                 intval($row['company']),
                 intval($row['user'])
@@ -97,6 +107,14 @@ class HomeController extends AbstractController
         );
     }
 
+    /**
+     * Chart creation
+     *
+     * @param string $title get title
+     * @param array  $data  get data
+     *
+     * @return LineChart
+     */
     public function createChart($title, $data)
     {
         $event_chart = new LineChart();

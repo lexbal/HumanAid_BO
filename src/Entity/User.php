@@ -46,6 +46,13 @@ class User implements UserInterface
         self::ROLE_ASSOC
     ];
 
+    public static $roleStringTypes = [
+        self::ROLE_USER  => "Utilisateur",
+        self::ROLE_ADMIN => "Administrateur",
+        self::ROLE_COMP  => "Companie",
+        self::ROLE_ASSOC => "Association"
+    ];
+
     /**
      * ID attribute
      *
@@ -440,6 +447,20 @@ class User implements UserInterface
         $this->email = $email;
 
         return $this;
+    }
+
+    /**
+     * Role Getter
+     *
+     * @return string|null
+     */
+    public function getRole(): ?string
+    {
+        if (!empty($this->roles)) {
+            return array_values($this->roles)[0];
+        }
+
+        return null;
     }
 
     /**

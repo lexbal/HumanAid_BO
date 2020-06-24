@@ -31,29 +31,47 @@
                         <td>{{ user.username }}</td>
                     </tr>
                     <tr>
+                        <th>Email</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Téléphone</th>
+                        <td>{{ user.landline }}</td>
+                    </tr>
+                    <tr>
                         <th>Description</th>
                         <td>{{ user.description }}</td>
                     </tr>
                     <tr>
-                        <th>Status</th>
-                        <td>{{ user.status }}</td>
+                        <th>Adresse actuelle</th>
+                        <td>{{ user.addresses|first }}</td>
                     </tr>
-                    <tr>
-                        <th>Siret</th>
-                        <td>{{ user.siret }}</td>
-                    </tr>
-                    <tr>
-                        <th>Location</th>
-                        <td>{{ user.location }}</td>
-                    </tr>
-                    <tr>
-                        <th>Website</th>
-                        <td>{{ user.website }}</td>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <td>{{ user.email }}</td>
-                    </tr>
+                    {% if 'ROLE_ASSOC' in user.roles or 'ROLE_COMP' in user.roles %}
+                        <tr>
+                            <th>Manager</th>
+                            <td>{{ user.managerLastName ~ " " ~ user.managerFirstName }}</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td>{{ user.status }}</td>
+                        </tr>
+                        <tr>
+                            <th>Siret</th>
+                            <td>{{ user.siret }}</td>
+                        </tr>
+                        <tr>
+                            <th>Website</th>
+                            <td><a href="{{ user.website }}">{{ user.website }}</a></td>
+                        </tr>
+                        <tr>
+                            <th>Facebook</th>
+                            <td><a href="{{ user.facebook }}">{{ user.facebook }}</a></td>
+                        </tr>
+                        <tr>
+                            <th>Twitter</th>
+                            <td><a href="{{ user.twitter }}">{{ user.twitter }}</a></td>
+                        </tr>
+                    {% endif %}
                     <tr>
                     {% if 'ROLE_ASSOC' in user.roles %}
                         {% set roles = 'Association' %}
@@ -67,6 +85,18 @@
                         <th>Roles</th>
                         <td>{{ roles }}</td>
                     </tr>
+                    {% if user.createdAt|date('d/m/Y') != "30/11/-0001" %}
+                        <tr>
+                            <th>Créé le</th>
+                            <td>{{ user.createdAt|date('d/m/Y à H:i') }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if user.updatedAt|date('d/m/Y') != "30/11/-0001"  %}
+                        <tr>
+                            <th>Modifié le</th>
+                            <td>{{ user.updatedAt|date('d/m/Y à H:i') }}</td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>

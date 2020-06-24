@@ -99,14 +99,15 @@ class UserType extends AbstractType
             ]
         )->add(
             'roles', ChoiceType::class, [
-                    'choices' => $this->getChoices(),
-                    'attr'      =>  [
-                        'class' =>  'form-control'
-                    ],
-                    'expanded' => false,
-                    'multiple' => true,
-                    'label' => 'Rôles'
-                ]
+                'label'      => "Roles :",
+                'required'   => true,
+                'multiple'   => false,
+                'attr'       => [
+                    'class'  => 'form-control'
+                ],
+                'choices'    => $this->getChoices(),
+                'data'       => User::ROLE_USER
+            ]
         )->add(
             'password', RepeatedType::class, [
                 'type'        => PasswordType:: class,
@@ -138,6 +139,13 @@ class UserType extends AbstractType
                     ]
                 ],
             ]
+        )->add(
+            'addresses', CollectionType::class, [
+                'label'          => "Addresses :",
+                'allow_add'      => true,
+                'prototype'      => true,
+                'entry_type'     => AddressType::class
+            ]
         );
 
         $builder->addEventListener(
@@ -145,7 +153,7 @@ class UserType extends AbstractType
             function (FormEvent $event) {
                 $this->checkRole(
                     $event->getForm(),
-                    $event->getData()->getRoles()
+                    $event->getData()->getRole()
                 );
             }
         );
@@ -162,12 +170,15 @@ class UserType extends AbstractType
     }
 
     /**
+     * Form roles changer
+     *
      * @param FormInterface $form Form
-     * @param $role
+     * @param string        $role Roles
+     *
+     * @return mixed
      */
     public function checkRole(FormInterface $form, $role)
     {
-        echo "<script>console.log('". var_dump($role) ."')</script>";
         if ($role === User::ROLE_COMP || $role === User::ROLE_ASSOC) {
             $form->add(
                 'manager_first_name', TextType::class, [
@@ -256,8 +267,8 @@ class UserType extends AbstractType
     {
         $array = [];
 
-        foreach (User::$roleTypes as $type) {
-            $array[$type] = $type;
+        foreach (User::$roleStringTypes as $typeString => $type) {
+            $array[$type] = $typeString;
         }
 
         return $array;

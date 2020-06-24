@@ -7,9 +7,9 @@ function formDataChange(btnModifier, url)
 
     $.ajax(
         {
-            url : url,
+            url: url,
             type: _form.attr('method'),
-            data : _data,
+            data: _data,
         }
     ).then(
         function (html) {

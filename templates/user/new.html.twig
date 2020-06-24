@@ -21,7 +21,7 @@
 
     <script type="application/javascript">
         $(function() {
-            formDataChange($("#{{ form.roles.vars.id }}"));
+            formDataChange($("#{{ form.roles.vars.id }}"), "{{ path('user_new') }}");
             $("#{{ form.roles.vars.id }}").on('change', function () {
                 formDataChange($(this), "{{ path('user_new') }}");
             });
