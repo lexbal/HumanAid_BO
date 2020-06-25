@@ -4,10 +4,10 @@
 
     <div class="form-group">
         {{ form_label(form.roles) }}
-        {{ form_widget(form.roles) }}
-        {% if form_errors(form.roles) %}
+        {{ form_widget(form.roles.vars.prototype) }}
+        {% if form_errors(form.roles.vars.prototype) %}
             <div class="alert alert-danger" role="alert">
-                {{ form_errors(form.roles) }}
+                {{ form_errors(form.roles.vars.prototype) }}
             </div>
         {% endif %}
     </div>
@@ -62,18 +62,23 @@
     </div>
 
     {{ form_label(form.addresses) }}
-    <div class="jumbotron">
-        {% for address in form.addresses.vars.prototype.vars.form.children %}
-            <div class="form-group">
-                {{ form_label(address) }}
-                {{ form_widget(address) }}
-                {% if form_errors(address) %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ form_errors(address) }}
-                    </div>
-                {% endif %}
-            </div>
-        {% endfor %}
+    {% import 'user/_macro.html.twig' as formMacro %}
+    <div class="jumbotron" id="addresses" data-prototype="{{ formMacro.printAddressRow(form.addresses.vars.prototype)|e('html_attr') }}">
+        <div id="address_1" class="address">
+            {% for address in form.addresses %}
+                <div class="form-group">
+                    {{ form_label(address) }}
+                    {{ form_widget(address) }}
+                    {% if form_errors(address) %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ form_errors(address) }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="button" class="btn btn-success" id="add_address">Ajouter une adresse</button>
     </div>
 
     <div class="jumbotron">

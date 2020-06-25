@@ -98,14 +98,21 @@ class UserType extends AbstractType
                 ]
             ]
         )->add(
-            'roles', ChoiceType::class, [
-                'label'      => "Roles :",
-                'required'   => true,
-                'attr'       => [
-                    'class'  => 'form-control'
-                ],
-                'choices'    => $this->getChoices(),
-                'data'       => User::ROLE_USER
+            'roles', CollectionType::class, [
+                'label'          => "Roles :",
+                'allow_add'      => true,
+                'prototype'      => true,
+                'entry_type'     => ChoiceType::class,
+                'entry_options'  => [
+                    'label'      => false,
+                    'required'   => true,
+                    'multiple'   => false,
+                    'attr'       => [
+                        'class'  => 'form-control'
+                    ],
+                    'choices'    => $this->getChoices(),
+                    'data'       => User::ROLE_USER
+                ]
             ]
         )->add(
             'password', RepeatedType::class, [
@@ -142,6 +149,7 @@ class UserType extends AbstractType
             'addresses', CollectionType::class, [
                 'label'          => "Addresses :",
                 'allow_add'      => true,
+                'allow_delete'   => true,
                 'prototype'      => true,
                 'entry_type'     => AddressType::class
             ]

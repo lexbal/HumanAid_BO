@@ -67,13 +67,7 @@ class AddressType extends AbstractType
                         'class'   => 'form-control'
                     ],
                     'constraints' => [
-                        new NotBlank(),
-                        new Length(
-                            [
-                                'min' => 5,
-                                'max' => 5,
-                            ]
-                        )
+                        new NotBlank()
                     ]
                 ]
             )->add(

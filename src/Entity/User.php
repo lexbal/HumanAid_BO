@@ -130,7 +130,8 @@ class User implements UserInterface
      *
      * @ORM\OneToMany(
      *     targetEntity="App\Entity\Address",
-     *     mappedBy="user"
+     *     mappedBy="user",
+     *     cascade={"persist"}
      * )
      */
     private $addresses;

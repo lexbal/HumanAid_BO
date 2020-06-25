@@ -45,7 +45,8 @@ class Address
      *
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\User",
-     *     inversedBy="addresses"
+     *     inversedBy="addresses",
+     *     cascade={"persist"}
      * )
      */
     private $user;

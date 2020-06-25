@@ -16,16 +16,12 @@ services:
       - database
     volumes:
       - './api:/app'
-    networks:
-      - api_bridge
   database:
     image: 'mariadb'
     volumes:
       - "./.data/db:/var/lib/mysql"
     environment:
       MYSQL_ROOT_PASSWORD: root
-    networks:
-      - api_bridge
   nginx:
     image: 'nginx'
     links:
@@ -41,6 +37,3 @@ services:
       - ADMINER_DESIGN=brade
   mailhog:
     image: 'mailhog/mailhog'
-networks:
-  api_bridge:
-    driver: bridge
