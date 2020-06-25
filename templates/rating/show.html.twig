@@ -33,11 +33,11 @@
                     </tr>
                     <tr>
                         <th>Utilisateur</th>
-                        <td>{{ rating.user.username }}</td>
+                        <td><a href="{{ path('user_show', { 'id': rating.user.id }) }}">{{ rating.user.username }}</a></td>
                     </tr>
                     <tr>
                         <th>Evenement</th>
-                        <td>{{ rating.event.title }}</td>
+                        <td><a href="{{ path('event_show', { 'id': rating.event.id }) }}">{{ rating.event.title }}</a></td>
                     </tr>
                     <tr>
                         <th>Date de publication</th>

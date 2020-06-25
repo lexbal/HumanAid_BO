@@ -15,13 +15,13 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use App\Entity\EventCategory;
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\{
-    DateTimeType, IntegerType,
-    TextareaType, TextType
+    DateTimeType, TextareaType, TextType
 };
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -86,18 +86,9 @@ class EventType extends AbstractType
                 'time_widget' => 'single_text'
             ]
         )->add(
-            'rating', IntegerType::class, [
-                'label'       => 'Note :',
-                'required'    => true,
-                'attr'        => [
-                    'class'   => 'form-control',
-                    'min'     => '0',
-                    'max'     => '5',
-                ],
-            ]
-        )->add(
-            'owner', EntityType ::class, [
+            'owner', EntityType::class, [
                 'label'        => 'Association :',
+                'required'     => false,
                 'class'        => User::class,
                 'choice_label' => 'name',
                 'attr'         => [
@@ -107,6 +98,16 @@ class EventType extends AbstractType
                     return $er->createQueryBuilder('u')
                         ->where("'[\"ROLE_ASSOC\"]' = u.roles");
                 },
+            ]
+        )->add(
+            'categories', EntityType::class, [
+                'label'      => 'Categories :',
+                'attr'       => [
+                    'class'  => 'form-control'
+                ],
+                'class'        => EventCategory::class,
+                'choice_label' => 'label',
+                'multiple'     => true,
             ]
         );
     }

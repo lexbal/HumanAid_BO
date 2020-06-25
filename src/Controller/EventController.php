@@ -15,6 +15,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\EventCategory;
 use App\Form\EventType;
 use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -68,8 +69,7 @@ class EventController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $event = new Event();
-        $form  = $this->createForm(EventType::class, $event);
+        $form  = $this->createForm(EventType::class, $event = new Event());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -82,6 +82,16 @@ class EventController extends AbstractController
             }
 
             $entityManager = $this->getDoctrine()->getManager();
+
+            /**
+             * Event category
+             *
+             * @var EventCategory $category
+             */
+            foreach ($form->get('categories')->getData() as $category) {
+                $event->addCategory($category);
+            }
+
             $event->setPublishDate(new \DateTime());
             $entityManager->persist($event);
             $entityManager->flush();

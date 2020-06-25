@@ -14,10 +14,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Address;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\UserEditType;
 use App\Repository\UserRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,13 +68,19 @@ class UserController extends AbstractController
      * @Route("/new", name="user_new", methods={"GET","POST"})
      *
      * @return Response
+     * @throws Exception
      */
     public function new(
         Request $request, UserPasswordEncoderInterface $encoder
     ): Response {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
+        $form = $this->createForm(
+            UserType::class, $user = new User(), [
+                'method' => 'POST',
+                'attr' => [
+                    'id'     => 'new_user'
+                ]
+            ]
+        )->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$this->isCsrfTokenValid(
@@ -91,10 +99,24 @@ class UserController extends AbstractController
             );
             $user->setRoles(
                 [
-                    $form->get('roles')->getData()['__name__']
+                    $form->get('roles')->getData()
                 ]
             );
+            $user->setCreatedAt(new \DateTime());
+            $user->setUpdatedAt(new \DateTime());
             $entityManager = $this->getDoctrine()->getManager();
+
+            /**
+             * Address
+             *
+             * @var Address $address
+             */
+            foreach ($form->get('addresses')->getData() as $address) {
+                $user->addAddress($address);
+                $address->setUser($user);
+                $entityManager->persist($address);
+            }
+
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -154,7 +176,20 @@ class UserController extends AbstractController
                 throw new AccessDeniedException('Formulaire invalide');
             }
 
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+
+            /**
+             * Address
+             *
+             * @var Address $address
+             */
+            foreach ($form->get('addresses')->getData() as $address) {
+                $user->addAddress($address);
+                $address->setUser($user);
+                $em->persist($address);
+            }
+
+            $em->flush();
             return $this->redirectToRoute('user_index');
         }
 
