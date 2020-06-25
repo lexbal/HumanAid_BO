@@ -96,7 +96,7 @@ class UserController extends AbstractController
             );
             $user->setRoles(
                 [
-                    $form->get('roles')->getData()['__name__']
+                    $form->get('roles')->getData()
                 ]
             );
             $entityManager = $this->getDoctrine()->getManager();

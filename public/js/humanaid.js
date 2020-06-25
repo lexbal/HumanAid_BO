@@ -3,7 +3,11 @@ function formDataChange(btnModifier, url)
     let _form = btnModifier.closest('form');
     let _data = {};
 
-    _data[btnModifier.attr('name')] = btnModifier.val();
+    if (btnModifier.attr('name') === "user[roles]") {
+        _data[btnModifier.attr('name')] = [btnModifier.val()];
+    } else {
+        _data[btnModifier.attr('name')] = btnModifier.val();
+    }
 
     $.ajax(
         {

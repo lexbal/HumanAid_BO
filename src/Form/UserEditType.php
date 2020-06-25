@@ -15,16 +15,22 @@
 namespace App\Form;
 
 use App\Entity\User;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+
+use Symfony\Component\Form\{
+    AbstractType, FormBuilderInterface,
+    FormEvent, FormEvents, FormInterface
+};
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\{
     NotBlank, Length
 };
-use Symfony\Component\Form\Extension\Core\Type\{
-    ChoiceType, CollectionType, TextareaType,
-    TextType, EmailType
-};
+use Symfony\Component\Form\Extension\Core\Type\{ChoiceType,
+    CollectionType,
+    PasswordType,
+    RepeatedType,
+    TextareaType,
+    TextType,
+    EmailType};
 
 /**
  * UserEditType class
@@ -51,103 +57,175 @@ class UserEditType extends AbstractType
     {
         $builder->add(
             'name', TextType::class, [
-                'label' =>  'Nom :',
+                'label'     =>  'Nom :',
                 'required'  =>  true,
-                'attr'  =>  [
+                'attr'      =>  [
                     'class' =>  'form-control'
                 ],
-                'constraints'   =>  [
+                'constraints' =>  [
                     new NotBlank()
                 ]
             ]
         )->add(
             'username', TextType::class, [
-                'label' =>  'Pseudo :',
+                'label'     =>  'Pseudo :',
                 'required'  =>  true,
-                'attr'  =>  [
+                'attr'      =>  [
                     'class' =>  'form-control'
                 ],
-                'constraints'   =>  [
+                'constraints' =>  [
                     new NotBlank()
                 ]
             ]
         )->add(
-            'description', TextareaType::class, [
-                'label' =>  'Description :',
+            'landline', TextType::class, [
+                'label'     =>  'Telephone :',
                 'required'  =>  false,
-                'attr'  =>  [
-                    'class' =>  'form-control'
-                ],
-            ]
-        )->add(
-            'status', TextType::class, [
-                'label' =>  'Statut :',
-                'required'  =>  false,
-                'attr'  =>  [
-                    'class' =>  'form-control'
-                ],
-            ]
-        )->add(
-            'siret', TextType::class, [
-                'label' =>  'Numéro de SIRET :',
-                'required'  =>  false,
-                'constraints'   =>  [
-                    new Length(
-                        [
-                            'min'   =>  14,
-                            'minMessage' => 'Votre numéro de SIRET'.
-                                'doit contenir {{ 14 }} chiffres',
-                            'max'   =>  14
-                        ]
-                    ),
-                ],
-                'attr'  =>  [
-                    'class' =>  'form-control'
-                ],
-            ]
-        )->add(
-            'location', TextType::class, [
-                'label' =>  'Adresse :',
-                'required'  =>  false,
-                'attr'  =>  [
-                    'class' =>  'form-control'
-                ],
-            ]
-        )->add(
-            'website', TextType::class, [
-                'label' =>  'Site web :',
-                'required'  =>  false,
-                'attr'  =>  [
+                'attr'      =>  [
                     'class' =>  'form-control'
                 ],
             ]
         )->add(
             'email', EmailType::class, [
-                'label' =>  'Email :',
+                'label'     =>  'Email :',
                 'required'  =>  true,
-                'attr'  =>  [
+                'attr'      =>  [
                     'class' =>  'form-control'
                 ],
-                'constraints'   =>  [
+                'constraints' =>  [
                     new NotBlank()
                 ]
             ]
         )->add(
-            'roles', CollectionType::class, [
-                'label'          => "Roles :",
-                'entry_type'     => ChoiceType::class,
-                'entry_options'  => [
-                    'label'      => false,
-                    'required'   => true,
-                    'multiple'   => false,
-                    'attr'       => [
-                        'class'  => 'form-control'
-                    ],
-                    'choices'    => $this->getChoices(),
-                    'data'       => $options["data"]->getRoles()[0]
-                ]
+            'roles', ChoiceType::class, [
+                'label'      => "Roles :",
+                'required'   => true,
+                'multiple'   => false,
+                'attr'       => [
+                    'class'  => 'form-control'
+                ],
+                'choices'    => $this->getChoices(),
+                'data'       => User::ROLE_USER
+            ]
+        )->add(
+            'addresses', CollectionType::class, [
+                'label'          => "Addresses :",
+                'allow_add'      => true,
+                'prototype'      => true,
+                'entry_type'     => AddressType::class
             ]
         );
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) {
+                $this->checkRole(
+                    $event->getForm(),
+                    $event->getData()->getRole()
+                );
+            }
+        );
+
+        $builder->get('roles')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) {
+                $this->checkRole(
+                    $event->getForm()->getParent(),
+                    $event->getForm()->getData()
+                );
+            }
+        );
+    }
+
+    /**
+     * Form roles changer
+     *
+     * @param FormInterface $form Form
+     * @param string        $role Roles
+     *
+     * @return mixed
+     */
+    public function checkRole(FormInterface $form, $role)
+    {
+        if ($role === User::ROLE_COMP || $role === User::ROLE_ASSOC) {
+            $form->add(
+                'manager_first_name', TextType::class, [
+                    'label'     => "Prénom du manager :",
+                    'required'  =>  false,
+                    'attr'      =>  [
+                        'class' =>  'form-control'
+                    ]
+                ]
+            )->add(
+                'manager_last_name', TextType::class, [
+                    'label'     => "Nom du manager :",
+                    'required'  =>  false,
+                    'attr'      =>  [
+                        'class' =>  'form-control'
+                    ]
+                ]
+            )->add(
+                'website', TextType::class, [
+                    'label'     =>  'Site web :',
+                    'required'  =>  false,
+                    'attr'      =>  [
+                        'class' =>  'form-control'
+                    ],
+                ]
+            )->add(
+                'siret', TextType::class, [
+                    'label'       => 'Numéro de SIRET :',
+                    'required'    => false,
+                    'constraints' => [
+                        new Length(
+                            [
+                                'min'        =>  14,
+                                'minMessage' => 'Votre numéro de SIRET doit'.
+                                    'contenir {{ 14 }} chiffres',
+                                'max'        =>  14
+                            ]
+                        ),
+                    ],
+                    'attr'  =>  [
+                        'class' =>  'form-control'
+                    ],
+                ]
+            )->add(
+                'description', TextareaType::class, [
+                    'label'     =>  'Description :',
+                    'required'  =>  false,
+                    'attr'      =>  [
+                        'class' =>  'form-control'
+                    ],
+                ]
+            )->add(
+                'status', TextType::class, [
+                    'label'     =>  'Statut :',
+                    'required'  =>  false,
+                    'attr'      =>  [
+                        'class' =>  'form-control'
+                    ],
+                ]
+            )->add(
+                'facebook', TextType::class, [
+                    'label'     =>  'Lien facebook :',
+                    'required'  =>  false,
+                    'attr'      =>  [
+                        'class' =>  'form-control'
+                    ],
+                ]
+            )->add(
+                'twitter', TextType::class, [
+                    'label'     =>  'Lien twitter :',
+                    'required'  =>  false,
+                    'attr'      =>  [
+                        'class' =>  'form-control'
+                    ],
+                ]
+            );
+        }
+
+        return true;
     }
 
     /**
@@ -159,8 +237,8 @@ class UserEditType extends AbstractType
     {
         $array = [];
 
-        foreach (User::$roleTypes as $type) {
-            $array[$type] = $type;
+        foreach (User::$roleStringTypes as $typeString => $type) {
+            $array[$type] = $typeString;
         }
 
         return $array;

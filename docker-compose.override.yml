@@ -1,9 +1,12 @@
 version: '3.6'
 
 services:
-  php:
+  app:
     ports:
       - '9000:9000'
+  api:
+    ports:
+      - "3000:8080"
   nginx:
     ports:
       - '80:80'
