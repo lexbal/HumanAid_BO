@@ -17,6 +17,8 @@ namespace App\Repository;
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 
 /**
  * EventRepository class
@@ -41,6 +43,13 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
+    /**
+     * Get events
+     *
+     * @return mixed
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
     public function countEvents()
     {
         return $this->createQueryBuilder('e')
@@ -49,6 +58,13 @@ class EventRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    /**
+     * Get past events
+     *
+     * @return mixed
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
     public function findPastEvents()
     {
         return $this->createQueryBuilder('e')
@@ -58,6 +74,13 @@ class EventRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    /**
+     * Get current events
+     *
+     * @return mixed
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
     public function findCurrentEvents()
     {
         return $this->createQueryBuilder('e')
@@ -67,6 +90,13 @@ class EventRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    /**
+     * Get future events
+     *
+     * @return mixed
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
     public function findFutureEvents()
     {
         return $this->createQueryBuilder('e')
@@ -76,10 +106,16 @@ class EventRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    /**
+     * Get chart data
+     *
+     * @return mixed
+     */
     public function chart()
     {
         return $this->createQueryBuilder('e')
-            ->select('DATE_FORMAT(e.publish_date, \'%Y-%m-%d\') as date, count(e.id) AS total')
+            ->select('DATE_FORMAT(e.publish_date, \'%Y-%m-%d\') as date')
+            ->addSelect('count(e.id) AS total')
             ->groupBy('date')
             ->orderBy('date', 'ASC')
             ->getQuery()

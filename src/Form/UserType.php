@@ -17,19 +17,21 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\{
     NotBlank, Length
 };
-use Symfony\Component\Form\Extension\Core\Type\{
-    ChoiceType,
+use Symfony\Component\Form\Extension\Core\Type\{ChoiceType,
     CollectionType,
+    IntegerType,
     TextareaType,
     TextType,
     RepeatedType,
     EmailType,
-    PasswordType
-};
+    PasswordType};
 
 /**
  * UserType class
@@ -77,50 +79,8 @@ class UserType extends AbstractType
                 ]
             ]
         )->add(
-            'description', TextareaType::class, [
-                'label'     =>  'Description :',
-                'required'  =>  false,
-                'attr'      =>  [
-                    'class' =>  'form-control'
-                ],
-            ]
-        )->add(
-            'status', TextType::class, [
-                'label'     =>  'Statut :',
-                'required'  =>  false,
-                'attr'      =>  [
-                    'class' =>  'form-control'
-                ],
-            ]
-        )->add(
-            'siret', TextType::class, [
-                'label'       => 'Numéro de SIRET :',
-                'required'    => false,
-                'constraints' => [
-                    new Length(
-                        [
-                            'min'        =>  14,
-                            'minMessage' => 'Votre numéro de SIRET doit'.
-                                'contenir {{ 14 }} chiffres',
-                            'max'        =>  14
-                        ]
-                    ),
-                ],
-                'attr'  =>  [
-                'class' =>  'form-control'
-                ],
-            ]
-        )->add(
-            'location', TextType::class, [
-                'label'     =>  'Adresse :',
-                'required'  =>  false,
-                'attr'      =>  [
-                    'class' =>  'form-control'
-                ],
-            ]
-        )->add(
-            'website', TextType::class, [
-                'label'     =>  'Site web :',
+            'landline', TextType::class, [
+                'label'     =>  'Telephone :',
                 'required'  =>  false,
                 'attr'      =>  [
                     'class' =>  'form-control'
@@ -185,6 +145,88 @@ class UserType extends AbstractType
                     ]
                 ],
             ]
+        )->add(
+            'addresses', CollectionType::class, [
+                'label'          => "Addresses :",
+                'allow_add'      => true,
+                'allow_delete'   => true,
+                'prototype'      => true,
+                'entry_type'     => AddressType::class
+            ]
+        )->add(
+            'manager_first_name', TextType::class, [
+                'label'     => "Prénom du manager :",
+                'required'  =>  false,
+                'attr'      =>  [
+                    'class' =>  'form-control'
+                ]
+            ]
+        )->add(
+            'manager_last_name', TextType::class, [
+                'label'     => "Nom du manager :",
+                'required'  =>  false,
+                'attr'      =>  [
+                    'class' =>  'form-control'
+                ]
+            ]
+        )->add(
+            'website', TextType::class, [
+                'label'     =>  'Site web :',
+                'required'  =>  false,
+                'attr'      =>  [
+                    'class' =>  'form-control'
+                ],
+            ]
+        )->add(
+            'siret', TextType::class, [
+                'label'       => 'Numéro de SIRET :',
+                'required'    => false,
+                'constraints' => [
+                    new Length(
+                        [
+                            'min'        =>  14,
+                            'minMessage' => 'Votre numéro de SIRET doit'.
+                                'contenir {{ 14 }} chiffres',
+                            'max'        =>  14
+                        ]
+                    ),
+                ],
+                'attr'  =>  [
+                    'class' =>  'form-control'
+                ],
+            ]
+        )->add(
+            'description', TextareaType::class, [
+                'label'     =>  'Description :',
+                'required'  =>  false,
+                'attr'      =>  [
+                    'class' =>  'form-control'
+                ],
+            ]
+        )->add(
+            'status', TextType::class, [
+                'label'     =>  'Statut :',
+                'required'  =>  false,
+                'attr'      =>  [
+                    'class' =>  'form-control'
+                ],
+            ]
+        )->add(
+            'facebook', TextType::class, [
+                'label'     =>  'Lien facebook :',
+                'required'  =>  false,
+                'attr'      =>  [
+                    'class' =>  'form-control'
+                ],
+            ]
+        )->add(
+            'twitter', TextType::class, [
+                'label'     =>  'Lien twitter :',
+                'required'  =>  false,
+                'attr'      =>  [
+                    'class' =>  'form-control'
+                ],
+            ]
         );
     }
 
@@ -197,8 +239,8 @@ class UserType extends AbstractType
     {
         $array = [];
 
-        foreach (User::$roleTypes as $type) {
-            $array[$type] = $type;
+        foreach (User::$roleStringTypes as $typeString => $type) {
+            $array[$type] = $typeString;
         }
 
         return $array;

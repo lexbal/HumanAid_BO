@@ -17,6 +17,7 @@ namespace App\Controller;
 use App\Entity\Rating;
 use App\Form\RatingType;
 use App\Repository\RatingRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,11 +64,11 @@ class RatingController extends AbstractController
      * @Route("/new", name="rating_new", methods={"GET","POST"})
      *
      * @return Response
+     * @throws Exception
      */
     public function new(Request $request): Response
     {
-        $rating = new Rating();
-        $form = $this->createForm(RatingType::class, $rating);
+        $form = $this->createForm(RatingType::class, $rating = new Rating());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -80,6 +81,7 @@ class RatingController extends AbstractController
             }
 
             $entityManager = $this->getDoctrine()->getManager();
+            $rating->setPublishDate(new \DateTime());
             $entityManager->persist($rating);
             $entityManager->flush();
 

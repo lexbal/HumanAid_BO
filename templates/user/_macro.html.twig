@@ -1,0 +1,13 @@
+{% macro printAddressRow(form) %}
+    {% block _address_entry_widget %}
+        <div class="form-group" id="inputAddress">
+            {{ form_label(form) }}
+            {{ form_widget(form) }}
+            {% if form_errors(form) %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form_errors(form) }}
+                </div>
+            {% endif %}
+        </div>
+    {% endblock %}
+{% endmacro %}

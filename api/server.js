@@ -33,11 +33,13 @@ app.use(responseTime());                          // records the response time f
 
 // limit repeated requests to endpoints such as password reset
 app.use(
-  new rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 50,                  // limit each IP to 50 requests per windowMs
-    message: 'Too many requests from this IP, please try again in 15 minutes'
-  })
+    new rateLimit(
+        {
+            windowMs: 15 * 60 * 1000, // 15 minutes
+            max: 50,                  // limit each IP to 50 requests per windowMs
+            message: 'Too many requests from this IP, please try again in 15 minutes'
+        }
+    )
 );
 
 // routes
@@ -46,17 +48,19 @@ app.use('/', userRouter);
 app.use('/assoc', assocRouter);
 app.use('/rating', ratingRouter);
 app.use('/event', eventRouter);
-app.use('/company', companyRouter)
+app.use('/company', companyRouter);
 
 // setup ip address and port number
 app.set('port', process.env.PORT || 3000);
 app.set('ipaddr', '0.0.0.0');
 
 // start express server
-app.listen(app.get('port'), app.get('ipaddr'), function () {
-  console.log(
-    emoji.get('heart'),
-    'The server is running @ ' + 'http://localhost' + app.get('port'),
-    emoji.get('heart')
-  );
-});
+app.listen(
+    app.get('port'), app.get('ipaddr'), function () {
+        console.log(
+            emoji.get('heart'),
+            'The server is running @ ' + 'http://localhost:' + app.get('port'),
+            emoji.get('heart')
+        );
+    }
+);

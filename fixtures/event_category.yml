@@ -1,0 +1,15 @@
+App\Entity\EventCategory:
+  event-category-1:
+    label: "Vente de patisserie"
+
+  event-category-2:
+    label: "Defi sportif"
+
+  event-category-3:
+    label: "Concert"
+
+  event-category-4:
+    label: "Spectacle"
+
+  event-category-5:
+    label: "Partage de compétences"

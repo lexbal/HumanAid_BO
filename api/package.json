@@ -4,9 +4,14 @@
   "private": false,
   "description": "Backend: Mysql with Node.js and Express",
   "author": "HumanAid",
+  "license": "GNU General Public License (GPL)",
   "main": "server.js",
   "scripts": {
     "start": "nodemon --exec babel-node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:AlexandreBalle/HumanAid_BO.git"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

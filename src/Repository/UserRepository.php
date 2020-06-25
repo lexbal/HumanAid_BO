@@ -17,6 +17,8 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 
 /**
  * UserRepository class
@@ -41,6 +43,13 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    /**
+     * Get total users
+     *
+     * @return mixed
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
     public function countUsersTotal()
     {
         return $this->createQueryBuilder('u')
@@ -49,18 +58,33 @@ class UserRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    /**
+     * Get users
+     *
+     * @return mixed
+     */
     public function countUsers()
     {
         return $this->createQueryBuilder('u')
-            ->select('sum(IF(u.roles LIKE \'%ASSOC%\', 1, 0)) AS associations, sum(IF(u.roles LIKE \'%COMP%\', 1, 0)) AS companies, sum(IF(u.roles LIKE \'%USER%\', 1, 0)) AS users')
+            ->select('sum(IF(u.roles LIKE \'%ASSOC%\', 1, 0)) AS associations')
+            ->addSelect('sum(IF(u.roles LIKE \'%COMP%\', 1, 0)) AS companies')
+            ->addSelect('sum(IF(u.roles LIKE \'%USER%\', 1, 0)) AS users')
             ->getQuery()
             ->getResult()[0];
     }
 
+    /**
+     * Get chart data
+     *
+     * @return mixed
+     */
     public function chart()
     {
         return $this->createQueryBuilder('u')
-            ->select('DATE_FORMAT(u.created_at, \'%Y-%m-%d\') as date, sum(IF(u.roles LIKE \'%ASSOC%\', 1, 0)) AS assoc, sum(IF(u.roles LIKE \'%COMP%\', 1, 0)) AS company, sum(IF(u.roles LIKE \'%USER%\', 1, 0)) AS user')
+            ->select('DATE_FORMAT(u.created_at, \'%Y-%m-%d\') as date')
+            ->addSelect('sum(IF(u.roles LIKE \'%ASSOC%\', 1, 0)) AS assoc')
+            ->addSelect('sum(IF(u.roles LIKE \'%COMP%\', 1, 0)) AS company')
+            ->addSelect('sum(IF(u.roles LIKE \'%USER%\', 1, 0)) AS user')
             ->groupBy('date')
             ->orderBy('date', 'ASC')
             ->getQuery()

@@ -29,7 +29,6 @@
 /bin/*
 !bin/console
 !bin/symfony_requirements
-/vendor/
 
 # Assets and user uploads
 /web/bundles/
@@ -47,9 +46,6 @@
 
 # Backup entities generated with doctrine:generate:entities command
 **/Entity/*~
-
-# Embedded web-server pid file
-/.web-server-pid
 
 /.symfony.lock
 /.idea
@@ -74,5 +70,8 @@
 ###> symfony/phpunit-bridge ###
 .phpunit
 .phpunit.result.cache
-/phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+/logs
+/node_modules/
+/.data
