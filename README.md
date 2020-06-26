@@ -24,7 +24,7 @@ git checkout develop && git checkout -b new/feature/branch
 - Build your docker containers by typing the following command :
 
 ```xml
-docker-compose up -d 
+docker-compose up -d --build
 ```
 
 - Once your containers are up, install Symfony dependencies and create the database by typing this command in your repository :

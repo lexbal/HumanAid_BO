@@ -34,7 +34,7 @@ export const signUp = (req, res) => {
                         message: err
                     });
                 }
-                
+
                 return res.status(200).send(data);
             });
         });
@@ -52,14 +52,14 @@ export const login = (req, res) => {
     User.login({
         username: req.body.username,
         email:    req.body.email
-    }, 
+    },
     (err, data) => {
         if (err) {
             return res.status(403).send({
                 message: "Your identifiers are incorrect !"
             });
         }
-        
+
         bcrypt.compare(req.body.password, data.password, (error, success) => {
             if (success) {
                 const payload = {
@@ -67,17 +67,18 @@ export const login = (req, res) => {
                     iat: moment().unix(),
                     iss: data.id
                 };
-    
+
                 let token = jwt.encode(payload, process.env.TOKEN_SECRET);
-    
+
                 return res.status(200).send({
                     username:   data.username,
                     email:      data.email,
+                    roles:      data.roles,
                     token:      `Bearer ${token}`,
                     expiration: moment().add(1, 'hour').format('D/MM/YYYY H:m')
                 });
             }
-    
+
             return res.status(403).send({
                 message: 'This password is invalid !'
             });
@@ -119,7 +120,7 @@ export const create = (req, res) => {
                         message: "Some error occurred while creating the User."
                     });
                 }
-                
+
                 return res.status(200).send(data);
             });
         });
@@ -134,7 +135,7 @@ export const findAll = (req, res) => {
                 message: "Some error occurred while retrieving users."
             });
         }
-            
+
         return res.status(200).send(data);
     });
 };
@@ -147,13 +148,13 @@ export const findOne = (req, res) => {
                 return res.status(404).send({
                     message: `Not found User with id ${req.params.id}.`
                 });
-            } 
+            }
 
             return res.status(500).send({
                 message: "Error retrieving User with id " + req.params.id
             });
         }
-        
+
         return res.status(200).send(data);
     });
 };
@@ -181,7 +182,7 @@ export const update = (req, res) => {
                 return res.status(500).send({
                     message: "Error updating User with id " + req.params.id
                 });
-            } 
+            }
 
             return res.status(200).send(data);
         }
@@ -201,10 +202,10 @@ export const remove = (req, res) => {
             return res.status(500).send({
                 message: "Could not delete User with id " + req.params.id
             });
-        } 
+        }
 
-        return res.status(200).send({ 
-            message: `User was deleted successfully!` 
+        return res.status(200).send({
+            message: `User was deleted successfully!`
         });
     });
 };
@@ -217,9 +218,9 @@ export const removeAll = (req, res) => {
                 message: "Some error occurred while removing all users."
             });
         }
-          
-        return res.status(200).send({ 
-            message: `All Users were deleted successfully!` 
+
+        return res.status(200).send({
+            message: `All Users were deleted successfully!`
         });
     });
 };
