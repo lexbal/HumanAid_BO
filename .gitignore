@@ -75,3 +75,4 @@
 /logs
 /node_modules/
 /.data
+/symfony.lock

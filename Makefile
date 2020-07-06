@@ -1,3 +1,20 @@
+CONSOLE=bin/console
+DC=docker-compose
+HAS_DOCKER:=$(shell command -v $(DC) 2> /dev/null)
+
+ifdef HAS_DOCKER
+	ifdef PHP_ENV
+		EXECROOT=$(DC) exec -e PHP_ENV=$(PHP_ENV) app
+		EXEC=$(DC) exec -e PHP_ENV=$(PHP_ENV) app
+	else
+		EXECROOT=$(DC) exec app
+		EXEC=$(DC) exec app
+	endif
+else
+	EXECROOT=
+	EXEC=
+endif
+
 .DEFAULT_GOAL := help
 
 .PHONY: help ## Generate list of targets with descriptions
@@ -11,17 +28,17 @@ help:
 
 .PHONY: startServer ## Start symfony server
 startServer:
-	php bin/console server:run
+	$(EXEC) $(CONSOLE) server:run
 
 .PHONY: fixtures ## Create false data
 fixtures:
-	php bin/console hautelook:fixtures:load -q
+	$(EXEC) $(CONSOLE) hautelook:fixtures:load -q
 
 .PHONY: start ## Start project
 start:
 	composer install
-	php bin/console doctrine:database:create --if-not-exists
-	php bin/console doctrine:migration:migrate
+	$(EXEC) $(CONSOLE) doctrine:database:create --if-not-exists
+	$(EXEC) $(CONSOLE) doctrine:schema:update --force
 
 .PHONY: install ## Install dependencies
 install:
@@ -34,7 +51,7 @@ CQtests:
 
 .PHONY: UNITtests ## Test unit
 UNITtests:
-	php bin/phpunit tests
+	$(EXEC) bin/phpunit tests
 
 .PHONY: tests-fix ## Fix code
 tests-fix:
