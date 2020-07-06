@@ -51,7 +51,7 @@ CQtests:
 
 .PHONY: UNITtests ## Test unit
 UNITtests:
-	$(EXEC) bin/phpunit tests
+	php bin/phpunit tests
 
 .PHONY: tests-fix ## Fix code
 tests-fix:
