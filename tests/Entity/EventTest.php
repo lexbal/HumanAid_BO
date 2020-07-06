@@ -12,11 +12,15 @@
  * @link     http://example.com/
  */
 
+namespace App\Tests\Entity;
+
 use App\Entity\Event;
 use App\Entity\EventCategory;
 use App\Entity\Rating;
 use App\Entity\User;
 
+use DateTime;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
