@@ -15,18 +15,17 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use App\Entity\EventCategory;
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\{
-    DateTimeType, IntegerType,
-    TextareaType, TextType
-};
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
-
 
 /**
  * EventType class
@@ -52,7 +51,9 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'title', TextType::class, [
+            'title',
+            TextType::class,
+            [
                 'label'       => 'Titre :',
                 'required'    => true,
                 'attr'        => [
@@ -63,7 +64,9 @@ class EventType extends AbstractType
                 ]
             ]
         )->add(
-            'description', TextareaType::class, [
+            'description',
+            TextareaType::class,
+            [
                 'label'       => 'Description :',
                 'required'    => true,
                 'attr'        => [
@@ -74,30 +77,27 @@ class EventType extends AbstractType
                 ]
             ]
         )->add(
-            'start_date', DateTimeType::class, [
+            'start_date',
+            DateTimeType::class,
+            [
                 'label'       => 'Date de début :',
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text'
             ]
         )->add(
-            'end_date', DateTimeType::class, [
+            'end_date',
+            DateTimeType::class,
+            [
                 'label'       => 'Date de fin :',
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text'
             ]
         )->add(
-            'rating', IntegerType::class, [
-                'label'       => 'Note :',
-                'required'    => true,
-                'attr'        => [
-                    'class'   => 'form-control',
-                    'min'     => '0',
-                    'max'     => '5',
-                ],
-            ]
-        )->add(
-            'owner', EntityType ::class, [
+            'owner',
+            EntityType::class,
+            [
                 'label'        => 'Association :',
+                'required'     => false,
                 'class'        => User::class,
                 'choice_label' => 'name',
                 'attr'         => [
@@ -105,8 +105,20 @@ class EventType extends AbstractType
                 ],
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
-                        ->where("'ROLE_ASSOC' = u.roles");
+                        ->where("'[\"ROLE_ASSOC\"]' = u.roles");
                 },
+            ]
+        )->add(
+            'categories',
+            EntityType::class,
+            [
+                'label'      => 'Categories :',
+                'attr'       => [
+                    'class'  => 'form-control'
+                ],
+                'class'        => EventCategory::class,
+                'choice_label' => 'label',
+                'multiple'     => true,
             ]
         );
     }
@@ -122,7 +134,10 @@ class EventType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => Event::class,
+                'data_class'      => Event::class,
+                'csrf_protection' => true,
+                'csrf_field_name' => '_token',
+                'csrf_token_id'   => 'event_item',
             ]
         );
     }

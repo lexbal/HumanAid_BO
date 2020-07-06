@@ -15,12 +15,14 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\EventCategory;
 use App\Form\EventType;
 use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * EventController class
@@ -49,8 +51,9 @@ class EventController extends AbstractController
     public function index(EventRepository $eventRepository): Response
     {
         return $this->render(
-            'event/index.html.twig', [
-            'events' => $eventRepository->findAll(),
+            'event/index.html.twig',
+            [
+                'events' => $eventRepository->findAll(),
             ]
         );
     }
@@ -67,12 +70,29 @@ class EventController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $event = new Event();
-        $form  = $this->createForm(EventType::class, $event);
+        $form  = $this->createForm(EventType::class, $event = new Event());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$this->isCsrfTokenValid(
+                'event_item',
+                $request->request->get('event')['_token']
+            )
+            ) {
+                throw new AccessDeniedException('Formulaire invalide');
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
+
+            /**
+             * Event category
+             *
+             * @var EventCategory $category
+             */
+            foreach ($form->get('categories')->getData() as $category) {
+                $event->addCategory($category);
+            }
+
             $event->setPublishDate(new \DateTime());
             $entityManager->persist($event);
             $entityManager->flush();
@@ -81,9 +101,10 @@ class EventController extends AbstractController
         }
 
         return $this->render(
-            'event/new.html.twig', [
-            'event' => $event,
-            'form' => $form->createView(),
+            'event/new.html.twig',
+            [
+                'event' => $event,
+                'form' => $form->createView(),
             ]
         );
     }
@@ -100,8 +121,9 @@ class EventController extends AbstractController
     public function show(Event $event): Response
     {
         return $this->render(
-            'event/show.html.twig', [
-            'event' => $event,
+            'event/show.html.twig',
+            [
+                'event' => $event,
             ]
         );
     }
@@ -122,15 +144,24 @@ class EventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$this->isCsrfTokenValid(
+                'event_item',
+                $request->request->get('event')['_token']
+            )
+            ) {
+                throw new AccessDeniedException('Formulaire invalide');
+            }
+            
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('event_index');
         }
 
         return $this->render(
-            'event/edit.html.twig', [
-            'event' => $event,
-            'form' => $form->createView(),
+            'event/edit.html.twig',
+            [
+                'event' => $event,
+                'form' => $form->createView(),
             ]
         );
     }

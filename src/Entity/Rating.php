@@ -22,11 +22,11 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * The class holding the root Rating class definition
  *
- * @category                                                      Rating
- * @package                                                       Rating
- * @author                                                        HumanAid <contact.humanaid@gmail.com>
- * @license                                                       http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link                                                          http://example.com/
+ * @category Rating
+ * @package  Rating
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  * @ORM\Table(name="rating")
  * @ORM\Entity(repositoryClass="App\Repository\RatingRepository")
  */

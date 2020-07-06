@@ -37,8 +37,6 @@ security:
         App\Entity\User:
             algorithm:  bcrypt
             cost:       12
-        App\Entity\Users:
-            algorithm: auto
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

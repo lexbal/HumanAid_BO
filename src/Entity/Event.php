@@ -24,11 +24,11 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * The class holding the root Event class definition
  *
- * @category                                                     Event
- * @package                                                      Event
- * @author                                                       HumanAid <contact.humanaid@gmail.com>
- * @license                                                      http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link                                                         http://example.com/
+ * @category Event
+ * @package  Event
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  * @ORM\Table(name="event")
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  */
@@ -73,6 +73,16 @@ class Event
     private $owner;
 
     /**
+     * Category attribute
+     *
+     * @ORM\ManyToMany(
+     *     targetEntity="App\Entity\EventCategory",
+     *     mappedBy="events"
+     * )
+     */
+    private $categories;
+
+    /**
      * Start date attribute
      *
      * @ORM\Column(type="datetime", nullable=true)
@@ -112,6 +122,7 @@ class Event
      */
     public function __construct()
     {
+        $this->categories = new ArrayCollection();
         $this->ratings = new ArrayCollection();
     }
 
@@ -193,6 +204,49 @@ class Event
     public function setOwner($owner): self
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Categories Getter
+     *
+     * @return Collection|EventCategory[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Categories Collection Setter
+     *
+     * @param EventCategory $category Category
+     *
+     * @return $this
+     */
+    public function addCategory(EventCategory $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+            $category->addEvent($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Categories Collection Remover
+     *
+     * @param EventCategory $category Category
+     *
+     * @return $this
+     */
+    public function removeCategory(EventCategory $category): self
+    {
+        if ($this->categories->contains($category)) {
+            $this->categories->removeElement($category);
+        }
 
         return $this;
     }

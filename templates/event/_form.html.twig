@@ -20,6 +20,24 @@
         {% endif %}
     </div>
     <div class="form-group">
+        {{ form_label(form.owner) }}
+        {{ form_widget(form.owner) }}
+        {% if form_errors(form.owner) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.owner) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.categories) }}
+        {{ form_widget(form.categories) }}
+        {% if form_errors(form.categories) %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.categories) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
         {{ form_label(form.start_date) }}
         {{ form_widget(form.start_date) }}
         {% if form_errors(form.start_date) %}
@@ -38,24 +56,6 @@
         {% endif %}
     </div>
     <div class="form-group">
-        {{ form_label(form.rating) }}
-        {{ form_widget(form.rating) }}
-        {% if form_errors(form.rating) %}
-            <div class="alert alert-danger" role="alert">
-                {{ form_errors(form.rating) }}
-            </div>
-        {% endif %}
-    </div>
-    <div class="form-group">
-        {{ form_label(form.owner) }}
-        {{ form_widget(form.owner) }}
-        {% if form_errors(form.owner) %}
-            <div class="alert alert-danger" role="alert">
-                {{ form_errors(form.owner) }}
-            </div>
-        {% endif %}
-    </div>
-    <div class="form-group">
         <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
     </div>
-{{ form_end(form) }}
+{{ form_end(form, {'render_rest': false}) }}
