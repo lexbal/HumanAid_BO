@@ -16,27 +16,21 @@ namespace App\Security;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\{
-    RedirectResponse, Request
-};
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Exception\{
-    CustomUserMessageAuthenticationException,
-    InvalidCsrfTokenException
-};
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\User\{
-    UserInterface, UserProviderInterface
-};
-use Symfony\Component\Security\Csrf\{
-    CsrfToken, CsrfTokenManagerInterface
-};
-use Symfony\Component\Security\Guard\{
-    Authenticator\AbstractFormLoginAuthenticator,
-    PasswordAuthenticatedInterface
-};
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
+use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 /**
@@ -50,16 +44,14 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     http://example.com/
  */
-class LoginFormAuthenticator
-    extends AbstractFormLoginAuthenticator
-    implements PasswordAuthenticatedInterface
+class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
     use TargetPathTrait;
 
-    private $_entityManager;
-    private $_urlGenerator;
-    private $_csrfTokenManager;
-    private $_passwordEncoder;
+    private $entityManager;
+    private $urlGenerator;
+    private $csrfTokenManager;
+    private $passwordEncoder;
 
     /**
      * LoginFormAuthenticator constructor.
@@ -75,10 +67,10 @@ class LoginFormAuthenticator
         CsrfTokenManagerInterface $csrfTokenManager,
         UserPasswordEncoderInterface $passwordEncoder
     ) {
-        $this->_entityManager    = $entityManager;
-        $this->_urlGenerator     = $urlGenerator;
-        $this->_csrfTokenManager = $csrfTokenManager;
-        $this->_passwordEncoder  = $passwordEncoder;
+        $this->entityManager    = $entityManager;
+        $this->urlGenerator     = $urlGenerator;
+        $this->csrfTokenManager = $csrfTokenManager;
+        $this->passwordEncoder  = $passwordEncoder;
     }
 
     /**
@@ -127,11 +119,11 @@ class LoginFormAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
-        if (!$this->_csrfTokenManager->isTokenValid($token)) {
+        if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->_entityManager->getRepository(User::class)
+        $user = $this->entityManager->getRepository(User::class)
             ->findOneBy(['email' => $credentials['email']]);
 
         if (!$user) {
@@ -154,7 +146,7 @@ class LoginFormAuthenticator
      */
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->_passwordEncoder->isPasswordValid(
+        return $this->passwordEncoder->isPasswordValid(
             $user,
             $credentials['password']
         );
@@ -179,20 +171,22 @@ class LoginFormAuthenticator
      * @param TokenInterface $token       token
      * @param string         $providerKey provider key
      *
-     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response|null
+     * @return RedirectResponse|Response|null
      */
     public function onAuthenticationSuccess(
-        Request $request, TokenInterface $token,
+        Request $request,
+        TokenInterface $token,
         $providerKey
     ) {
         if ($targetPath = $this->getTargetPath(
-            $request->getSession(), $providerKey
+            $request->getSession(),
+            $providerKey
         )
         ) {
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->_urlGenerator->generate('home'));
+        return new RedirectResponse($this->urlGenerator->generate('home'));
     }
 
     /**
@@ -202,6 +196,6 @@ class LoginFormAuthenticator
      */
     protected function getLoginUrl()
     {
-        return $this->_urlGenerator->generate('app_login');
+        return $this->urlGenerator->generate('app_login');
     }
 }

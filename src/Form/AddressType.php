@@ -49,7 +49,9 @@ class AddressType extends AbstractType
     {
         $builder
             ->add(
-                'street', TextType::class, [
+                'street',
+                TextType::class,
+                [
                     'label'       => 'Rue :',
                     'required'    => true,
                     'attr'        => [
@@ -60,7 +62,9 @@ class AddressType extends AbstractType
                     ]
                 ]
             )->add(
-                'zipcode', TextType::class, [
+                'zipcode',
+                TextType::class,
+                [
                     'label'       => 'Code postal :',
                     'required'    => true,
                     'attr'        => [
@@ -71,7 +75,9 @@ class AddressType extends AbstractType
                     ]
                 ]
             )->add(
-                'city', TextType::class, [
+                'city',
+                TextType::class,
+                [
                     'label'       => 'Ville :',
                     'required'    => true,
                     'attr'        => [
@@ -82,7 +88,9 @@ class AddressType extends AbstractType
                     ]
                 ]
             )->add(
-                'region', TextType::class, [
+                'region',
+                TextType::class,
+                [
                     'label'       => 'Région :',
                     'required'    => false,
                     'attr'        => [
@@ -90,7 +98,9 @@ class AddressType extends AbstractType
                     ]
                 ]
             )->add(
-                'department', TextType::class, [
+                'department',
+                TextType::class,
+                [
                     'label'       => 'Département :',
                     'required'    => false,
                     'attr'        => [
@@ -98,7 +108,9 @@ class AddressType extends AbstractType
                     ]
                 ]
             )->add(
-                'country', EntityType::class, [
+                'country',
+                EntityType::class,
+                [
                     'label'        => 'Pays :',
                     'required'     => true,
                     'class'        => Country::class,

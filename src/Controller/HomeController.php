@@ -14,9 +14,10 @@
 
 namespace App\Controller;
 
-use App\Entity\{
-    Event, User
-};
+use App\Entity\Event;
+use App\Entity\User;
+use App\Repository\EventRepository;
+use App\Repository\UserRepository;
 
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\LineChart;
 use DateTime;
@@ -53,13 +54,9 @@ class HomeController extends AbstractController
     public function index()
     {
         $em = $this->getDoctrine()->getManager();
-        /**
-         * UserRepository $userRepo
-         */
+        /** @var UserRepository $userRepo */
         $userRepo = $em->getRepository(User::class);
-        /**
-         * EventRepository $eventRepo
-         */
+        /** @var EventRepository $eventRepo */
         $eventRepo = $em->getRepository(Event::class);
 
         $chart_data = [['Date de publication', 'Evenements']];
@@ -94,7 +91,8 @@ class HomeController extends AbstractController
         );
 
         return $this->render(
-            'home.html.twig', [
+            'home.html.twig',
+            [
                 'events' => $eventRepo->countEvents(),
                 'users' => $userRepo->countUsersTotal(),
                 'past_events' => $eventRepo->findPastEvents(),

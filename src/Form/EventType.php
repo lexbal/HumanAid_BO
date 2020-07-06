@@ -20,13 +20,12 @@ use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\{
-    DateTimeType, TextareaType, TextType
-};
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
-
 
 /**
  * EventType class
@@ -52,7 +51,9 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'title', TextType::class, [
+            'title',
+            TextType::class,
+            [
                 'label'       => 'Titre :',
                 'required'    => true,
                 'attr'        => [
@@ -63,7 +64,9 @@ class EventType extends AbstractType
                 ]
             ]
         )->add(
-            'description', TextareaType::class, [
+            'description',
+            TextareaType::class,
+            [
                 'label'       => 'Description :',
                 'required'    => true,
                 'attr'        => [
@@ -74,19 +77,25 @@ class EventType extends AbstractType
                 ]
             ]
         )->add(
-            'start_date', DateTimeType::class, [
+            'start_date',
+            DateTimeType::class,
+            [
                 'label'       => 'Date de début :',
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text'
             ]
         )->add(
-            'end_date', DateTimeType::class, [
+            'end_date',
+            DateTimeType::class,
+            [
                 'label'       => 'Date de fin :',
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text'
             ]
         )->add(
-            'owner', EntityType::class, [
+            'owner',
+            EntityType::class,
+            [
                 'label'        => 'Association :',
                 'required'     => false,
                 'class'        => User::class,
@@ -100,7 +109,9 @@ class EventType extends AbstractType
                 },
             ]
         )->add(
-            'categories', EntityType::class, [
+            'categories',
+            EntityType::class,
+            [
                 'label'      => 'Categories :',
                 'attr'       => [
                     'class'  => 'form-control'

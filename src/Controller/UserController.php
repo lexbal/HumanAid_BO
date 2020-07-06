@@ -53,8 +53,9 @@ class UserController extends AbstractController
     public function index(UserRepository $userRepository): Response
     {
         return $this->render(
-            'user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'user/index.html.twig',
+            [
+                'users' => $userRepository->findAll(),
             ]
         );
     }
@@ -71,10 +72,13 @@ class UserController extends AbstractController
      * @throws Exception
      */
     public function new(
-        Request $request, UserPasswordEncoderInterface $encoder
+        Request $request,
+        UserPasswordEncoderInterface $encoder
     ): Response {
         $form = $this->createForm(
-            UserType::class, $user = new User(), [
+            UserType::class,
+            $user = new User(),
+            [
                 'method' => 'POST',
                 'attr' => [
                     'id'     => 'new_user'
@@ -124,9 +128,10 @@ class UserController extends AbstractController
         }
 
         return $this->render(
-            'user/new.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
+            'user/new.html.twig',
+            [
+                'user' => $user,
+                'form' => $form->createView(),
             ]
         );
     }
@@ -143,8 +148,9 @@ class UserController extends AbstractController
     public function show(User $user): Response
     {
         return $this->render(
-            'user/show.html.twig', [
-            'user' => $user,
+            'user/show.html.twig',
+            [
+                'user' => $user,
             ]
         );
     }
@@ -161,7 +167,8 @@ class UserController extends AbstractController
      * @return Response
      */
     public function edit(
-        Request $request, User $user,
+        Request $request,
+        User $user,
         UserPasswordEncoderInterface $encoder
     ): Response {
         $form = $this->createForm(UserEditType::class, $user);
@@ -194,9 +201,10 @@ class UserController extends AbstractController
         }
 
         return $this->render(
-            'user/edit.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
+            'user/edit.html.twig',
+            [
+                'user' => $user,
+                'form' => $form->createView(),
             ]
         );
     }

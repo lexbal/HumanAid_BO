@@ -21,11 +21,11 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * The class holding the root Address class definition
  *
- * @category                                                       Address
- * @package                                                        Address
- * @author                                                         HumanAid <contact.humanaid@gmail.com>
- * @license                                                        http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link                                                           http://example.com/
+ * @category Address
+ * @package  Address
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  * @ORM\Table(name="address")
  * @ORM\Entity(repositoryClass="App\Repository\AddressRepository")
  */

@@ -23,11 +23,11 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * The class holding the root EventCategory class definition
  *
- * @category                                                             EventCategory
- * @package                                                              EventCategory
- * @author                                                               HumanAid <contact.humanaid@gmail.com>
- * @license                                                              http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link                                                                 http://example.com/
+ * @category EventCategory
+ * @package  EventCategory
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  * @ORM\Table(name="event_category")
  * @ORM\Entity(repositoryClass="App\Repository\EventCategoryRepository")
  */

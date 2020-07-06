@@ -17,6 +17,7 @@ namespace App\Controller;
 use App\Entity\Rating;
 use App\Form\RatingType;
 use App\Repository\RatingRepository;
+
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,8 +51,9 @@ class RatingController extends AbstractController
     public function index(RatingRepository $ratingRepository): Response
     {
         return $this->render(
-            'rating/index.html.twig', [
-            'ratings' => $ratingRepository->findAll(),
+            'rating/index.html.twig',
+            [
+                'ratings' => $ratingRepository->findAll(),
             ]
         );
     }
@@ -89,9 +91,10 @@ class RatingController extends AbstractController
         }
 
         return $this->render(
-            'rating/new.html.twig', [
-            'rating' => $rating,
-            'form' => $form->createView(),
+            'rating/new.html.twig',
+            [
+                'rating' => $rating,
+                'form' => $form->createView(),
             ]
         );
     }
@@ -108,8 +111,9 @@ class RatingController extends AbstractController
     public function show(Rating $rating): Response
     {
         return $this->render(
-            'rating/show.html.twig', [
-            'rating' => $rating,
+            'rating/show.html.twig',
+            [
+                'rating' => $rating,
             ]
         );
     }
@@ -144,9 +148,10 @@ class RatingController extends AbstractController
         }
 
         return $this->render(
-            'rating/edit.html.twig', [
-            'rating' => $rating,
-            'form' => $form->createView(),
+            'rating/edit.html.twig',
+            [
+                'rating' => $rating,
+                'form' => $form->createView(),
             ]
         );
     }
