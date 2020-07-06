@@ -10,7 +10,6 @@ services:
       - database
       - mailhog
   api:
-    restart: always
     build: ./api
     links:
       - database

@@ -26,7 +26,7 @@ export const create = (req, res) => {
                 message: "Some error occurred while creating the Event."
             });
         }
-        
+
         return res.status(200).send(data);
     });
 };
@@ -39,7 +39,7 @@ export const findAll = (req, res) => {
                 message: "Some error occurred while retrieving events."
             });
         }
-            
+
         return res.status(200).send(data);
     });
 };
@@ -52,7 +52,7 @@ export const findOne = (req, res) => {
                 return res.status(404).send({
                     message: `Not found Event with id ${req.params.id}.`
                 });
-            } 
+            }
 
             return res.status(500).send({
                 message: "Error retrieving Event with id " + req.params.id
@@ -62,7 +62,7 @@ export const findOne = (req, res) => {
         let response = {
             "event": data
         };
-        
+
         Rating.getAllByEvent(req.params.id, (err, data) => {
             if (err) {
                 return res.status(500).send({
@@ -71,7 +71,7 @@ export const findOne = (req, res) => {
             }
 
             response["ratings"] = data;
-                
+
             return res.status(200).send(response);
         });
     });
@@ -85,7 +85,7 @@ export const findAllByAssoc = (req, res) => {
                 message: "Some error occurred while retrieving events."
             });
         }
-            
+
         return res.status(200).send(data);
     });
 };
@@ -113,7 +113,7 @@ export const update = (req, res) => {
                 return res.status(500).send({
                     message: "Error updating Event with id " + req.params.id
                 });
-            } 
+            }
 
             return res.status(200).send(data);
         }
@@ -133,10 +133,10 @@ export const remove = (req, res) => {
             return res.status(500).send({
                 message: "Could not delete Event with id " + req.params.id
             });
-        } 
+        }
 
-        return res.status(200).send({ 
-            message: `Event was deleted successfully!` 
+        return res.status(200).send({
+            message: `Event was deleted successfully!`
         });
     });
 };
@@ -149,9 +149,9 @@ export const removeAll = (req, res) => {
                 message: "Some error occurred while removing all events."
             });
         }
-          
-        return res.status(200).send({ 
-            message: `All Events were deleted successfully!` 
+
+        return res.status(200).send({
+            message: `All Events were deleted successfully!`
         });
     });
 };
