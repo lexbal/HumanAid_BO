@@ -1,48 +1,79 @@
 <?php
 
+/**
+ * EventTest class file
+ *
+ * PHP Version 7.1
+ *
+ * @category EventTest
+ * @package  EventTest
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
+ */
+
 use App\Entity\Event;
+use App\Entity\EventCategory;
 use App\Entity\Rating;
 use App\Entity\User;
+
 use PHPUnit\Framework\TestCase;
 
+/**
+ * EventTest class
+ *
+ * The class holding the root EventTest class definition
+ *
+ * @category EventTest
+ * @package  EventTest
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
+ */
 class EventTest extends TestCase
 {
+    /**
+     * Test Event
+     *
+     * @throws Exception
+     *
+     * @return mixed
+     */
     public function testEvent()
     {
-        $now    = new DateTime();
-        $event  = new Event();
-        $user   = new User();
-        $rating = new Rating();
-
-        $rating->setRating(5)
-               ->setComment("Com")
-               ->setEvent($event)
-               ->setUser($user)
-               ->setPublishDate($now);
+        $now      = new DateTime();
+        $event    = new Event();
+        $user     = new User();
+        $rating   = new Rating();
+        $category = new EventCategory();
 
         $event->setTitle("Title")
-              ->setDescription("Description")
-              ->setOwner($user)
-              ->setRating(5)
-              ->setStartDate($now)
-              ->setEndDate($now)
-              ->setPublishDate($now)
-              ->addRating($rating);
+            ->setDescription("Description")
+            ->setOwner($user)
+            ->addCategory($category)
+            ->setRating(5)
+            ->setStartDate($now)
+            ->setEndDate($now)
+            ->setPublishDate($now)
+            ->addRating($rating);
 
-        $this->assertSame("Title", $event->getTitle());
-        $this->assertSame("Description", $event->getDescription());
-        $this->assertSame($user, $event->getOwner());
-        $this->assertSame(5, $event->getRating());
-        $this->assertSame($now, $event->getStartDate());
-        $this->assertSame($now, $event->getEndDate());
-        $this->assertSame($now, $event->getPublishDate());
+        $this->assertEquals("Title", $event->getTitle());
+        $this->assertEquals("Description", $event->getDescription());
+        $this->assertEquals($user, $event->getOwner());
+        $this->assertEquals(5, $event->getRating());
+        $this->assertEquals($now, $event->getStartDate());
+        $this->assertEquals($now, $event->getEndDate());
+        $this->assertEquals($now, $event->getPublishDate());
+
+        foreach ($event->getCategories() as $cat) {
+            $this->assertEquals($category, $cat);
+        }
+
+        $event->removeCategory($category);
+        $this->assertEmpty($event->getCategories());
 
         foreach ($event->getRatings() as $rate) {
-            $this->assertSame(5, $rate->getRating());
-            $this->assertSame("Com", $rate->getComment());
-            $this->assertSame($event, $rate->getEvent());
-            $this->assertSame($user, $rate->getUser());
-            $this->assertSame($now, $rate->getPublishDate());
+            $this->assertEquals($rating, $rate);
         }
 
         $event->removeRating($rating);
