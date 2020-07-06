@@ -46,7 +46,7 @@ install:
 
 .PHONY: CQtests ## Test the validity of your code
 CQtests:
-	vendor/bin/phpcs --ignore=src/Kernel.php src
+	vendor/bin/phpcs --standard=PSR2 --ignore=src/Kernel.php src
 	vendor/bin/phpstan analyse --level 6 src
 
 .PHONY: UNITtests ## Test unit

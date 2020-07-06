@@ -17,21 +17,16 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\{
-    NotBlank, Length
-};
-use Symfony\Component\Form\Extension\Core\Type\{ChoiceType,
-    CollectionType,
-    IntegerType,
-    TextareaType,
-    TextType,
-    RepeatedType,
-    EmailType,
-    PasswordType};
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 /**
  * UserType class
@@ -57,7 +52,9 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'name', TextType::class, [
+            'name',
+            TextType::class,
+            [
                 'label'     =>  'Nom :',
                 'required'  =>  true,
                 'attr'      =>  [
@@ -68,7 +65,9 @@ class UserType extends AbstractType
                 ]
             ]
         )->add(
-            'username', TextType::class, [
+            'username',
+            TextType::class,
+            [
                 'label'     =>  'Pseudo :',
                 'required'  =>  true,
                 'attr'      =>  [
@@ -79,7 +78,9 @@ class UserType extends AbstractType
                 ]
             ]
         )->add(
-            'landline', TextType::class, [
+            'landline',
+            TextType::class,
+            [
                 'label'     =>  'Telephone :',
                 'required'  =>  false,
                 'attr'      =>  [
@@ -87,7 +88,9 @@ class UserType extends AbstractType
                 ],
             ]
         )->add(
-            'email', EmailType::class, [
+            'email',
+            EmailType::class,
+            [
                 'label'     =>  'Email :',
                 'required'  =>  true,
                 'attr'      =>  [
@@ -98,7 +101,9 @@ class UserType extends AbstractType
                 ]
             ]
         )->add(
-            'roles', CollectionType::class, [
+            'roles',
+            CollectionType::class,
+            [
                 'label'          => "Roles :",
                 'allow_add'      => true,
                 'prototype'      => true,
@@ -115,7 +120,9 @@ class UserType extends AbstractType
                 ]
             ]
         )->add(
-            'password', RepeatedType::class, [
+            'password',
+            RepeatedType::class,
+            [
                 'type'        => PasswordType:: class,
                 'constraints' => [
                     new NotBlank(
@@ -146,7 +153,9 @@ class UserType extends AbstractType
                 ],
             ]
         )->add(
-            'addresses', CollectionType::class, [
+            'addresses',
+            CollectionType::class,
+            [
                 'label'          => "Addresses :",
                 'allow_add'      => true,
                 'allow_delete'   => true,
@@ -154,7 +163,9 @@ class UserType extends AbstractType
                 'entry_type'     => AddressType::class
             ]
         )->add(
-            'manager_first_name', TextType::class, [
+            'manager_first_name',
+            TextType::class,
+            [
                 'label'     => "Prénom du manager :",
                 'required'  =>  false,
                 'attr'      =>  [
@@ -162,7 +173,9 @@ class UserType extends AbstractType
                 ]
             ]
         )->add(
-            'manager_last_name', TextType::class, [
+            'manager_last_name',
+            TextType::class,
+            [
                 'label'     => "Nom du manager :",
                 'required'  =>  false,
                 'attr'      =>  [
@@ -170,7 +183,9 @@ class UserType extends AbstractType
                 ]
             ]
         )->add(
-            'website', TextType::class, [
+            'website',
+            TextType::class,
+            [
                 'label'     =>  'Site web :',
                 'required'  =>  false,
                 'attr'      =>  [
@@ -178,7 +193,9 @@ class UserType extends AbstractType
                 ],
             ]
         )->add(
-            'siret', TextType::class, [
+            'siret',
+            TextType::class,
+            [
                 'label'       => 'Numéro de SIRET :',
                 'required'    => false,
                 'constraints' => [
@@ -196,7 +213,9 @@ class UserType extends AbstractType
                 ],
             ]
         )->add(
-            'description', TextareaType::class, [
+            'description',
+            TextareaType::class,
+            [
                 'label'     =>  'Description :',
                 'required'  =>  false,
                 'attr'      =>  [
@@ -204,7 +223,9 @@ class UserType extends AbstractType
                 ],
             ]
         )->add(
-            'status', TextType::class, [
+            'status',
+            TextType::class,
+            [
                 'label'     =>  'Statut :',
                 'required'  =>  false,
                 'attr'      =>  [
@@ -212,7 +233,9 @@ class UserType extends AbstractType
                 ],
             ]
         )->add(
-            'facebook', TextType::class, [
+            'facebook',
+            TextType::class,
+            [
                 'label'     =>  'Lien facebook :',
                 'required'  =>  false,
                 'attr'      =>  [
@@ -220,7 +243,9 @@ class UserType extends AbstractType
                 ],
             ]
         )->add(
-            'twitter', TextType::class, [
+            'twitter',
+            TextType::class,
+            [
                 'label'     =>  'Lien twitter :',
                 'required'  =>  false,
                 'attr'      =>  [

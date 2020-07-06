@@ -50,7 +50,9 @@ class RatingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'rating', IntegerType::class, [
+            'rating',
+            IntegerType::class,
+            [
                 'label'       => 'Note :',
                 'required'    => true,
                 'attr'        => [
@@ -60,7 +62,9 @@ class RatingType extends AbstractType
                 ],
             ]
         )->add(
-            'comment', TextareaType::class, [
+            'comment',
+            TextareaType::class,
+            [
                 'label'       => 'Commentaire :',
                 'required'    => true,
                 'attr'        => [
@@ -71,7 +75,9 @@ class RatingType extends AbstractType
                 ]
             ]
         )->add(
-            'user', EntityType ::class, [
+            'user',
+            EntityType ::class,
+            [
                 'label'        => 'Utilisateur :',
                 'required'     => false,
                 'class'        => User::class,
@@ -81,7 +87,9 @@ class RatingType extends AbstractType
                 ],
             ]
         )->add(
-            'event', EntityType ::class, [
+            'event',
+            EntityType ::class,
+            [
                 'label'        => 'Evenement :',
                 'required'     => false,
                 'class'        => Event::class,

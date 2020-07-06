@@ -32,8 +32,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 final class PasswordProvider extends BaseProvider
 {
-    private $_password;
-    private $_passwordEncoder;
+    private $password;
+    private $passwordEncoder;
 
     /**
      * PasswordProvider constructor.
@@ -42,10 +42,11 @@ final class PasswordProvider extends BaseProvider
      * @param UserPasswordEncoderInterface $passwordEncoder class PasswordEncoder
      */
     public function __construct(
-        Generator $generator, UserPasswordEncoderInterface $passwordEncoder
+        Generator $generator,
+        UserPasswordEncoderInterface $passwordEncoder
     ) {
         parent::__construct($generator);
-        $this->_passwordEncoder = $passwordEncoder;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
@@ -58,10 +59,10 @@ final class PasswordProvider extends BaseProvider
     public function passwordGenerator(string $password)
     {
         $user = new User();
-        $this->_password = $this->_passwordEncoder->encodePassword(
+        $this->password = $this->passwordEncoder->encodePassword(
             $user,
             $password
         );
-        return $this->_password;
+        return $this->password;
     }
 }

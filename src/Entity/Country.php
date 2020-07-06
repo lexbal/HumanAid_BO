@@ -23,11 +23,11 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * The class holding the root Country class definition
  *
- * @category                                                       Country
- * @package                                                        Country
- * @author                                                         HumanAid <contact.humanaid@gmail.com>
- * @license                                                        http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link                                                           http://example.com/
+ * @category Country
+ * @package  Country
+ * @author   HumanAid <contact.humanaid@gmail.com>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     http://example.com/
  * @ORM\Table(name="country")
  * @ORM\Entity(repositoryClass="App\Repository\CountryRepository")
  */
