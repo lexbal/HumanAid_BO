@@ -4,44 +4,63 @@ App\Entity\User:
     username: <userName()>
     description: <firstname()>
     status: <lastname()>
-    location: <city()>
     website: <url()>
     email: <email()>
     roles: ['ROLE_USER']
     password: <passwordGenerator(user)>
+    landline: "<phoneNumber()>"
+    facebook: "<url()>"
+    twitter: "<url()>"
+    created_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
+    updated_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
 
   assoc-{1..5}:
     name: <company()>
+    manager_first_name: <firstNameMale()>
+    manager_last_name: <lastName()>
     username: <userName()>
     description: <firstname()>
     status: <lastname()>
-    location: <city()>
     website: <url()>
     email: <email()>
     roles: ['ROLE_ASSOC']
     password: <passwordGenerator(assoc)>
+    landline: "<phoneNumber()>"
     siret: <numberBetween(10000000000000, 99999999999999)>
+    facebook: "<url()>"
+    twitter: "<url()>"
+    created_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
+    updated_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
 
   comp-{1..5}:
     name: <company()>
+    manager_first_name: <firstNameMale()>
+    manager_last_name: <lastName()>
     username: <userName()>
     description: <firstname()>
     status: <lastname()>
-    location: <city()>
     website: <url()>
     email: <email()>
     roles: ['ROLE_COMP']
     password: <passwordGenerator(comp)>
+    landline: "<phoneNumber()>"
     siret: <numberBetween(10000000000000, 99999999999999)>
+    facebook: "<url()>"
+    twitter: "<url()>"
+    created_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
+    updated_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
 
   admin-1:
     name: <company()>
     username: "admin"
     description: <firstname()>
     status: <lastname()>
-    location: <city()>
     website: <url()>
     email: "admin@admin.fr"
     roles: ['ROLE_ADMIN']
     password: <passwordGenerator(admin)>
+    facebook: "<url()>"
+    twitter: "<url()>"
+    created_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
+    updated_at: "<dateTimeBetween('2018-01-01', '2019-04-01')>"
     

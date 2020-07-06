@@ -14,6 +14,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -44,6 +46,13 @@ class User implements UserInterface
         self::ROLE_ASSOC
     ];
 
+    public static $roleStringTypes = [
+        self::ROLE_USER  => "Utilisateur",
+        self::ROLE_ADMIN => "Administrateur",
+        self::ROLE_COMP  => "Companie",
+        self::ROLE_ASSOC => "Association"
+    ];
+
     /**
      * ID attribute
      *
@@ -61,6 +70,20 @@ class User implements UserInterface
     private $name;
 
     /**
+     * Manager first name attribute
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $manager_first_name;
+
+    /**
+     * Manager last name attribute
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $manager_last_name;
+
+    /**
      * Username attribute
      *
      * @ORM\Column(type="string", length=255)
@@ -73,6 +96,13 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $description;
+
+    /**
+     * Photo attribute
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo;
 
     /**
      * Status attribute
@@ -89,11 +119,22 @@ class User implements UserInterface
     private $siret;
 
     /**
-     * Location attribute
+     * Landline attribute
      *
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $location;
+    private $landline;
+
+    /**
+     * Address attribute
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\Address",
+     *     mappedBy="user",
+     *     cascade={"persist"}
+     * )
+     */
+    private $addresses;
 
     /**
      * Website attribute
@@ -123,6 +164,42 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * Facebook link attribute
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $facebook;
+
+    /**
+     * Twitter attribute
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $twitter;
+
+    /**
+     * Creation date attribute
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * Update date attribute
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
+
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->addresses = new ArrayCollection();
+    }
 
     /**
      * ID Getter
@@ -132,6 +209,54 @@ class User implements UserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * Manager First name Getter
+     *
+     * @return mixed
+     */
+    public function getManagerFirstName()
+    {
+        return $this->manager_first_name;
+    }
+
+    /**
+     * Manager First name Setter
+     *
+     * @param mixed $manager_first_name Manager First name
+     *
+     * @return User
+     */
+    public function setManagerFirstName($manager_first_name): self
+    {
+        $this->manager_first_name = $manager_first_name;
+
+        return $this;
+    }
+
+    /**
+     * Manager Last name Getter
+     *
+     * @return mixed
+     */
+    public function getManagerLastName()
+    {
+        return $this->manager_last_name;
+    }
+
+    /**
+     * Manager Last name Setter
+     *
+     * @param mixed $manager_last_name Manager Last name
+     *
+     * @return User
+     */
+    public function setManagerLastName($manager_last_name): self
+    {
+        $this->manager_last_name = $manager_last_name;
+
+        return $this;
     }
 
     /**
@@ -231,25 +356,48 @@ class User implements UserInterface
     }
 
     /**
-     * Location Getter
+     * Addresses Getter
      *
-     * @return string|null
+     * @return Collection|Address[]
      */
-    public function getLocation(): ?string
+    public function getAddresses(): Collection
     {
-        return $this->location;
+        return $this->addresses;
     }
 
     /**
-     * Location Setter
+     * Addresses Collection Setter
      *
-     * @param string $location Location
+     * @param Address $address Address
      *
      * @return $this
      */
-    public function setLocation(string $location): self
+    public function addAddress(Address $address): self
     {
-        $this->location = $location;
+        if (!$this->addresses->contains($address)) {
+            $this->addresses[] = $address;
+            $address->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Addresses Collection Remover
+     *
+     * @param Address $address Address
+     *
+     * @return $this
+     */
+    public function removeAddress(Address $address): self
+    {
+        if ($this->addresses->contains($address)) {
+            $this->addresses->removeElement($address);
+            // set the owning side to null (unless already changed)
+            if ($address->getUser() === $this) {
+                $address->setUser(null);
+            }
+        }
 
         return $this;
     }
@@ -300,6 +448,20 @@ class User implements UserInterface
         $this->email = $email;
 
         return $this;
+    }
+
+    /**
+     * Role Getter
+     *
+     * @return string|null
+     */
+    public function getRole(): ?string
+    {
+        if (!empty($this->roles)) {
+            return array_values($this->roles)[0];
+        }
+
+        return null;
     }
 
     /**
@@ -395,5 +557,159 @@ class User implements UserInterface
         $this->siret = $siret;
 
         return $this;
+    }
+
+    /**
+     * Landline Getter
+     *
+     * @return mixed
+     */
+    public function getLandline()
+    {
+        return $this->landline;
+    }
+
+    /**
+     * Landline Setter
+     *
+     * @param mixed $landline Landline
+     *
+     * @return User
+     */
+    public function setLandline($landline): self
+    {
+        $this->landline = $landline;
+
+        return $this;
+    }
+
+    /**
+     * Facebook Getter
+     *
+     * @return mixed
+     */
+    public function getFacebook()
+    {
+        return $this->facebook;
+    }
+
+    /**
+     * Facebook Setter
+     *
+     * @param mixed $facebook Facebook
+     *
+     * @return User
+     */
+    public function setFacebook($facebook): self
+    {
+        $this->facebook = $facebook;
+
+        return $this;
+    }
+
+    /**
+     * Twitter Getter
+     *
+     * @return mixed
+     */
+    public function getTwitter()
+    {
+        return $this->twitter;
+    }
+
+    /**
+     * Twitter Setter
+     *
+     * @param mixed $twitter Twitter
+     *
+     * @return User
+     */
+    public function setTwitter($twitter): self
+    {
+        $this->twitter = $twitter;
+
+        return $this;
+    }
+
+    /**
+     * Photo Getter
+     *
+     * @return mixed
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * Photo Setter
+     *
+     * @param mixed $photo Photo
+     *
+     * @return User
+     */
+    public function setPhoto($photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Creation date Getter
+     *
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Creation date Setter
+     *
+     * @param mixed $created_at Creation date
+     *
+     * @return User
+     */
+    public function setCreatedAt($created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Update date Getter
+     *
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * Update date Setter
+     *
+     * @param mixed $updated_at Update date
+     *
+     * @return User
+     */
+    public function setUpdatedAt($updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * ToString function
+     *
+     * @return mixed
+     */
+    public function __toString()
+    {
+        return $this->name;
     }
 }

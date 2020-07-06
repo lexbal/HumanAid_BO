@@ -17,6 +17,8 @@ namespace App\Controller;
 use App\Entity\Rating;
 use App\Form\RatingType;
 use App\Repository\RatingRepository;
+
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,8 +51,9 @@ class RatingController extends AbstractController
     public function index(RatingRepository $ratingRepository): Response
     {
         return $this->render(
-            'rating/index.html.twig', [
-            'ratings' => $ratingRepository->findAll(),
+            'rating/index.html.twig',
+            [
+                'ratings' => $ratingRepository->findAll(),
             ]
         );
     }
@@ -63,11 +66,11 @@ class RatingController extends AbstractController
      * @Route("/new", name="rating_new", methods={"GET","POST"})
      *
      * @return Response
+     * @throws Exception
      */
     public function new(Request $request): Response
     {
-        $rating = new Rating();
-        $form = $this->createForm(RatingType::class, $rating);
+        $form = $this->createForm(RatingType::class, $rating = new Rating());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -80,6 +83,7 @@ class RatingController extends AbstractController
             }
 
             $entityManager = $this->getDoctrine()->getManager();
+            $rating->setPublishDate(new \DateTime());
             $entityManager->persist($rating);
             $entityManager->flush();
 
@@ -87,9 +91,10 @@ class RatingController extends AbstractController
         }
 
         return $this->render(
-            'rating/new.html.twig', [
-            'rating' => $rating,
-            'form' => $form->createView(),
+            'rating/new.html.twig',
+            [
+                'rating' => $rating,
+                'form' => $form->createView(),
             ]
         );
     }
@@ -106,8 +111,9 @@ class RatingController extends AbstractController
     public function show(Rating $rating): Response
     {
         return $this->render(
-            'rating/show.html.twig', [
-            'rating' => $rating,
+            'rating/show.html.twig',
+            [
+                'rating' => $rating,
             ]
         );
     }
@@ -142,9 +148,10 @@ class RatingController extends AbstractController
         }
 
         return $this->render(
-            'rating/edit.html.twig', [
-            'rating' => $rating,
-            'form' => $form->createView(),
+            'rating/edit.html.twig',
+            [
+                'rating' => $rating,
+                'form' => $form->createView(),
             ]
         );
     }
