@@ -1,0 +1,839 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "HumanAid API",
+        "description": "Every HumanAid API request available"
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Everything about Authentication"
+        },
+        {
+            "name": "Associations",
+            "description": "Everything about associations"
+        },
+        {
+            "name": "Companies",
+            "description": "Everything about companies"
+        },
+        {
+            "name": "Users",
+            "description": "Everything about users"
+        },
+        {
+            "name": "Events",
+            "description": "Everything about events"
+        },
+        {
+            "name": "Comments",
+            "description": "Everything about comments"
+        }
+    ],
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "host": "localhost:3000",
+    "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "description": "Email of user",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "Password of user",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "summary": "Log users in",
+                "description": "Returns a token.",
+                "responses": {
+                    "200": {
+                        "description": "User logged in"
+                    },
+                    "400": {
+                        "description": "Cannot login user"
+                    },
+                    "403": {
+                        "description": "Log infos are invalid"
+                    }
+                }
+            }
+        },
+        "/signup": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "description": "Name of user to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "formData",
+                        "description": "Description of user to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "status",
+                        "in": "formData",
+                        "description": "Status of user to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "location",
+                        "in": "formData",
+                        "description": "Location of user to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "website",
+                        "in": "formData",
+                        "description": "Website of user to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "description": "Email of user to update",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "roles",
+                        "in": "formData",
+                        "description": "Roles of user to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username",
+                        "in": "formData",
+                        "description": "Username of user to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "Password of user to update",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "siret",
+                        "in": "formData",
+                        "description": "Siret of user to update",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "summary": "Sign up user",
+                "description": "Returns a user.",
+                "responses": {
+                    "200": {
+                        "description": "User signed up"
+                    },
+                    "400": {
+                        "description": "Cannot signup user"
+                    },
+                    "403": {
+                        "description": "Log infos are invalid"
+                    }
+                }
+            }
+        },
+        "/assoc": {
+            "get": {
+                "tags": [
+                    "Associations"
+                ],
+                "summary": "Get All Associations",
+                "description": "Returns a list containing all associations.",
+                "responses": {
+                    "200": {
+                        "description": "Associations found"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            }
+        },
+        "/assoc/{assocId}": {
+            "get": {
+                "tags": [
+                    "Associations"
+                ],
+                "parameters": [
+                    {
+                      "name": "assocId",
+                      "in": "path",
+                      "description": "ID of assoc to get",
+                      "required": true,
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                ],
+                "summary": "Get a Association",
+                "description": "Returns a object containing all associations's informations.",
+                "responses": {
+                    "200": {
+                        "description": "Association found"
+                    },
+                    "404": {
+                        "description": "Association not found"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            }
+        },
+        "/company": {
+            "get": {
+                "tags": [
+                    "Companies"
+                ],
+                "summary": "Get All Companies",
+                "description": "Returns a list containing all companies.",
+                "responses": {
+                    "200": {
+                        "description": "Companies found"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            }
+        },
+        "/company/{companyId}": {
+            "get": {
+                "tags": [
+                    "Companies"
+                ],
+                "parameters": [
+                    {
+                      "name": "companyId",
+                      "in": "path",
+                      "description": "ID of company to get",
+                      "required": true,
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                ],
+                "summary": "Get a Company",
+                "description": "Returns a object containing all company's informations.",
+                "responses": {
+                    "200": {
+                        "description": "Company found"
+                    },
+                    "404": {
+                        "description": "Company not found"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            }
+        },
+        "/user": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "description": "Name of user to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "formData",
+                        "description": "Description of user to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "status",
+                        "in": "formData",
+                        "description": "Status of user to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "location",
+                        "in": "formData",
+                        "description": "Location of user to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "website",
+                        "in": "formData",
+                        "description": "Website of user to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "description": "Email of user to update",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "roles",
+                        "in": "formData",
+                        "description": "Roles of user to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username",
+                        "in": "formData",
+                        "description": "Username of user to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "Password of user to update",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "siret",
+                        "in": "formData",
+                        "description": "Siret of user to update",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "summary": "Create an User",
+                "description": "Returns an user previously created.",
+                "responses": {
+                    "200": {
+                        "description": "User created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "400": {
+                        "description": "Cannot create company"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get All Users",
+                "description": "Returns a list containing all users.",
+                "responses": {
+                    "200": {
+                        "description": "Users found"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            }
+        },
+        "/user/{userId}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                      "name": "userId",
+                      "in": "path",
+                      "description": "ID of user to get",
+                      "required": true,
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                ],
+                "summary": "Get a User",
+                "description": "Returns a object containing all users's informations.",
+                "responses": {
+                    "200": {
+                        "description": "User found"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                      "name": "userId",
+                      "in": "path",
+                      "description": "ID of user to update",
+                      "required": true,
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    {
+                      "name": "name",
+                      "in": "formData",
+                      "description": "Name of user to update",
+                      "required": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "description",
+                      "in": "formData",
+                      "description": "Description of user to update",
+                      "required": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "status",
+                      "in": "formData",
+                      "description": "Status of user to update",
+                      "required": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "location",
+                      "in": "formData",
+                      "description": "Location of user to update",
+                      "required": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "website",
+                      "in": "formData",
+                      "description": "Website of user to update",
+                      "required": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "email",
+                      "in": "formData",
+                      "description": "Email of user to update",
+                      "required": true,
+                      "type": "string"
+                    },
+                    {
+                      "name": "roles",
+                      "in": "formData",
+                      "description": "Roles of user to update",
+                      "required": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "username",
+                      "in": "formData",
+                      "description": "Username of user to update",
+                      "required": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "password",
+                      "in": "formData",
+                      "description": "Password of user to update",
+                      "required": true,
+                      "type": "string"
+                    },
+                    {
+                      "name": "siret",
+                      "in": "formData",
+                      "description": "Siret of user to update",
+                      "required": false,
+                      "type": "string"
+                    }
+                ],
+                "summary": "Update an User",
+                "description": "Returns an user previously updated.",
+                "responses": {
+                    "200": {
+                        "description": "User found and updated"
+                    },
+                    "400": {
+                        "description": "Cannot update user"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                      "name": "userId",
+                      "in": "path",
+                      "description": "ID of user to delete",
+                      "required": true,
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                ],
+                "summary": "Delete an User",
+                "description": "Returns an user previously deleted.",
+                "responses": {
+                    "200": {
+                        "description": "User found and deleted"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            }
+        },
+        "/event": {
+            "post": {
+                "tags": [
+                    "Events"
+                ],
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "formData",
+                        "description": "Title of event to create",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "formData",
+                        "description": "Description of event to create",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "formData",
+                        "description": "Start date of event to create",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "formData",
+                        "description": "End date of event to create",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "summary": "Create an Event",
+                "description": "Returns an events previously created.",
+                "responses": {
+                    "200": {
+                        "description": "Event created"
+                    },
+                    "400": {
+                        "description": "Cannot create Event"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Get All Events",
+                "description": "Returns a list containing all events.",
+                "responses": {
+                    "200": {
+                        "description": "Event found"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            }
+        },
+        "/event/{eventId}": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "parameters": [
+                    {
+                      "name": "eventId",
+                      "in": "path",
+                      "description": "ID of user to get",
+                      "required": true,
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                ],
+                "summary": "Get a Association",
+                "description": "Returns a object containing all associations's informations.",
+                "responses": {
+                    "200": {
+                        "description": "Event found"
+                    },
+                    "404": {
+                        "description": "Event not found"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Events"
+                ],
+                "parameters": [
+                    {
+                      "name": "eventId",
+                      "in": "path",
+                      "description": "ID of user to update",
+                      "required": true,
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    {
+                        "name": "title",
+                        "in": "formData",
+                        "description": "Title of event to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "formData",
+                        "description": "Description of event to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "formData",
+                        "description": "Start date of event to update",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "formData",
+                        "description": "End date of event to update",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "summary": "Update an Event",
+                "description": "Returns an event previously updated.",
+                "responses": {
+                    "200": {
+                        "description": "Event found and updated"
+                    },
+                    "400": {
+                        "description": "Cannot update Event"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Event not found"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Events"
+                ],
+                "parameters": [
+                    {
+                      "name": "eventId",
+                      "in": "path",
+                      "description": "ID of user to delete",
+                      "required": true,
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                ],
+                "summary": "Delete an Event",
+                "description": "Returns an event previously deleted.",
+                "responses": {
+                    "200": {
+                        "description": "Event found and deleted"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Event not found"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            }
+        },
+        "/event/assoc/{assocId}": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "parameters": [
+                    {
+                      "name": "assocId",
+                      "in": "path",
+                      "description": "ID of assoc",
+                      "required": true,
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                ],
+                "summary": "Get all assoc's event",
+                "description": "Returns a list containing all assoc's event.",
+                "responses": {
+                    "200": {
+                        "description": "Events found"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            }
+        },
+        "/rating": {
+            "post": {
+                "tags": [
+                    "Comments"
+                ],
+                "parameters": [
+                    {
+                      "name": "event_id",
+                      "in": "formData",
+                      "description": "ID of event",
+                      "required": true,
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "formData",
+                        "description": "ID of user",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "rating",
+                        "in": "formData",
+                        "description": "Rating of comment to create",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "comment",
+                        "in": "formData",
+                        "description": "Text of comment to create",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "summary": "Create a comment",
+                "description": "Returns an event previously deleted.",
+                "responses": {
+                    "200": {
+                        "description": "Comment created"
+                    },
+                    "400": {
+                        "description": "Cannot create Comment"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            }
+        },
+        "/rating/event/{eventId}": {
+            "get": {
+                "tags": [
+                    "Comments"
+                ],
+                "parameters": [
+                    {
+                      "name": "eventId",
+                      "in": "path",
+                      "description": "ID of event",
+                      "required": true,
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                ],
+                "summary": "Get all event's comment",
+                "description": "Returns a list containing all event's comment.",
+                "responses": {
+                    "200": {
+                        "description": "Comments found"
+                    },
+                    "500": {
+                        "description": "Request failed"
+                    }
+                }
+            }
+        }
+    }
+}

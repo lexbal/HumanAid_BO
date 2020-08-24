@@ -1,23 +1,53 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        users_in_memory: { memory: null }
-    firewalls:
+        in_database:
+            entity:
+                class: App\Entity\User
+                property: email
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+    firewalls: # permet de définir les composants qui vont permettre d'authentifier l'utilisateur
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: lazy
-            provider: users_in_memory
+            anonymous: ~
+            pattern:    ^/
+            http_basic: ~
+            user_checker:
+            provider: in_database
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+            form_login:
+               login_path: app_login
+               check_path: app_login
+               csrf_token_generator: security.csrf.token_manager
+               default_target_path: user_account
+            logout:
+               path: app_logout
+               target: app_login
+            switch_user: ~
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+    encoders:
+        App\Entity\User:
+            algorithm:  bcrypt
+            cost:       12
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/$, roles: ROLE_ADMIN }
+         - { path: ^/event, roles: ROLE_ADMIN }
+         - { path: ^/user, roles: ROLE_ADMIN }
+         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/logout, roles: ROLE_ADMIN }
+    
+    role_hierarchy:
+        ROLE_ASSOC: ROLE_USER
+        ROLE_COMP:  ROLE_USER
+        ROLE_ADMIN: [ROLE_ADMIN, ROLE_USER]

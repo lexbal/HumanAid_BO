@@ -1,0 +1,38 @@
+version: '3.6'
+services:
+  app:
+    build: .
+    volumes:
+      - '.:/app'
+    links:
+      - database
+    depends_on:
+      - database
+      - mailhog
+  api:
+    build: ./api
+    links:
+      - database
+    volumes:
+      - './api:/app'
+  database:
+    image: 'mariadb'
+    volumes:
+      - "./.data/db:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+  nginx:
+    image: 'nginx'
+    links:
+      - app
+    volumes:
+      - './:/app'
+      - './humanaid_bo.conf:/etc/nginx/conf.d/default.conf'
+      - './logs/nginx/:/var/log/nginx'
+  adminer:
+    image: 'adminer'
+    environment:
+      - ADMINER_DEFAULT_SERVER=database
+      - ADMINER_DESIGN=brade
+  mailhog:
+    image: 'mailhog/mailhog'

@@ -1,0 +1,21 @@
+table {
+    margin-top: 15px;
+}
+
+.table-global td:not(.actions) {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table-global td:not(.actions):hover {
+    max-width: 20%;
+    overflow: initial;
+    text-overflow: initial;
+    white-space: initial;
+}
+
+.table-global .actions {
+    width: 180px;
+}

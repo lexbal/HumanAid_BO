@@ -1,0 +1,22 @@
+version: '3.6'
+
+services:
+  app:
+    ports:
+      - '9000:9000'
+  api:
+    ports:
+      - "3000:8080"
+  nginx:
+    ports:
+      - '80:80'
+  adminer:
+    ports:
+      - '8081:8080'
+  database:
+    ports:
+      - '3306:3306'
+  mailhog:
+    ports:
+      - '8025:8025'
+      - '1025:1025'
