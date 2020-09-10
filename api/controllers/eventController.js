@@ -1,4 +1,5 @@
 import Event from '../models/eventModel';
+import EventCategory from '../models/eventCategoryModel';
 import Rating from '../models/ratingModel';
 
 // Create and Save a new Event
@@ -15,8 +16,7 @@ export const create = (req, res) => {
         title:        req.body.title,
         description:  req.body.description,
         start_date:   req.body.start_date,
-        end_date:     req.body.end_date,
-        rating:       req.body.rating
+        end_date:     req.body.end_date
     });
 
     // Save Event in the database
@@ -42,6 +42,19 @@ export const findAll = (req, res) => {
 
         return res.status(200).send(data);
     });
+};
+
+// Retrieve all Events from the database.
+export const findAllCategory = (req, res) => {
+  EventCategory.getAll((err, data) => {
+    if (err) {
+      return res.status(500).send({
+        message: "Some error occurred while retrieving events."
+      });
+    }
+
+    return res.status(200).send(data);
+  });
 };
 
 // Find a single Event with a id

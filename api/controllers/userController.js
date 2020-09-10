@@ -2,43 +2,112 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jwt-simple';
 import moment from 'moment';
 import User from '../models/userModel';
+import nodemailer from "nodemailer";
+import multer from "multer";
+import Address from "../models/addressModel";
+import Country from "../models/countryModel";
+
+var storage = multer.diskStorage(
+    {
+        destination: function (req, file, cb) {
+            cb(null, 'public')
+        },
+        filename: function (req, file, cb) {
+            cb(null, Date.now() + '-' +file.name)
+        }
+    }
+);
+var upload = multer({ storage: storage }).single('file');
 
 export const signUp = (req, res) => {
-    // Validate request
-    if (!req.body) {
-        return res.status(400).send({
-            message: "Content can not be empty!"
-        });
+  // Validate request
+  if (!req.body) {
+    return res.status(400).send(
+      {
+        message: "Content can not be empty!"
+      }
+    );
+  }
+
+  const user = new User(
+    {
+      name:        req.body.name,
+      description: req.body.description,
+      status:      req.body.status,
+      website:     req.body.website,
+      email:       req.body.email,
+      roles:       req.body.roles,
+      username:    req.body.username,
+      password:    req.body.password,
+      siret:       req.body.siret
     }
+  );
 
-    const user = new User({
-        name:        req.body.name,
-        description: req.body.description,
-        status:      req.body.status,
-        location:    req.body.location,
-        website:     req.body.website,
-        email:       req.body.email,
-        roles:       req.body.roles,
-        username:    req.body.username,
-        password:    req.body.password,
-        siret:       req.body.siret
-    });
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(user.password, salt, (err, hash) => {
+      user.password = hash;
 
-    bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(user.password, salt, (err, hash) => {
-            user.password = hash;
+      User.register(user, (err, data) => {
+        if (err) {
+          return res.status(403).send({
+            message: err
+          });
+        }
 
-            User.register(user, (err, data) => {
-                if (err) {
-                    return res.status(403).send({
-                        message: err
-                    });
-                }
+        if (req.body.photo) {
+          upload(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+              return res.status(500).json(err)
+            } else if (err) {
+              return res.status(500).json(err)
+            }
+            return res.status(200).send(req.body.photo);
+          });
+        }
 
-                return res.status(200).send(data);
+        const user_id = data.id;
+        const country = new Country(
+          {
+            label: req.body.address.country
+          }
+        );
+
+        Country.create(country, (err, data) => {
+          if (err) {
+            return res.status(500).send({
+              message: "Some error occurred while creating the Country."
             });
+          }
+
+          const address = new Address(
+              {
+                  street: req.body.address.street,
+                  city: req.body.address.city,
+                  department: req.body.address.department,
+                  region: req.body.address.region,
+                  zipcode: req.body.address.zipcode,
+                  user_id: user_id,
+                  country_id: data.id
+              }
+          );
+
+          Address.create(address, (err, data) => {
+              if (err) {
+                  return res.status(500).send({
+                      message: "Some error occurred while creating the Address."
+                  });
+              }
+
+              return res.status(200).send(data);
+          });
+
+          return res.status(200).send(data);
         });
+
+        return res.status(200).send(data);
+      });
     });
+  });
 };
 
 export const login = (req, res) => {
@@ -96,35 +165,97 @@ export const create = (req, res) => {
     }
 
     // Create a User
-    const user = new User({
-        name:        req.body.name,
-        description: req.body.description,
-        status:      req.body.status,
-        location:    req.body.location,
-        website:     req.body.website,
-        email:       req.body.email,
-        roles:       req.body.roles,
-        username:    req.body.username,
-        password:    req.body.password,
-        siret:       req.body.siret
-    });
+    const user = new User(
+        {
+            name:        req.body.name,
+            description: req.body.description,
+            status:      req.body.status,
+            location:    req.body.location,
+            website:     req.body.website,
+            email:       req.body.email,
+            roles:       req.body.roles,
+            username:    req.body.username,
+            password:    req.body.password,
+            siret:       req.body.siret
+        }
+    );
 
-    bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(user.password, salt, (err, hash) => {
-            user.password = hash;
+    bcrypt.genSalt(
+        10, (err, salt) => {
+            bcrypt.hash(
+            user.password, salt, (err, hash) => {
+                    user.password = hash;
+                    // Save User in the database
+                    User.create(
+                        user, (err, data) => {
+                            if (err) {
+                                return res.status(500).send(
+                                {
+                                    message: "Some error occurred while creating the User."
+                                    }
+                                );
+                            }
+                            return res.status(200).send(data);
+                        }
+                    );
+            }
+        );
+        }
+    );
+};
 
-            // Save User in the database
-            User.create(user, (err, data) => {
-                if (err) {
-                    return res.status(500).send({
-                        message: "Some error occurred while creating the User."
-                    });
+export const mail = (req, res) => {
+    var transporter = nodemailer.createTransport(
+        {
+            service: 'gmail',
+            auth: {
+                user: process.env.MAIL_USER,
+                pass: process.env.MAIL_PWD
+            }
+        }
+    );
+
+    transporter.verify(
+        (error, success) => {
+            if (error) {
+                res.status(500).json(
+                {
+                    status: 'Cannot connect to mail inbox'
                 }
+                    );
+            }
+        }
+    );
 
-                return res.status(200).send(data);
-            });
-        });
-    });
+    var name    = req.body.name;
+    var email   = req.body.email;
+    var message = req.body.message;
+    var content = `name: ${name} \n email: ${email} \n message: ${message} `;
+
+    var mail = {
+        from: process.env.MAIL_USER,
+        to: process.env.MAIL_USER,
+        subject: 'Demande d\'utilisateur',
+        html: '<p>' + content + '<p>'
+    };
+
+    transporter.sendMail(
+        mail, (err, data) => {
+            if (err) {
+                res.status(500).json(
+                {
+                    status: 'fail'
+                }
+                    );
+            } else {
+        res.status(200).json(
+                {
+                    status: 'success'
+                        }
+            );
+            }
+        }
+    );
 };
 
 // Retrieve all Users from the database.
@@ -155,7 +286,25 @@ export const findOne = (req, res) => {
             });
         }
 
-        return res.status(200).send(data);
+        let user = data;
+
+        Address.getAllByUser(req.params.id, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    return res.status(404).send({
+                        message: `Not found User with id ${req.params.id}.`
+                    });
+                }
+
+                return res.status(500).send({
+                    message: "Error retrieving User with id " + req.params.id
+                });
+            }
+
+            user.address = data[0];
+
+            return res.status(200).send(user);
+        });
     });
 };
 

@@ -22,20 +22,22 @@ Company.findById = (companyId, result) => {
 
             return;
         }
-  
+
         if (res.length) {
             result(null, res[0]);
 
             return;
         }
-  
+
         // not found User with the id
         result({ kind: "not_found" }, null);
     });
 };
 
-Company.getAll = result => {
-    connection.query("SELECT * FROM user WHERE roles LIKE '%ROLE_COMP%'", (err, res) => {
+Company.getAll = (limit, result) => {
+    let limitString = limit ? "LIMIT " + limit : "";
+
+    connection.query("SELECT * FROM user WHERE roles LIKE '%ROLE_COMP%'" + limitString, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

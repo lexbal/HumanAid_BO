@@ -29,6 +29,10 @@
         {
             "name": "Comments",
             "description": "Everything about comments"
+        },
+        {
+            "name": "Mail",
+            "description": "Everything about mail"
         }
     ],
     "schemes": [
@@ -216,6 +220,16 @@
             "get": {
                 "tags": [
                     "Companies"
+                ],
+                "parameters": [
+                    {
+                      "name": "limit",
+                      "in": "query",
+                      "description": "limit of company to get",
+                      "required": false,
+                      "type": "integer",
+                      "format": "int64"
+                    }
                 ],
                 "summary": "Get All Companies",
                 "description": "Returns a list containing all companies.",
@@ -752,6 +766,23 @@
                 }
             }
         },
+        "/event/categories": {
+          "get": {
+            "tags": [
+              "Events"
+            ],
+            "summary": "Get all event's categories",
+            "description": "Returns a list containing all event's categories.",
+            "responses": {
+              "200": {
+                "description": "Categories found"
+              },
+              "500": {
+                "description": "Request failed"
+              }
+            }
+          }
+        },
         "/rating": {
             "post": {
                 "tags": [
@@ -831,6 +862,46 @@
                     },
                     "500": {
                         "description": "Request failed"
+                    }
+                }
+            }
+        },
+        "/send_mail": {
+            "post": {
+                "tags": [
+                    "Mail"
+                ],
+                "parameters": [
+                    {
+                      "name": "name",
+                      "in": "formData",
+                      "description": "User name",
+                      "required": false,
+                      "type": "string"
+                    },
+                    {
+                      "name": "email",
+                      "in": "formData",
+                      "description": "User mail",
+                      "required": true,
+                      "type": "string"
+                    },
+                    {
+                      "name": "message",
+                      "in": "formData",
+                      "description": "Mail content",
+                      "required": true,
+                      "type": "string"
+                    }
+                ],
+                "summary": "Send mail",
+                "description": "Send mail.",
+                "responses": {
+                    "200": {
+                      "description": "Mail sent"
+                    },
+                    "500": {
+                      "description": "Request failed"
                     }
                 }
             }

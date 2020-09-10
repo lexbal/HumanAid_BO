@@ -2,13 +2,13 @@ import Company from '../models/companyModel';
 
 // Retrieve all Companies from the database.
 export const findAll = (req, res) => {
-    Company.getAll((err, data) => {
+    Company.getAll(req.query.limit ? req.query.limit : null, (err, data) => {
         if (err) {
             return res.status(500).send({
                 message: "Some error occurred while retrieving companies."
             });
         }
-            
+
         return res.status(200).send(data);
     });
 };
@@ -21,13 +21,13 @@ export const findOne = (req, res) => {
                 return res.status(404).send({
                     message: `Not found Company with id ${req.params.id}.`
                 });
-            } 
+            }
 
             return res.status(500).send({
                 message: "Error retrieving Company with id " + req.params.id
             });
         }
-        
+
         return res.status(200).send(data);
     });
 };
