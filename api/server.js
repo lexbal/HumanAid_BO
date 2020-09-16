@@ -30,6 +30,7 @@ app.use(cookieParser());                          // parse Cookie header and pop
 app.use(cors());                                  // allow AJAX requests to skip the Same-origin policy and access resources from remote hosts
 app.use(morgan('dev'));                           // request logger | (dev) output are colored by response status
 app.use(responseTime());                          // records the response time for HTTP requests
+app.use(express.static('public'));
 
 // limit repeated requests to endpoints such as password reset
 app.use(

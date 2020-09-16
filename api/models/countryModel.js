@@ -1,5 +1,4 @@
-// constructor
-import connection from "../db";
+import mysql_pool from "../db";
 
 const Country = function (country) {
   this.code  = country.code ? country.code : '';
@@ -7,16 +6,23 @@ const Country = function (country) {
 };
 
 Country.create = (newCountry, result) => {
-  connection.query("INSERT INTO country SET ?", newCountry, (err, res) => {
+  mysql_pool.getConnection(function(err, connection) {
     if (err) {
-      console.log("error: ", err);
-      result(err, null);
-
-      return;
+      console.log(' Error getting mysql_pool connection: ' + err);
+      throw err;
     }
 
-    console.log("Created country id: ", res.insertId);
-    result(null, { id: res.insertId, ...newCountry });
+    connection.query("INSERT INTO country SET ?", newCountry, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+
+        return;
+      }
+
+      console.log("Created country id: ", res.insertId);
+      result(null, {id: res.insertId, ...newCountry});
+    });
   });
 };
 

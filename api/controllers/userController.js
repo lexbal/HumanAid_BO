@@ -29,6 +29,17 @@ export const signUp = (req, res) => {
     );
   }
 
+  res.status(200).send(req.body);
+
+  upload(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      return res.status(500).json(err)
+    } else if (err) {
+      return res.status(500).json(err)
+    }
+    return res.status(200).send(req.body.photo);
+  });
+
   const user = new User(
     {
       name:        req.body.name,
@@ -54,16 +65,7 @@ export const signUp = (req, res) => {
           });
         }
 
-        if (req.body.photo) {
-          upload(req, res, function (err) {
-            if (err instanceof multer.MulterError) {
-              return res.status(500).json(err)
-            } else if (err) {
-              return res.status(500).json(err)
-            }
-            return res.status(200).send(req.body.photo);
-          });
-        }
+
 
         const user_id = data.id;
         const country = new Country(

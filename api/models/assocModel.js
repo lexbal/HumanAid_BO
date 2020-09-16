@@ -1,4 +1,4 @@
-import connection from '../db';
+import mysql_pool from '../db';
 
 // constructor
 const Assoc = function (assoc) {
@@ -15,39 +15,53 @@ const Assoc = function (assoc) {
 };
 
 Assoc.findById = (assocId, result) => {
-    connection.query(`SELECT _u.name, _u.description, _user_address.street, _u.manager_first_name, _u.manager_last_name, _u.landline, _u.website, _u.email, _u.facebook, _u.twitter
+  mysql_pool.getConnection(function(err, connection) {
+    if (err) {
+      console.log(' Error getting mysql_pool connection: ' + err);
+      throw err;
+    }
+
+    connection.query(`SELECT _u.name, _u.description, _user_address.street, _u.manager_first_name, _u.manager_last_name, _u.landline, _u.website, _u.email, _u.photo, _u.facebook, _u.twitter
         FROM user _u
         INNER JOIN address _user_address ON _user_address.user_id = _u.id
         WHERE _u.id = ${assocId} AND _u.roles LIKE '%ROLE_ASSOC%'`, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
 
-            return;
-        }
+        return;
+      }
 
-        if (res.length) {
-            result(null, res[0]);
+      if (res.length) {
+        result(null, res[0]);
 
-            return;
-        }
+        return;
+      }
 
-        // not found User with the id
-        result({ kind: "not_found" }, null);
+      // not found User with the id
+      result({kind: "not_found"}, null);
     });
+  });
 };
 
 Assoc.getAll = result => {
+  mysql_pool.getConnection(function(err, connection) {
+    if (err) {
+      console.log(' Error getting mysql_pool connection: ' + err);
+      throw err;
+    }
+
     connection.query("SELECT * FROM user WHERE roles LIKE '%ROLE_ASSOC%'", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
 
-            return;
-        }
+        return;
+      }
 
-        result(null, res);
+      result(null, res);
     });
+  });
 };
 
 

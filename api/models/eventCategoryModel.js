@@ -1,4 +1,4 @@
-import connection from '../db';
+import mysql_pool from '../db';
 
 // constructor
 const EventCategory = function (category) {
@@ -7,31 +7,45 @@ const EventCategory = function (category) {
 };
 
 EventCategory.getAll = result => {
-  connection.query("SELECT * FROM event_category", (err, res) => {
+  mysql_pool.getConnection(function(err, connection) {
     if (err) {
-      console.log("error: ", err);
-      result(null, err);
-
-      return;
+      console.log(' Error getting mysql_pool connection: ' + err);
+      throw err;
     }
 
-    result(null, res);
+    connection.query("SELECT * FROM event_category", (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+
+        return;
+      }
+
+      result(null, res);
+    });
   });
 };
 
 EventCategory.getAllByEvent = (id, result) => {
-  connection.query(
-    `SELECT * FROM event_category _ec INNER JOIN event_category_event _ece ON _ec _ec.id = _ece.event_category_id
-    WHERE ece.event_id = ${id}`,
-    (err, res) => {
+  mysql_pool.getConnection(function(err, connection) {
     if (err) {
-      console.log("error: ", err);
-      result(err, null);
-
-      return;
+      console.log(' Error getting mysql_pool connection: ' + err);
+      throw err;
     }
 
-    result(null, res);
+    connection.query(
+      `SELECT * FROM event_category _ec INNER JOIN event_category_event _ece ON _ec _ec.id = _ece.event_category_id
+      WHERE ece.event_id = ${id}`,
+      (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+
+          return;
+        }
+
+        result(null, res);
+      });
   });
 };
 

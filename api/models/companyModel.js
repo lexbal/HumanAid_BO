@@ -1,4 +1,4 @@
-import connection from '../db';
+import mysql_pool from '../db';
 
 // constructor
 const Company = function (company) {
@@ -15,38 +15,52 @@ const Company = function (company) {
 };
 
 Company.findById = (companyId, result) => {
+  mysql_pool.getConnection(function(err, connection) {
+    if (err) {
+      console.log(' Error getting mysql_pool connection: ' + err);
+      throw err;
+    }
+
     connection.query(`SELECT * FROM user WHERE id = ${companyId} AND roles LIKE '%ROLE_COMP%'`, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
 
-            return;
-        }
+        return;
+      }
 
-        if (res.length) {
-            result(null, res[0]);
+      if (res.length) {
+        result(null, res[0]);
 
-            return;
-        }
+        return;
+      }
 
-        // not found User with the id
-        result({ kind: "not_found" }, null);
+      // not found User with the id
+      result({kind: "not_found"}, null);
     });
+  });
 };
 
 Company.getAll = (limit, result) => {
+  mysql_pool.getConnection(function(err, connection) {
+    if (err) {
+      console.log(' Error getting mysql_pool connection: ' + err);
+      throw err;
+    }
+
     let limitString = limit ? "LIMIT " + limit : "";
 
     connection.query("SELECT * FROM user WHERE roles LIKE '%ROLE_COMP%'" + limitString, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
 
-            return;
-        }
+        return;
+      }
 
-        result(null, res);
+      result(null, res);
     });
+  });
 };
 
 

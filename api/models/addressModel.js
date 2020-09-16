@@ -1,4 +1,4 @@
-import connection from '../db';
+import mysql_pool from '../db';
 
 // constructor
 const Address = function (address) {
@@ -12,35 +12,49 @@ const Address = function (address) {
 };
 
 Address.getAllByUser = (user, result) => {
-    connection.query(
+    mysql_pool.getConnection(function(err, connection) {
+      if (err) {
+        console.log(' Error getting mysql_pool connection: ' + err);
+        throw err;
+      }
+
+      connection.query(
         `SELECT _a.street, _a.zipcode, _a.city, _a.region, _a. department, _c.label AS country
-        FROM address _a
-        INNER JOIN country _c ON _c.id = _a.country_id
-        WHERE _a.user_id = ${user}`,
+            FROM address _a
+            INNER JOIN country _c ON _c.id = _a.country_id
+            WHERE _a.user_id = ${user}`,
         (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
+          if (err) {
+            console.log("error: ", err);
+            result(null, err);
 
-                return;
-            }
+            return;
+          }
 
-            result(null, res);
+          result(null, res);
         }
-    );
+      );
+    });
 };
 
 Address.create = (newAddress, result) => {
-  connection.query("INSERT INTO address SET ?", newAddress, (err, res) => {
+  mysql_pool.getConnection(function(err, connection) {
     if (err) {
-      console.log("error: ", err);
-      result(err, null);
-
-      return;
+      console.log(' Error getting mysql_pool connection: ' + err);
+      throw err;
     }
 
-    console.log("Created address id: ", res.insertId);
-    result(null, { id: res.insertId, ...newAddress });
+    connection.query("INSERT INTO address SET ?", newAddress, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+
+        return;
+      }
+
+      console.log("Created address id: ", res.insertId);
+      result(null, {id: res.insertId, ...newAddress});
+    });
   });
 };
 
