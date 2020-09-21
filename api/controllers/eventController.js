@@ -1,6 +1,8 @@
 import Event from '../models/eventModel.js';
+import User from '../models/userModel.js';
 import EventCategory from '../models/eventCategoryModel.js';
 import Rating from '../models/ratingModel.js';
+import moment from 'moment';
 
 // Create and Save a new Event
 export const create = (req, res) => {
@@ -11,23 +13,32 @@ export const create = (req, res) => {
         });
     }
 
-    // Create a Event
-    const event = new Event({
+    User.findByUsernameOrEmail(req.body.user, (err, data) => {
+      if (err) {
+        return res.status(500).send({
+          message: "Some error occurred while searching the User."
+        });
+      }
+
+      // Create a Event
+      const event = new Event({
         title:        req.body.title,
         description:  req.body.description,
-        start_date:   req.body.start_date,
-        end_date:     req.body.end_date
-    });
+        owner_id:     data.id,
+        start_date:   moment(req.body.start_date).format("YYYY-MM-DD HH:mm:ss"),
+        end_date:     moment(req.body.end_date).format("YYYY-MM-DD HH:mm:ss")
+      });
 
-    // Save Event in the database
-    Event.create(event, (err, data) => {
+      // Save Event in the database
+      Event.create(event, (err, data) => {
         if (err) {
-            return res.status(500).send({
-                message: "Some error occurred while creating the Event."
-            });
+          return res.status(500).send({
+            message: "Some error occurred while creating the Event."
+          });
         }
 
         return res.status(200).send(data);
+      });
     });
 };
 
