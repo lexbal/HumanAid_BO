@@ -8,7 +8,7 @@ import hpp from 'hpp';
 import morgan from 'morgan';
 import emoji from 'node-emoji';
 import swaggerUi from 'swagger-ui-express';
-import * as swaggerDocument from './swagger.json';
+import swaggerDocument from './swagger.js';
 import responseTime from 'response-time';
 import ratingRouter from './routes/rating.js';
 import userRouter from './routes/user.js';
