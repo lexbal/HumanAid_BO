@@ -1,5 +1,5 @@
-import Rating from '../models/ratingModel';
-import User from '../models/userModel';
+import Rating from '../models/ratingModel.js';
+import User from '../models/userModel.js';
 
 // Create and Save a new User
 export const create = (req, res) => {

@@ -8,11 +8,11 @@ import hpp from 'hpp';
 import morgan from 'morgan';
 import emoji from 'node-emoji';
 import responseTime from 'response-time';
-import ratingRouter from './routes/rating';
-import userRouter from './routes/user';
-import companyRouter from './routes/company';
-import assocRouter from './routes/assoc';
-import eventRouter from './routes/event';
+import ratingRouter from './routes/rating.js';
+import userRouter from './routes/user.js';
+import companyRouter from './routes/company.js';
+import assocRouter from './routes/assoc.js';
+import eventRouter from './routes/event.js';
 import rateLimit from 'express-rate-limit';
 
 const swaggerUi = require('swagger-ui-express');

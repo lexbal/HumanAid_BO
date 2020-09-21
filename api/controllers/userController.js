@@ -1,23 +1,10 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jwt-simple';
 import moment from 'moment';
-import User from '../models/userModel';
+import User from '../models/userModel.js';
 import nodemailer from "nodemailer";
-import multer from "multer";
-import Address from "../models/addressModel";
-import Country from "../models/countryModel";
-
-var storage = multer.diskStorage(
-    {
-        destination: function (req, file, cb) {
-            cb(null, 'public')
-        },
-        filename: function (req, file, cb) {
-            cb(null, Date.now() + '-' +file.name)
-        }
-    }
-);
-var upload = multer({ storage: storage }).single('file');
+import Address from "../models/addressModel.js";
+import Country from "../models/countryModel.js";
 
 export const signUp = (req, res) => {
   // Validate request
@@ -29,17 +16,6 @@ export const signUp = (req, res) => {
     );
   }
 
-  res.status(200).send(req.body);
-
-  upload(req, res, function (err) {
-    if (err instanceof multer.MulterError) {
-      return res.status(500).json(err)
-    } else if (err) {
-      return res.status(500).json(err)
-    }
-    return res.status(200).send(req.body.photo);
-  });
-
   const user = new User(
     {
       name:        req.body.name,
@@ -50,7 +26,8 @@ export const signUp = (req, res) => {
       roles:       req.body.roles,
       username:    req.body.username,
       password:    req.body.password,
-      siret:       req.body.siret
+      siret:       req.body.siret,
+      photo:       req.file.filename
     }
   );
 

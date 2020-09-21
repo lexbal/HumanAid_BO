@@ -1,4 +1,4 @@
-import mysql_pool from '../db';
+import mysql_pool from '../db.js';
 
 // constructor
 const Address = function (address) {

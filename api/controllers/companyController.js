@@ -1,4 +1,4 @@
-import Company from '../models/companyModel';
+import Company from '../models/companyModel.js';
 
 // Retrieve all Companies from the database.
 export const findAll = (req, res) => {

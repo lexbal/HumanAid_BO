@@ -1,4 +1,4 @@
-import mysql_pool from "../db";
+import mysql_pool from "../db.js";
 
 const Country = function (country) {
   this.code  = country.code ? country.code : '';

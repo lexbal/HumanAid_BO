@@ -1,6 +1,6 @@
-import Event from '../models/eventModel';
-import EventCategory from '../models/eventCategoryModel';
-import Rating from '../models/ratingModel';
+import Event from '../models/eventModel.js';
+import EventCategory from '../models/eventCategoryModel.js';
+import Rating from '../models/ratingModel.js';
 
 // Create and Save a new Event
 export const create = (req, res) => {
