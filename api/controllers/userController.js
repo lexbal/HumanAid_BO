@@ -23,7 +23,7 @@ export const signUp = (req, res) => {
       status:      req.body.status,
       website:     req.body.website,
       email:       req.body.email,
-      roles:       req.body.roles,
+      roles:       (typeof req.body.roles === 'string') ? [req.body.roles] : req.body.roles,
       username:    req.body.username,
       password:    req.body.password,
       siret:       req.body.siret,
