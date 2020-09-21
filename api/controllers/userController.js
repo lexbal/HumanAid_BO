@@ -27,7 +27,7 @@ export const signUp = (req, res) => {
       username:    req.body.username,
       password:    req.body.password,
       siret:       req.body.siret,
-      photo:       req.file.filename
+      photo:       req.file ? req.file.filename : null
     }
   );
 
@@ -209,7 +209,49 @@ export const mail = (req, res) => {
     var name    = req.body.name;
     var email   = req.body.email;
     var message = req.body.message;
-    var content = `name: ${name} \n email: ${email} \n message: ${message} `;
+    var content = `<!DOCTYPE html>
+      <html style="margin: 0; padding: 0;">
+
+      <head>
+          <title>One | Email template!</title>
+      </head>
+
+      <body style="margin: 0; padding: 0;">
+          <table class="table" cellpadding="0" cellspacing="0" style="background-color: #eee; empty-cells: hide; margin: 0 auto; padding: 0; width: 600px;">
+              <tr>
+                <td class="red" style="background-color: #E84C50; margin: 0 auto;">
+                  <h3 style="box-sizing: border-box; color: white; font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.5px; line-height: 1.4; margin: 0; padding: 15px 25px; text-align: center; text-transform: uppercase;">
+                    Nom
+                  </h3>
+                </td>
+                  <td class="red" style="background-color: #E84C50; margin: 0 auto;">
+                     ${name}
+                  </td>
+              </tr>
+              <tr>
+                <td class="red" style="background-color: #E84C50; margin: 0 auto;">
+                  <h3 style="box-sizing: border-box; color: white; font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.5px; line-height: 1.4; margin: 0; padding: 15px 25px; text-align: center; text-transform: uppercase;">
+                    Email
+                  </h3>
+                </td>
+                  <td class="red" style="background-color: #E84C50; margin: 0 auto;">
+                     ${email}
+                  </td>
+              </tr>
+              <tr>
+                <td class="red" style="background-color: #E84C50; margin: 0 auto;">
+                  <h3 style="box-sizing: border-box; color: white; font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.5px; line-height: 1.4; margin: 0; padding: 15px 25px; text-align: center; text-transform: uppercase;">
+                    Message
+                  </h3>
+                </td>
+                  <td class="red" style="background-color: #E84C50; margin: 0 auto;">
+                     ${message}
+                  </td>
+              </tr>
+          </table>
+      </body>
+
+      </html>`;
 
     var mail = {
         from: process.env.MAIL_USER,
@@ -223,7 +265,8 @@ export const mail = (req, res) => {
             if (err) {
                 res.status(500).json(
                 {
-                    status: 'fail'
+                    status: 'error',
+                    message: err
                 }
                     );
             } else {
