@@ -3,6 +3,7 @@ import moment from 'moment';
 
 // constructor
 const Event = function (event) {
+    this.owner_id     = event.owner_id ? event.owner_id : null;
     this.title        = event.title ? event.title : '';
     this.description  = event.description ? event.description : '';
     this.start_date   = event.start_date;
