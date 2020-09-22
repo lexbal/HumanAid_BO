@@ -3,20 +3,23 @@ import moment from "moment";
 
 // constructor
 const User = function (user) {
-    this.name        = user.name ? user.name : '';
-    this.description = user.description;
-    this.status      = user.status ? user.status : '';
-    this.photo       = user.photo ? user.photo : '';
-    this.website     = user.website;
-    this.email       = user.email ? user.email : '';
-    this.roles       = user.roles ? user.roles : '["ROLE_USER"]';
-    this.username    = user.username ? user.username : '';
-    this.password    = user.password ? user.password : '';
-    this.siret       = user.siret;
-    this.facebook    = user.facebook ? user.facebook : '';
-    this.twitter     = user.twitter ? user.twitter : '';
-    this.created_at  = moment().format("YYYY-MM-DD HH:mm:ss");
-    this.updated_at  = moment().format("YYYY-MM-DD HH:mm:ss");
+    this.name               = user.name ? user.name : '';
+    this.manager_first_name = user.manager_first_name ? user.manager_first_name : '';
+    this.manager_last_name  = user.manager_last_name ? user.manager_last_name : '';
+    this.description        = user.description;
+    this.status             = user.status ? user.status : '';
+    this.photo              = user.photo ? user.photo : '';
+    this.website            = user.website;
+    this.email              = user.email ? user.email : '';
+    this.roles              = user.roles ? user.roles : '["ROLE_USER"]';
+    this.username           = user.username ? user.username : '';
+    this.password           = user.password ? user.password : '';
+    this.landline           = user.landline ? user.landline : '';
+    this.siret              = user.siret;
+    this.facebook           = user.facebook ? user.facebook : '';
+    this.twitter            = user.twitter ? user.twitter : '';
+    this.created_at         = moment().format("YYYY-MM-DD HH:mm:ss");
+    this.updated_at         = moment().format("YYYY-MM-DD HH:mm:ss");
 };
 
 User.register = (user, result) => {

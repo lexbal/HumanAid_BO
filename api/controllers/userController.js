@@ -18,16 +18,19 @@ export const signUp = (req, res) => {
 
   const user = new User(
     {
-      name:        req.body.name,
-      description: req.body.description,
-      status:      req.body.status,
-      website:     req.body.website,
-      email:       req.body.email,
-      roles:       JSON.stringify([req.body.roles]),
-      username:    req.body.username,
-      password:    req.body.password,
-      siret:       req.body.siret,
-      photo:       req.file ? req.file.filename : null
+      manager_first_name: req.body.manager_first_name,
+      manager_last_name:  req.body.manager_last_name,
+      name:               req.body.name,
+      description:        req.body.description,
+      status:             req.body.status,
+      website:            req.body.website,
+      email:              req.body.email,
+      roles:              JSON.stringify([req.body.roles]),
+      username:           req.body.username,
+      password:           req.body.password,
+      landline:           req.body.landline,
+      siret:              req.body.siret,
+      photo:              req.file ? req.file.filename : null
     }
   );
   const userAddress = JSON.parse(req.body.address);
