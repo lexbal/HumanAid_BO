@@ -100,8 +100,8 @@ Event.getAll = result => {
     connection.query(
         `SELECT _e.id, _e.title, GROUP_CONCAT(_ec.label) AS categories, _e.description, _e.rating, _e.start_date, _e.end_date, _e.publish_date
         FROM event _e
-        INNER JOIN event_category_event _ece ON _e.id = _ece.event_id
-        INNER JOIN event_category _ec ON _ec.id = _ece.event_category_id
+        LEFT JOIN event_category_event _ece ON _e.id = _ece.event_id
+        LEFT JOIN event_category _ec ON _ec.id = _ece.event_category_id
         GROUP BY _e.id
         ORDER BY _e.start_date DESC`,
       (err, res) => {
