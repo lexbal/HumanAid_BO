@@ -24,7 +24,7 @@ Assoc.findById = (assocId, result) => {
     connection.query(
       `SELECT _u.name, _u.description, _user_address.street, _u.manager_first_name, _u.manager_last_name, _u.landline, _u.website, _u.email, _u.photo, _u.facebook, _u.twitter
         FROM user _u
-        INNER JOIN address _user_address ON _user_address.user_id = _u.id
+        LEFT JOIN address _user_address ON _user_address.user_id = _u.id
         WHERE _u.id = ${assocId} AND _u.roles LIKE '%ROLE_ASSOC%'`,
       (err, res) => {
         connection.release();
