@@ -30,6 +30,7 @@ export const signUp = (req, res) => {
       photo:       req.file ? req.file.filename : null
     }
   );
+  const address = JSON.parse(req.body.address);
 
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(user.password, salt, (err, hash) => {
@@ -42,12 +43,10 @@ export const signUp = (req, res) => {
           });
         }
 
-
-
         const user_id = data.id;
         const country = new Country(
           {
-            label: req.body.address.country
+            label: address.country
           }
         );
 
@@ -60,11 +59,11 @@ export const signUp = (req, res) => {
 
           const address = new Address(
               {
-                  street: req.body.address.street,
-                  city: req.body.address.city,
-                  department: req.body.address.department,
-                  region: req.body.address.region,
-                  zipcode: req.body.address.zipcode,
+                  street: address.street,
+                  city: address.city,
+                  department: address.department,
+                  region: address.region,
+                  zipcode: address.zipcode,
                   user_id: user_id,
                   country_id: data.id
               }
