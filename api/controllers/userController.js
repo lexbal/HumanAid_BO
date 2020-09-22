@@ -44,37 +44,38 @@ export const signUp = (req, res) => {
         }
 
         const user_id = data.id;
-        const country = new Country(
-          {
-            label: userAddress.country
-          }
-        );
 
-        Country.create(country, (err, data) => {
+        Country.create(
+          new Country(
+            {
+              label: userAddress.country
+            }
+          ), (err, data) => {
           if (err) {
             return res.status(500).send({
               message: "Some error occurred while creating the Country."
             });
           }
 
-          const address = new Address(
+          Address.create(
+            new Address(
               {
-                  street: userAddress.street,
-                  city: userAddress.city,
-                  department: userAddress.department,
-                  region: userAddress.region,
-                  zipcode: userAddress.zipcode,
-                  user_id: user_id,
-                  country_id: data.id
+                street: userAddress.street,
+                city: userAddress.city,
+                department: userAddress.department,
+                region: userAddress.region,
+                zipcode: userAddress.zipcode,
+                user_id: user_id,
+                country_id: data.id
               }
-          );
-
-          Address.create(address, (err, data) => {
+            ), (err, data) => {
               if (err) {
                   return res.status(500).send({
                       message: "Some error occurred while creating the Address."
                   });
               }
+
+              console.log('Address created !');
 
               return res.status(200).send(data);
           });
