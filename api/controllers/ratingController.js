@@ -1,5 +1,6 @@
 import Rating from '../models/ratingModel.js';
 import User from '../models/userModel.js';
+import Event from '../models/eventModel.js';
 
 // Create and Save a new User
 export const create = (req, res) => {
@@ -35,12 +36,45 @@ export const create = (req, res) => {
         });
       }
 
-      return res.status(200).send({
-        rating: rating.rating,
-        comment: rating.comment,
-        username: user.username,
-        email: user.email,
-        publish_date: data.publish_date,
+      Rating.getAllByEvent(req.body.event_id, (err, data) => {
+        if (err) {
+          return res.status(500).send({
+            message: "Some error occurred while creating the Rating."
+          });
+        }
+
+        let sum = data.reduce((a, b) => a + b, 0);
+
+        let moy = sum / data.length;
+        console.log(moy);
+
+        Event.updateById(
+          req.body.event_id,
+          {
+            rating: moy
+          },
+          (err, data) => {
+            if (err) {
+              if (err.kind === "not_found") {
+                return res.status(404).send({
+                  message: `Not found Event with id ${req.body.event_id}.`
+                });
+              }
+
+              return res.status(500).send({
+                message: "Error updating Event with id " + req.body.event_id
+              });
+            }
+
+            return res.status(200).send({
+              rating: rating.rating,
+              comment: rating.comment,
+              username: user.username,
+              email: user.email,
+              publish_date: data.publish_date,
+            });
+          }
+        );
       });
     });
   });
