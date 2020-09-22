@@ -17,6 +17,8 @@ export const create = (req, res) => {
       });
     }
 
+    const user = data;
+
     // Create a Rating
     const rating = new Rating({
       event_id: req.body.event_id,
@@ -33,7 +35,13 @@ export const create = (req, res) => {
         });
       }
 
-      return res.status(200).send(data);
+      return res.status(200).send({
+        rating: rating.rating,
+        comment: rating.comment,
+        username: user.username,
+        email: user.email,
+        publish_date: data.publish_date,
+      });
     });
   });
 };
