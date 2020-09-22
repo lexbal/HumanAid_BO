@@ -43,12 +43,16 @@ export const create = (req, res) => {
           });
         }
 
-        let sum = data.reduce((a, b) => a + b, 0);
+        let sum = 0;
+
+        for (var i = 0; i < data.length; i++) {
+          sum = sum + data[i].rating;
+        }
 
         let moy = sum / data.length;
         console.log(moy);
 
-        Event.updateById(
+        /*Event.updateById(
           req.body.event_id,
           {
             rating: moy
@@ -74,7 +78,7 @@ export const create = (req, res) => {
               publish_date: data.publish_date,
             });
           }
-        );
+        );*/
       });
     });
   });
