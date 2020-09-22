@@ -76,14 +76,13 @@ export const signUp = (req, res) => {
               }
 
               console.log('Address created !');
-
-              return res.status(200).send(data);
           });
-
-          return res.status(200).send(data);
         });
 
-        return res.status(200).send(data);
+        return res.status(200).send({
+          status: "success",
+          message: "Account created !"
+        });
       });
     });
   });
