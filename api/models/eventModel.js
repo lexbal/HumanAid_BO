@@ -6,6 +6,7 @@ const Event = function (event) {
     this.owner_id     = event.owner_id ? event.owner_id : null;
     this.title        = event.title ? event.title : '';
     this.description  = event.description ? event.description : '';
+    this.categories   = event.categories ? event.categories : [];
     this.start_date   = event.start_date;
     this.end_date     = event.end_date;
     this.publish_date = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -19,7 +20,10 @@ Event.create = (newEvent, result) => {
       throw err;
     }
 
-    connection.query("INSERT INTO event SET ?", newEvent, (err, res) => {
+    connection.query(
+      "INSERT INTO event SET title = ?, description = ?, start_date = ?, end_date = ?, publish_date = ?, rating = ?",
+      [newEvent.title, newEvent.description, newEvent.start_date, newEvent.end_date, newEvent.publish_date, newEvent.rating],
+      (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -27,8 +31,26 @@ Event.create = (newEvent, result) => {
         return;
       }
 
-      console.log("Created event id: ", res.insertId);
-      result(null, {id: res.insertId, ...newEvent});
+      let event_id = res.insertId;
+
+      if (newEvent.categories.length > 0) {
+        let categories = [];
+
+        for (let category of newEvent.categories) {
+          categories.push([category, event_id]);
+        }
+
+        connection.query(
+          "INSERT INTO event_category_event (event_category_id, event_id) VALUES ?",
+          [categories],
+          (err, res) => {
+            console.log("Created event id: ", event_id);
+            result(null, {id: event_id, ...newEvent});
+          });
+      }
+
+      console.log("Created event id: ", event_id);
+      result(null, {id: event_id, ...newEvent});
     });
   });
 };

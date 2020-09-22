@@ -24,6 +24,7 @@ export const create = (req, res) => {
       const event = new Event({
         title:        req.body.title,
         description:  req.body.description,
+        categories:   req.body.categories,
         owner_id:     data.id,
         start_date:   moment(req.body.start_date).format("YYYY-MM-DD HH:mm:ss"),
         end_date:     moment(req.body.end_date).format("YYYY-MM-DD HH:mm:ss")
