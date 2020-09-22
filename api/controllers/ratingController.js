@@ -49,13 +49,10 @@ export const create = (req, res) => {
           sum = sum + data[i].rating;
         }
 
-        let moy = sum / data.length;
-        console.log(moy);
-
-        /*Event.updateById(
+        Event.updateById(
           req.body.event_id,
           {
-            rating: moy
+            rating: (sum > 0 && data.length) ? (sum / data.length) : 0
           },
           (err, data) => {
             if (err) {
@@ -78,7 +75,7 @@ export const create = (req, res) => {
               publish_date: data.publish_date,
             });
           }
-        );*/
+        );
       });
     });
   });
