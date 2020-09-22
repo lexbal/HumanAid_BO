@@ -1,4 +1,4 @@
-import mysql_pool from '../db.js';
+import mysql_pool from '../config/db.js';
 import moment from 'moment';
 
 // constructor
@@ -18,16 +18,20 @@ Rating.create = (newRating, result) => {
       throw err;
     }
 
-    connection.query("INSERT INTO rating SET ?", newRating, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
+    connection.query(
+      `INSERT INTO rating SET ?`,
+      newRating,
+      (err, res) => {
+        connection.release();
 
-        return;
-      }
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
 
-      console.log("Created rating id: ", res.insertId);
-      result(null, {id: res.insertId, ...newRating});
+          return;
+        }
+
+        result(null, {id: res.insertId, ...newRating});
     });
   });
 };
@@ -46,6 +50,8 @@ Rating.getAllByEvent = (eventId, result) => {
         INNER JOIN user _u ON _u.id = _r.user_id
         WHERE _e.id = ${eventId}`,
       (err, res) => {
+        connection.release();
+
         if (err) {
           console.log("error: ", err);
           result(err, null);

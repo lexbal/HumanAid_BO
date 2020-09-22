@@ -1,4 +1,4 @@
-import mysql_pool from '../db.js';
+import mysql_pool from '../config/db.js';
 import moment from "moment";
 
 // constructor
@@ -30,9 +30,11 @@ User.register = (user, result) => {
     }
 
     connection.query(
-        `SELECT * FROM user WHERE email = ? OR username = ? LIMIT 1`,
+      `SELECT * FROM user WHERE email = ? OR username = ? LIMIT 1`,
       [user.email, user.username],
       (err, res) => {
+        connection.release();
+
         if (err) {
           console.log("error: ", err);
           result(err, null);
@@ -46,18 +48,31 @@ User.register = (user, result) => {
           return;
         }
 
-        connection.query("INSERT INTO user SET ?", user, (err, res) => {
+        mysql_pool.getConnection(function(err, connection) {
           if (err) {
-            console.log("error: ", err);
-            result(err, null);
-
-            return;
+            console.log(' Error getting mysql_pool connection: ' + err);
+            throw err;
           }
 
-          console.log("Created user id: ", res.insertId);
-          result(null, {id: res.insertId, ...user});
+          connection.query(
+            `INSERT INTO user SET ?`,
+            user,
+            (err, res) => {
+              connection.release();
+
+              if (err) {
+                console.log("error: ", err);
+                result(err, null);
+
+                return;
+              }
+
+              result(null, {id: res.insertId, ...user});
+            }
+          );
         });
-      });
+      }
+    );
   });
 };
 
@@ -69,9 +84,11 @@ User.login = (user, result) => {
     }
 
     connection.query(
-        `SELECT * FROM user WHERE username = ? OR email = ? LIMIT 1`,
+      `SELECT * FROM user WHERE username = ? OR email = ? LIMIT 1`,
       [user.username, user.email],
       (err, res) => {
+        connection.release();
+
         if (err) {
           console.log("error: ", err);
           result(err, null);
@@ -87,7 +104,8 @@ User.login = (user, result) => {
 
         // not found User with the id
         result({kind: "not_found"}, null);
-      });
+      }
+    );
   });
 };
 
@@ -98,17 +116,22 @@ User.create = (newUser, result) => {
       throw err;
     }
 
-    connection.query("INSERT INTO user SET ?", newUser, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
+    connection.query(
+      `INSERT INTO user SET ?`,
+      newUser,
+      (err, res) => {
+        connection.release();
 
-        return;
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+
+          return;
+        }
+
+        result(null, {id: res.insertId, ...newUser});
       }
-
-      console.log("Created user id: ", res.insertId);
-      result(null, {id: res.insertId, ...newUser});
-    });
+    );
   });
 };
 
@@ -119,23 +142,28 @@ User.findById = (userId, result) => {
       throw err;
     }
 
-    connection.query(`SELECT * FROM user WHERE id = ${userId}`, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
+    connection.query(
+      `SELECT * FROM user WHERE id = ${userId}`,
+      (err, res) => {
+        connection.release();
 
-        return;
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+
+          return;
+        }
+
+        if (res.length) {
+          result(null, res[0]);
+
+          return;
+        }
+
+        // not found User with the id
+        result({kind: "not_found"}, null);
       }
-
-      if (res.length) {
-        result(null, res[0]);
-
-        return;
-      }
-
-      // not found User with the id
-      result({kind: "not_found"}, null);
-    });
+    );
   });
 };
 
@@ -147,9 +175,11 @@ User.findByUsernameOrEmail = (user, result) => {
     }
 
     connection.query(
-        `SELECT * FROM user WHERE username = ? OR email = ? LIMIT 1`,
+      `SELECT * FROM user WHERE username = ? OR email = ? LIMIT 1`,
       [user, user],
       (err, res) => {
+        connection.release();
+
         if (err) {
           console.log("error: ", err);
           result(err, null);
@@ -176,16 +206,21 @@ User.getAll = result => {
       throw err;
     }
 
-    connection.query("SELECT * FROM user", (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
+    connection.query(
+      `SELECT * FROM user`,
+      (err, res) => {
+        connection.release();
 
-        return;
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+
+          return;
+        }
+
+        result(null, res);
       }
-
-      result(null, res);
-    });
+    );
   });
 };
 
@@ -197,9 +232,11 @@ User.updateById = (id, user, result) => {
     }
 
     connection.query(
-      "UPDATE user SET ? WHERE id = ?",
+      `UPDATE user SET ? WHERE id = ?`,
       [user, id],
       (err, res) => {
+        connection.release();
+
         if (err) {
           console.log("error: ", err);
           result(null, err);
@@ -214,7 +251,6 @@ User.updateById = (id, user, result) => {
           return;
         }
 
-        console.log("Updated user id: ", id);
         result(null, {id: id, ...user});
       }
     );
@@ -228,45 +264,29 @@ User.remove = (id, result) => {
       throw err;
     }
 
-    connection.query("DELETE FROM user WHERE id = ?", id, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
+    connection.query(
+      `DELETE FROM user WHERE id = ?`,
+      id,
+      (err, res) => {
+        connection.release();
 
-        return;
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+
+          return;
+        }
+
+        if (res.affectedRows == 0) {
+          // not found User with the id
+          result({kind: "not_found"}, null);
+
+          return;
+        }
+
+        result(null, res);
       }
-
-      if (res.affectedRows == 0) {
-        // not found User with the id
-        result({kind: "not_found"}, null);
-
-        return;
-      }
-
-      console.log("Deleted user id: ", id);
-      result(null, res);
-    });
-  });
-};
-
-User.removeAll = result => {
-  mysql_pool.getConnection(function(err, connection) {
-    if (err) {
-      console.log(' Error getting mysql_pool connection: ' + err);
-      throw err;
-    }
-
-    connection.query("DELETE FROM user", (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-
-        return;
-      }
-
-      console.log(`Deleted ${res.affectedRows} users`);
-      result(null, res);
-    });
+    );
   });
 };
 

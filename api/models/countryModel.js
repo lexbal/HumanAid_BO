@@ -1,4 +1,4 @@
-import mysql_pool from "../db.js";
+import mysql_pool from "../config/db.js";
 
 const Country = function (country) {
   this.code  = country.code ? country.code : '';
@@ -12,17 +12,22 @@ Country.create = (newCountry, result) => {
       throw err;
     }
 
-    connection.query("INSERT INTO country SET ?", newCountry, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
+    connection.query(
+      `INSERT INTO country SET ?`,
+      newCountry,
+      (err, res) => {
+        connection.release();
 
-        return;
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+
+          return;
+        }
+
+        result(null, {id: res.insertId, ...newCountry});
       }
-
-      console.log("Created country id: ", res.insertId);
-      result(null, {id: res.insertId, ...newCountry});
-    });
+    );
   });
 };
 

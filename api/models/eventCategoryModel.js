@@ -1,4 +1,4 @@
-import mysql_pool from '../db.js';
+import mysql_pool from '../config/db.js';
 
 // constructor
 const EventCategory = function (category) {
@@ -13,16 +13,21 @@ EventCategory.getAll = result => {
       throw err;
     }
 
-    connection.query("SELECT * FROM event_category", (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
+    connection.query(
+      `SELECT * FROM event_category`,
+      (err, res) => {
+        connection.release();
 
-        return;
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+
+          return;
+        }
+
+        result(null, res);
       }
-
-      result(null, res);
-    });
+    );
   });
 };
 
@@ -37,6 +42,8 @@ EventCategory.getAllByEvent = (id, result) => {
       `SELECT * FROM event_category _ec INNER JOIN event_category_event _ece ON _ec _ec.id = _ece.event_category_id
       WHERE ece.event_id = ${id}`,
       (err, res) => {
+        connection.release();
+
         if (err) {
           console.log("error: ", err);
           result(err, null);

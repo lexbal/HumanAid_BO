@@ -1,4 +1,4 @@
-import mysql_pool from '../db.js';
+import mysql_pool from '../config/db.js';
 
 // constructor
 const Company = function (company) {
@@ -21,23 +21,28 @@ Company.findById = (companyId, result) => {
       throw err;
     }
 
-    connection.query(`SELECT * FROM user WHERE id = ${companyId} AND roles LIKE '%ROLE_COMP%'`, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
+    connection.query(
+      `SELECT * FROM user WHERE id = ${companyId} AND roles LIKE '%ROLE_COMP%'`,
+      (err, res) => {
+        connection.release();
 
-        return;
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+
+          return;
+        }
+
+        if (res.length) {
+          result(null, res[0]);
+
+          return;
+        }
+
+        // not found User with the id
+        result({kind: "not_found"}, null);
       }
-
-      if (res.length) {
-        result(null, res[0]);
-
-        return;
-      }
-
-      // not found User with the id
-      result({kind: "not_found"}, null);
-    });
+    );
   });
 };
 
@@ -50,16 +55,21 @@ Company.getAll = (limit, result) => {
 
     let limitString = limit ? "LIMIT " + limit : "";
 
-    connection.query("SELECT * FROM user WHERE roles LIKE '%ROLE_COMP%'" + limitString, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
+    connection.query(
+      `SELECT * FROM user WHERE roles LIKE '%ROLE_COMP%' ${limitString}`,
+      (err, res) => {
+        connection.release();
 
-        return;
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+
+          return;
+        }
+
+        result(null, res);
       }
-
-      result(null, res);
-    });
+    );
   });
 };
 

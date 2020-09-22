@@ -380,18 +380,3 @@ export const remove = (req, res) => {
         });
     });
 };
-
-// Delete all Users from the database.
-export const removeAll = (req, res) => {
-    User.removeAll((err, data) => {
-        if (err) {
-            return res.status(500).send({
-                message: "Some error occurred while removing all users."
-            });
-        }
-
-        return res.status(200).send({
-            message: `All Users were deleted successfully!`
-        });
-    });
-};

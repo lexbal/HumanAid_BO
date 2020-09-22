@@ -1,4 +1,4 @@
-import mysql_pool from '../db.js';
+import mysql_pool from '../config/db.js';
 
 // constructor
 const Address = function (address) {
@@ -24,6 +24,8 @@ Address.getAllByUser = (user, result) => {
             INNER JOIN country _c ON _c.id = _a.country_id
             WHERE _a.user_id = ${user}`,
         (err, res) => {
+          connection.release();
+
           if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -44,17 +46,22 @@ Address.create = (newAddress, result) => {
       throw err;
     }
 
-    connection.query("INSERT INTO address SET ?", newAddress, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
+    connection.query(
+      `INSERT INTO address SET ?`,
+      newAddress,
+      (err, res) => {
+        connection.release();
 
-        return;
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+
+          return;
+        }
+
+        result(null, {id: res.insertId, ...newAddress});
       }
-
-      console.log("Created address id: ", res.insertId);
-      result(null, {id: res.insertId, ...newAddress});
-    });
+    );
   });
 };
 

@@ -163,18 +163,3 @@ export const remove = (req, res) => {
         });
     });
 };
-
-// Delete all Events from the database.
-export const removeAll = (req, res) => {
-    Event.removeAll((err, data) => {
-        if (err) {
-            return res.status(500).send({
-                message: "Some error occurred while removing all events."
-            });
-        }
-
-        return res.status(200).send({
-            message: `All Events were deleted successfully!`
-        });
-    });
-};
