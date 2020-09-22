@@ -21,8 +21,8 @@ Event.create = (newEvent, result) => {
     }
 
     connection.query(
-      "INSERT INTO event SET title = ?, description = ?, start_date = ?, end_date = ?, publish_date = ?, rating = ?",
-      [newEvent.title, newEvent.description, newEvent.start_date, newEvent.end_date, newEvent.publish_date, newEvent.rating],
+      "INSERT INTO event SET owner_id = ?, title = ?, description = ?, start_date = ?, end_date = ?, publish_date = ?, rating = ?",
+      [newEvent.owner_id, newEvent.title, newEvent.description, newEvent.start_date, newEvent.end_date, newEvent.publish_date, newEvent.rating],
       (err, res) => {
       if (err) {
         console.log("error: ", err);
