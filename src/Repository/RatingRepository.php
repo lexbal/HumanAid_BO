@@ -41,6 +41,26 @@ class RatingRepository extends ServiceEntityRepository
         parent::__construct($registry, Rating::class);
     }
 
+    public function findByUser(int $id)
+    {
+        return $this->createQueryBuilder('c')
+        ->where('c.user = ?1')
+        ->orderBy('c.id', 'ASC')
+        ->setParameter(1,$id)
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function findByEvent(int $id)
+    {
+        return $this->createQueryBuilder('c')
+        ->where('c.event = ?1')
+        ->orderBy('c.id', 'ASC')
+        ->setParameter(1,$id)
+        ->getQuery()
+        ->getResult();
+    }
+
     // /**
     //  * @return Rating[] Returns an array of Rating objects
     //  */

@@ -97,6 +97,10 @@
                             <td>{{ user.updatedAt|date('d/m/Y à H:i') }}</td>
                         </tr>
                     {% endif %}
+                        <tr>
+                            <th>Commentaires</th>
+                            <td><a href="{{ path('user_list_rating', {'id': user.id}) }}">Liste des Commentaires</a></td>
+                        </tr>
                 </tbody>
             </table>
         </div>

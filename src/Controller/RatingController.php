@@ -58,6 +58,8 @@ class RatingController extends AbstractController
         );
     }
 
+    
+
     /**
      * New Function
      *
