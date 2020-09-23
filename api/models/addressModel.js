@@ -73,7 +73,7 @@ Address.update = (country, address, result) => {
     }
 
     connection.query(
-      `UPDATE address, country SET country.label = ?, address.street = ?, address.zipcode = ?, address.city = ?, address.region = ?, address.department = ?, WHERE address.user_id = ? AND country.id = address.country_id`,
+      `UPDATE address, country SET country.label = ?, address.street = ?, address.zipcode = ?, address.city = ?, address.region = ?, address.department = ? WHERE address.user_id = ? AND country.id = address.country_id`,
       [country.label, address.street, address.zipcode, address.city, address.region, address.department, address.user_id],
       (err, res) => {
         connection.release();
