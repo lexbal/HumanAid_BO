@@ -80,8 +80,8 @@ Event.findById = (eventId, result) => {
         LEFT JOIN address _assoc_address ON _assoc.id = _assoc_address.user_id
         LEFT JOIN event_category_event _ece ON _e.id = _ece.event_id
         LEFT JOIN event_category _ec ON _ec.id = _ece.event_category_id
-        GROUP BY _e.id
-        WHERE _e.id = ?`,
+        WHERE _e.id = ?
+        GROUP BY _e.id`,
       eventId,
       (err, res) => {
         connection.release();
