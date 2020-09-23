@@ -20,8 +20,8 @@ userRouter.post('/login', login);
 userRouter.post('/send_mail', mail);
 
 userRouter.post('/user', ensureIsAuthenticated, create);
-userRouter.get('/user/:id', findOne);
-userRouter.put('/user/:id', ensureIsAuthenticated, update);
+userRouter.get('/user/:id', ensureIsAuthenticated, findOne);
+userRouter.put('/user/:id', ensureIsAuthenticated, upload.single('file'), update);
 userRouter.delete('/user/:id', ensureIsAuthenticated, remove);
 
 export default userRouter;

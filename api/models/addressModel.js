@@ -65,4 +65,30 @@ Address.create = (newAddress, result) => {
   });
 };
 
+Address.update = (country, address, result) => {
+  mysql_pool.getConnection(function(err, connection) {
+    if (err) {
+      console.log(' Error getting mysql_pool connection: ' + err);
+      throw err;
+    }
+
+    connection.query(
+      `UPDATE address, country SET country.label = ?, address.street = ?, address.zipcode = ?, address.city = ?, address.region = ?, address.department = ?, WHERE address.user_id = ? AND country.id = address.country_id`,
+      [country.label, address.street, address.zipcode, address.city, address.region, address.department, address.user_id],
+      (err, res) => {
+        connection.release();
+
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+
+          return;
+        }
+
+        result(null, {address: address, country: country});
+      }
+    );
+  });
+};
+
 export default Address;

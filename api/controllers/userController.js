@@ -344,23 +344,66 @@ export const update = (req, res) => {
         });
     }
 
+    let id = req.params.id;
+    let newId = id.replace(/p1L2u3S/g, '+' ).replace(/s1L2a3S4h/g, '/').replace(/e1Q2u3A4l/g, '=');
+    let decryptedId = CryptoJS.AES.decrypt(newId, process.env.SECRET).toString(CryptoJS.enc.Utf8);
+
     User.updateById(
-        req.params.id,
-        new User(req.body),
+        decryptedId,
+        new User(
+          {
+            manager_first_name: req.body.manager_first_name,
+            manager_last_name:  req.body.manager_last_name,
+            name:               req.body.name,
+            description:        req.body.description,
+            status:             req.body.status,
+            website:            req.body.website,
+            email:              req.body.email,
+            roles:              JSON.stringify([req.body.roles]),
+            username:           req.body.username,
+            password:           req.body.password,
+            landline:           req.body.landline,
+            siret:              req.body.siret,
+            photo:              req.file ? req.file.filename : null
+          }
+        ),
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
                     return res.status(404).send({
-                        message: `Not found User with id ${req.params.id}.`
+                        message: `Not found User with id ${decryptedId}.`
                     });
                 }
 
                 return res.status(500).send({
-                    message: "Error updating User with id " + req.params.id
+                    message: "Error updating User with id " + decryptedId
                 });
             }
 
-            return res.status(200).send(data);
+            Address.update(
+              new Country(
+                {
+                  label: req.body.address.country,
+                }
+              ),
+              new Address(
+                {
+                  street: req.body.address.street,
+                  city: req.body.address.city,
+                  department: req.body.address.department,
+                  region: req.body.address.region,
+                  zipcode: req.body.address.zipcode,
+                  user_id: decryptedId
+                }
+              ), (err, data) => {
+                if (err) {
+                  return res.status(500).send({
+                    message: "Some error occurred while creating the Address."
+                  });
+                }
+
+                return res.status(200).send(req.body);
+              });
         }
     );
 };
