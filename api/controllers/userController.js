@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jwt-simple';
 import moment from 'moment';
+import CryptoJS from "crypto-js";
 import User from '../models/userModel.js';
 import nodemailer from "nodemailer";
 import Address from "../models/addressModel.js";
@@ -295,31 +296,35 @@ export const findAll = (req, res) => {
 
 // Find a single User with a id
 export const findOne = (req, res) => {
-    User.findById(req.params.id, (err, data) => {
+    let id = req.params.id;
+    let newId = id.replace(/p1L2u3S/g, '+' ).replace(/s1L2a3S4h/g, '/').replace(/e1Q2u3A4l/g, '=');
+    let decryptedId = CryptoJS.AES.decrypt(newId, process.env.SECRET).toString(CryptoJS.enc.Utf8);
+
+    User.findByUsernameOrEmail(decryptedId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 return res.status(404).send({
-                    message: `Not found User with id ${req.params.id}.`
+                    message: `Not found User with id ${decryptedId}.`
                 });
             }
 
             return res.status(500).send({
-                message: "Error retrieving User with id " + req.params.id
+                message: "Error retrieving User with id " + decryptedId
             });
         }
 
         let user = data;
 
-        Address.getAllByUser(req.params.id, (err, data) => {
+        Address.getAllByUser(decryptedId, (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
                     return res.status(404).send({
-                        message: `Not found User with id ${req.params.id}.`
+                        message: `Not found User with id ${decryptedId}.`
                     });
                 }
 
                 return res.status(500).send({
-                    message: "Error retrieving User with id " + req.params.id
+                    message: "Error retrieving User with id " + decryptedId
                 });
             }
 

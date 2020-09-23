@@ -2,7 +2,7 @@ import express from 'express';
 import multer from "multer";
 import moment from 'moment';
 import ensureIsAuthenticated from '../helpers/authGuard.js';
-import { signUp, login, create, mail, findAll, findOne, remove, update } from '../controllers/userController.js';
+import { signUp, login, create, mail, findOne, remove, update } from '../controllers/userController.js';
 let userRouter = express.Router();
 var storage = multer.diskStorage(
   {
@@ -20,7 +20,6 @@ userRouter.post('/login', login);
 userRouter.post('/send_mail', mail);
 
 userRouter.post('/user', ensureIsAuthenticated, create);
-userRouter.get('/user', findAll);
 userRouter.get('/user/:id', findOne);
 userRouter.put('/user/:id', ensureIsAuthenticated, update);
 userRouter.delete('/user/:id', ensureIsAuthenticated, remove);
