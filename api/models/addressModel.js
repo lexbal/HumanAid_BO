@@ -73,8 +73,8 @@ Address.update = (country, address, result) => {
     }
 
     connection.query(
-      `UPDATE address, country SET country.label = ?, address.street = ?, address.zipcode = ?, address.city = ?, address.region = ?, address.department = ? WHERE address.user_id = ? AND country.id = address.country_id`,
-      [country.label, address.street, address.zipcode, address.city, address.region, address.department, address.user_id],
+      `INSERT INTO country SET label = ?`,
+      [country.label],
       (err, res) => {
         connection.release();
 
@@ -85,10 +85,33 @@ Address.update = (country, address, result) => {
           return;
         }
 
-        result(null, {address: address, country: country});
+        let country_id = res.insertId;
+
+        connection.query(
+          `INSERT INTO address SET street = ?, zipcode = ?, city = ?, region = ?, department = ?, user_id = ?, country_id = ?
+           ON DUPLICATE KEY UPDATE street = ?, zipcode = ?, city = ?, region = ?, department = ?, user_id = ?, country_id = ?`,
+          [
+            address.street, address.zipcode, address.city, address.region, address.department, address.user_id, country_id,
+            address.street, address.zipcode, address.city, address.region, address.department, address.user_id, country_id
+          ],
+          (err, res) => {
+            connection.release();
+
+            if (err) {
+              console.log("error: ", err);
+              result(err, null);
+
+              return;
+            }
+
+            result(null, {address: address, country: country});
+          }
+        );
       }
     );
   });
 };
 
 export default Address;
+
+//UPDATE address, country SET country.label = ?, address.street = ?, address.zipcode = ?, address.city = ?, address.region = ?, address.department = ? WHERE address.user_id = ? AND country.id = address.country_id
