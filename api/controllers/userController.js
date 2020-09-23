@@ -315,16 +315,16 @@ export const findOne = (req, res) => {
 
         let user = data;
 
-        Address.getAllByUser(decryptedId, (err, data) => {
+        Address.getAllByUser(user.id, (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
                     return res.status(404).send({
-                        message: `Not found User with id ${decryptedId}.`
+                        message: `Not found User with id ${user.id}.`
                     });
                 }
 
                 return res.status(500).send({
-                    message: "Error retrieving User with id " + decryptedId
+                    message: "Error retrieving User with id " + user.id
                 });
             }
 
