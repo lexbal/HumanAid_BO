@@ -74,7 +74,7 @@ Event.findById = (eventId, result) => {
     }
 
     connection.query(
-        `SELECT _assoc.name, _assoc.website, _assoc.email, _assoc.photo, _assoc.landline, _assoc.facebook, _assoc_address.street, _assoc.twitter, GROUP_CONCAT(_ec.label) AS categories, _e.title, _e.description, _e.start_date, _e.end_date, _e.publish_date, _e.rating
+        `SELECT _assoc.name, _assoc.website, _assoc.email, _assoc.photo, _assoc.landline, _assoc.facebook, GROUP_CONCAT(_assoc_address.street), _assoc.twitter, GROUP_CONCAT(_ec.label) AS categories, _e.title, _e.description, _e.start_date, _e.end_date, _e.publish_date, _e.rating
         FROM event _e
         INNER JOIN user _assoc ON _assoc.id = _e.owner_id
         LEFT JOIN address _assoc_address ON _assoc.id = _assoc_address.user_id
