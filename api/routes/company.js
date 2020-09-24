@@ -1,5 +1,5 @@
 import express from 'express';
-import { findAll, findOne } from '../controllers/companyController';
+import { findAll, findOne } from '../controllers/companyController.js';
 let companyRouter = express.Router();
 
 companyRouter.get('/', findAll);
