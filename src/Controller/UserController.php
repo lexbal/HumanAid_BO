@@ -16,9 +16,11 @@ namespace App\Controller;
 
 use App\Entity\Address;
 use App\Entity\User;
+use App\Entity\Rating;
 use App\Form\UserType;
 use App\Form\UserEditType;
 use App\Repository\UserRepository;
+use App\Repository\RatingRepository;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -232,5 +234,33 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('user_index');
+    }
+
+    /**
+     * ListRating Function
+     *
+     * @param RatingRepository $ratingRepository get rating repository
+     *
+     * @Route("/rating/{id}", name="user_list_rating", methods={"GET"},)
+     * 
+     *
+     * @return Response
+     */
+    public function listrating(RatingRepository $ratingRepository, Request $request, Rating $rating ): Response
+    {
+        $ratingRepository = $this->getDoctrine()->getManager()
+            ->getRepository(Rating::class);
+
+        $id = $request->get("id");
+        $result = $ratingRepository->findByUser($id);
+
+
+
+        return $this->render(
+            'rating/index.html.twig',
+            [
+                'ratings' => $result,
+            ]
+        );
     }
 }

@@ -53,6 +53,10 @@
                     <th>Date de publication</th>
                     <td>{{ event.publishDate ? event.publishDate|date('d/m/Y à H:i') : '' }}</td>
                 </tr>
+                <tr>
+                    <th>Commentaires</th>
+                    <td><a href="{{ path('event_list_rating', {'id': event.id}) }}">Liste des Commentaires</a></td>
+                </tr>
                 </tbody>
             </table>
         </div>
