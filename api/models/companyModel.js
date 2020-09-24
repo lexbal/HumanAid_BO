@@ -1,4 +1,4 @@
-import connection from '../db';
+import mysql_pool from '../config/db.js';
 
 // constructor
 const Company = function (company) {
@@ -15,36 +15,62 @@ const Company = function (company) {
 };
 
 Company.findById = (companyId, result) => {
-    connection.query(`SELECT * FROM user WHERE id = ${companyId} AND roles LIKE '%ROLE_COMP%'`, (err, res) => {
+  mysql_pool.getConnection(function(err, connection) {
+    if (err) {
+      console.log(' Error getting mysql_pool connection: ' + err);
+      throw err;
+    }
+
+    connection.query(
+      `SELECT * FROM user WHERE id = ${companyId} AND roles LIKE '%ROLE_COMP%'`,
+      (err, res) => {
+        connection.release();
+
         if (err) {
-            console.log("error: ", err);
-            result(err, null);
+          console.log("error: ", err);
+          result(err, null);
 
-            return;
+          return;
         }
-  
+
         if (res.length) {
-            result(null, res[0]);
+          result(null, res[0]);
 
-            return;
+          return;
         }
-  
+
         // not found User with the id
-        result({ kind: "not_found" }, null);
-    });
+        result({kind: "not_found"}, null);
+      }
+    );
+  });
 };
 
-Company.getAll = result => {
-    connection.query("SELECT * FROM user WHERE roles LIKE '%ROLE_COMP%'", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
+Company.getAll = (limit, result) => {
+  mysql_pool.getConnection(function(err, connection) {
+    if (err) {
+      console.log(' Error getting mysql_pool connection: ' + err);
+      throw err;
+    }
 
-            return;
+    let limitString = limit ? "LIMIT " + limit : "";
+
+    connection.query(
+      `SELECT * FROM user WHERE roles LIKE '%ROLE_COMP%' ${limitString}`,
+      (err, res) => {
+        connection.release();
+
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+
+          return;
         }
 
         result(null, res);
-    });
+      }
+    );
+  });
 };
 
 

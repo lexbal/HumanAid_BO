@@ -121,6 +121,7 @@ class EventRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    
     // /**
     //  * @return Event[] Returns an array of Event objects
     //  */

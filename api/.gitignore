@@ -33,3 +33,5 @@ node_modules/
 .env
 
 yarn.lock
+
+/public/uploads/*

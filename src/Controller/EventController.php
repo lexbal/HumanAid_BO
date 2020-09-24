@@ -15,9 +15,11 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\Rating;
 use App\Entity\EventCategory;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Repository\RatingRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -124,6 +126,34 @@ class EventController extends AbstractController
             'event/show.html.twig',
             [
                 'event' => $event,
+            ]
+        );
+    }
+
+    /**
+     * ListRating Function
+     *
+     * @param RatingRepository $ratingRepository get rating repository
+     *
+     * @Route("/rating/{id}", name="event_list_rating", methods={"GET"},)
+     * 
+     *
+     * @return Response
+     */
+    public function listrating(RatingRepository $ratingRepository, Request $request, Rating $rating ): Response
+    {
+        $ratingRepository = $this->getDoctrine()->getManager()
+            ->getRepository(Rating::class);
+
+        $id = $request->get("id");
+        $result = $ratingRepository->findByEvent($id);
+
+
+
+        return $this->render(
+            'rating/index.html.twig',
+            [
+                'ratings' => $result,
             ]
         );
     }

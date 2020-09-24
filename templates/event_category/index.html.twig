@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories d'évenements{% endblock %}
+
+{% block body %}
+    <div class="row-fluid">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: right">
+            <a class="btn btn-success" href="{{ path('eventcategory_new') }}">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Ajouter
+            </a>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <table class="table table-global">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Label</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for eventcategory in eventcategories %}
+                    <tr>
+                        <td>{{ eventcategory.id }}</td>
+                        <td>{{ eventcategory.label }}</td>
+                        <td class="actions">
+                            <a class="btn btn-primary" href="{{ path('eventcategory_edit', {'id': eventcategory.id}) }}" style="width: 50%;display:inline">
+                                Modifier
+                            </a>
+                            <a class="btn btn-primary" href="{{ path('eventcategory_delete', {'id': eventcategory.id}) }}" style="width: 50%;display:inline">
+                                Supprimer
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">Aucune catégorie trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: right">
+            <a class="btn btn-success" href="{{ path('eventcategory_new') }}">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Ajouter
+            </a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,6 +1,6 @@
 import jwt from 'jwt-simple';
 import moment from 'moment';
-import User from '../models/userModel';
+import User from '../models/userModel.js';
 
 const ensureIsAuthenticated = (req, res, next) => {
   if (!req.headers.authorization) {

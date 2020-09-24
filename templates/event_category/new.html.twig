@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Creation - Evenements{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <a class="btn btn-light" href="{{ path('event_index') }}">Retour</a>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            {{ include('event_category/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

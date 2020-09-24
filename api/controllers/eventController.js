@@ -1,5 +1,8 @@
-import Event from '../models/eventModel';
-import Rating from '../models/ratingModel';
+import Event from '../models/eventModel.js';
+import User from '../models/userModel.js';
+import EventCategory from '../models/eventCategoryModel.js';
+import Rating from '../models/ratingModel.js';
+import moment from 'moment';
 
 // Create and Save a new Event
 export const create = (req, res) => {
@@ -10,24 +13,31 @@ export const create = (req, res) => {
         });
     }
 
-    // Create a Event
-    const event = new Event({
-        title:        req.body.title,
-        description:  req.body.description,
-        start_date:   req.body.start_date,
-        end_date:     req.body.end_date,
-        rating:       req.body.rating
-    });
+    User.findByUsernameOrEmail(req.body.user, (err, data) => {
+      if (err) {
+        return res.status(500).send({
+          message: "Some error occurred while searching the User."
+        });
+      }
 
-    // Save Event in the database
-    Event.create(event, (err, data) => {
+      // Save Event in the database
+      Event.create(
+        new Event({
+          title:        req.body.title,
+          description:  req.body.description,
+          categories:   req.body.categories,
+          owner_id:     data.id,
+          start_date:   moment(req.body.start_date).format("YYYY-MM-DD HH:mm:ss"),
+          end_date:     moment(req.body.end_date).format("YYYY-MM-DD HH:mm:ss")
+        }), (err, data) => {
         if (err) {
-            return res.status(500).send({
-                message: "Some error occurred while creating the Event."
-            });
+          return res.status(500).send({
+            message: "Some error occurred while creating the Event."
+          });
         }
 
         return res.status(200).send(data);
+      });
     });
 };
 
@@ -42,6 +52,19 @@ export const findAll = (req, res) => {
 
         return res.status(200).send(data);
     });
+};
+
+// Retrieve all Events from the database.
+export const findAllCategory = (req, res) => {
+  EventCategory.getAll((err, data) => {
+    if (err) {
+      return res.status(500).send({
+        message: "Some error occurred while retrieving events."
+      });
+    }
+
+    return res.status(200).send(data);
+  });
 };
 
 // Find a single Event with a id
@@ -137,21 +160,6 @@ export const remove = (req, res) => {
 
         return res.status(200).send({
             message: `Event was deleted successfully!`
-        });
-    });
-};
-
-// Delete all Events from the database.
-export const removeAll = (req, res) => {
-    Event.removeAll((err, data) => {
-        if (err) {
-            return res.status(500).send({
-                message: "Some error occurred while removing all events."
-            });
-        }
-
-        return res.status(200).send({
-            message: `All Events were deleted successfully!`
         });
     });
 };
